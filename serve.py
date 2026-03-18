@@ -1,0 +1,15 @@
+"""DataConsultants Website - port 8087"""
+import http.server
+import os
+
+PORT = 8087
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+class CORSHandler(http.server.SimpleHTTPRequestHandler):
+    def end_headers(self):
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Cache-Control', 'no-cache')
+        super().end_headers()
+
+print(f"DataConsultants website: http://localhost:{PORT}")
+http.server.ThreadingHTTPServer(('', PORT), CORSHandler).serve_forever()

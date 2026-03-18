@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataConsultants — Data & Geo Analyse</title>
+    <meta name="description" content="DataConsultants — Dataprojecten voor een betere wereld, en voor de fun.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='none' stroke='%2339ff14' stroke-width='1.5'/><circle cx='16' cy='16' r='3' fill='%2339ff14' opacity='.4'/><ellipse cx='16' cy='16' rx='14' ry='5' fill='none' stroke='%2339ff14' stroke-width='.7' opacity='.4' transform='rotate(-8 16 16)'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+/* ---- Reset & Base ---- */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+:root {
+    --bg: #0a0f1a;
+    --bg2: #0f1520;
+    --bg3: #141c2b;
+    --panel: #111827;
+    --panel2: #1a2332;
+    --border: #1e293b;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --dim: #64748b;
+    --accent: #39ff14;
+    --accent-glow: rgba(57, 255, 20, .15);
+    --accent-dim: #2bcc10;
+    --white: #ffffff;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --font: 'DM Sans', system-ui, sans-serif;
+    --mono: 'Space Mono', monospace;
+}
+body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 20% 50%, rgba(57,255,20,.03) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(57,255,20,.02) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(57,255,20,.015) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--dim); }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ---- Navigation ---- */
+nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(10, 15, 26, .8);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(30, 41, 59, .5);
+    padding: 0 24px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--text);
+}
+.nav-logo svg { width: 28px; height: 28px; }
+.nav-links { display: flex; gap: 24px; list-style: none; }
+.nav-links a {
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 4px 0;
+    border-bottom: 2px solid transparent;
+    transition: color .2s, border-color .2s;
+}
+.nav-links a:hover, .nav-links a.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    text-decoration: none;
+}
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 24px;
+    cursor: pointer;
+}
+@media (max-width: 700px) {
+    .hamburger { display: block; }
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 56px; left: 0; right: 0;
+        background: rgba(10, 15, 26, .95);
+        backdrop-filter: blur(16px);
+        flex-direction: column;
+        padding: 16px 24px;
+        gap: 12px;
+        border-bottom: 1px solid var(--border);
+    }
+    .nav-links.open { display: flex; }
+}
+
+/* ---- Sections ---- */
+section {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 80px 24px;
+}
+.section-title {
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--white);
+}
+.section-title span { color: var(--accent); }
+.section-subtitle {
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 48px;
+    max-width: 600px;
+}
+
+/* ---- Hero ---- */
+#hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 56px;
+}
+.hero-logo { width: 280px; height: 280px; margin-bottom: 32px; }
+@media (max-width: 600px) { .hero-logo { width: 200px; height: 200px; } }
+.hero-title {
+    font-family: var(--mono);
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+}
+@media (max-width: 600px) { .hero-title { font-size: 32px; } }
+.hero-tagline {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 500px;
+    margin-bottom: 40px;
+    line-height: 1.7;
+}
+.hero-tagline em {
+    color: var(--accent);
+    font-style: normal;
+    font-weight: 600;
+}
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: #0a0f1a;
+    font-family: var(--font);
+    font-weight: 600;
+    font-size: 14px;
+    padding: 12px 28px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background .2s, box-shadow .2s;
+    text-decoration: none;
+}
+.btn-primary:hover {
+    background: #4dff30;
+    box-shadow: 0 0 24px rgba(57, 255, 20, .3);
+    text-decoration: none;
+}
+.scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--dim);
+    font-size: 24px;
+    animation: bounce 2s infinite;
+}
+@keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+}
+
+/* ---- Diensten ---- */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+@media (max-width: 900px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .services-grid { grid-template-columns: 1fr; } }
+.service-card {
+    background: rgba(17, 24, 39, .7);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 28px 24px;
+    backdrop-filter: blur(8px);
+    transition: border-color .3s, transform .3s, box-shadow .3s;
+}
+.service-card:hover {
+    border-color: var(--accent-dim);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(57, 255, 20, .08);
+}
+.service-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--accent-glow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    color: var(--accent);
+    font-size: 22px;
+}
+.service-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 8px;
+}
+.service-card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+/* ---- Projecten ---- */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+@media (max-width: 700px) { .projects-grid { grid-template-columns: 1fr; } }
+.project-card {
+    background: rgba(17, 24, 39, .7);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 24px;
+    backdrop-filter: blur(8px);
+    transition: border-color .3s, box-shadow .3s;
+    position: relative;
+    overflow: hidden;
+}
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 3px;
+    background: var(--card-accent);
+}
+.project-card:hover {
+    border-color: var(--card-accent, var(--border));
+    box-shadow: 0 4px 24px rgba(0,0,0,.3);
+}
+.project-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+.project-name {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--white);
+}
+.project-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--dim);
+}
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--dim);
+}
+.status-dot.online { background: #4aff6a; box-shadow: 0 0 8px rgba(74, 255, 106, .5); }
+.status-dot.offline { background: #ff4a5a; }
+.project-desc {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 16px;
+    line-height: 1.6;
+}
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+.tag {
+    font-size: 10px;
+    font-family: var(--mono);
+    color: var(--dim);
+    background: rgba(30, 41, 59, .6);
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(30, 41, 59, .8);
+}
+.project-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.project-port {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--dim);
+}
+.btn-open {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--accent-glow);
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid rgba(57, 255, 20, .2);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background .2s, border-color .2s;
+}
+.btn-open:hover {
+    background: rgba(57, 255, 20, .2);
+    border-color: var(--accent);
+    text-decoration: none;
+}
+
+/* ---- Over ---- */
+.about-content {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 48px;
+    align-items: center;
+}
+@media (max-width: 700px) { .about-content { grid-template-columns: 1fr; } }
+.about-text p {
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 16px;
+    line-height: 1.7;
+}
+.about-text p em {
+    color: var(--accent);
+    font-style: normal;
+    font-weight: 500;
+}
+.about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+.stat {
+    text-align: center;
+    background: rgba(17, 24, 39, .5);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 20px 12px;
+}
+.stat-num {
+    font-family: var(--mono);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--accent);
+}
+.stat-label {
+    font-size: 11px;
+    color: var(--dim);
+    margin-top: 4px;
+}
+
+/* ---- Contact ---- */
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+@media (max-width: 700px) { .contact-grid { grid-template-columns: 1fr; } }
+.contact-card {
+    background: rgba(17, 24, 39, .7);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 24px;
+    text-align: center;
+}
+.contact-card .material-icons-round {
+    font-size: 28px;
+    color: var(--accent);
+    margin-bottom: 12px;
+}
+.contact-card h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 6px;
+}
+.contact-card p {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+/* ---- Footer ---- */
+footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 32px 24px;
+    text-align: center;
+}
+.footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--dim);
+}
+.footer-brand svg { width: 20px; height: 20px; }
+.footer-links { display: flex; gap: 16px; }
+.footer-links a {
+    font-size: 12px;
+    color: var(--dim);
+    text-decoration: none;
+}
+.footer-links a:hover { color: var(--accent); }
+
+/* ---- Animations ---- */
+.fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .6s, transform .6s;
+}
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+    <a href="#hero" class="nav-logo">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="16" cy="16" r="14" stroke="#39ff14" stroke-width="1.5"/>
+            <circle cx="16" cy="16" r="3" fill="#39ff14" opacity=".4"/>
+            <ellipse cx="16" cy="16" rx="14" ry="5" stroke="#39ff14" stroke-width=".7" opacity=".4" transform="rotate(-8 16 16)"/>
+        </svg>
+        DataConsultants
+    </a>
+    <button class="hamburger" id="hamburger">
+        <span class="material-icons-round">menu</span>
+    </button>
+    <ul class="nav-links" id="nav-links">
+        <li><a href="#diensten">Diensten</a></li>
+        <li><a href="#projecten">Projecten</a></li>
+        <li><a href="#over">Over</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+    <svg class="hero-logo" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <radialGradient id="sphere3d" cx="38%" cy="32%" r="65%">
+                <stop offset="0%" stop-color="#1a5c2a" stop-opacity="0.7"/>
+                <stop offset="35%" stop-color="#0f3d1a" stop-opacity="0.55"/>
+                <stop offset="65%" stop-color="#092810" stop-opacity="0.45"/>
+                <stop offset="85%" stop-color="#041a08" stop-opacity="0.35"/>
+                <stop offset="100%" stop-color="#020d04" stop-opacity="0.2"/>
+            </radialGradient>
+            <radialGradient id="specular" cx="35%" cy="28%" r="35%">
+                <stop offset="0%" stop-color="#39ff14" stop-opacity="0.12"/>
+                <stop offset="40%" stop-color="#39ff14" stop-opacity="0.04"/>
+                <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+            <radialGradient id="atmosphere" cx="50%" cy="50%" r="50%">
+                <stop offset="75%" stop-color="transparent"/>
+                <stop offset="90%" stop-color="#39ff14" stop-opacity="0.04"/>
+                <stop offset="100%" stop-color="#39ff14" stop-opacity="0.18"/>
+            </radialGradient>
+            <radialGradient id="bhCore" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#000" stop-opacity="1"/>
+                <stop offset="35%" stop-color="#000" stop-opacity="0.9"/>
+                <stop offset="55%" stop-color="#020408" stop-opacity="0.5"/>
+                <stop offset="75%" stop-color="#39ff14" stop-opacity="0.03"/>
+                <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+            <radialGradient id="accGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="45%" stop-color="transparent"/>
+                <stop offset="60%" stop-color="#39ff14" stop-opacity="0.06"/>
+                <stop offset="70%" stop-color="#39ff14" stop-opacity="0.12"/>
+                <stop offset="80%" stop-color="#39ff14" stop-opacity="0.04"/>
+                <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+            <radialGradient id="landFill" cx="38%" cy="32%" r="65%">
+                <stop offset="0%" stop-color="#2aff4e" stop-opacity="0.35"/>
+                <stop offset="50%" stop-color="#1a8c2e" stop-opacity="0.25"/>
+                <stop offset="100%" stop-color="#0d4a18" stop-opacity="0.18"/>
+            </radialGradient>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="b1"/>
+                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="b2"/>
+                <feGaussianBlur in="SourceGraphic" stdDeviation="18" result="b3"/>
+                <feMerge><feMergeNode in="b3"/><feMergeNode in="b2"/><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="gs" x="-40%" y="-40%" width="180%" height="180%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="b1"/>
+                <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b2"/>
+                <feMerge><feMergeNode in="b2"/><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="bh" x="-80%" y="-80%" width="260%" height="260%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="20"/>
+            </filter>
+            <clipPath id="gc"><circle cx="500" cy="500" r="380"/></clipPath>
+        </defs>
+        <circle cx="500" cy="500" r="160" fill="url(#bhCore)"/>
+        <circle cx="500" cy="500" r="220" fill="url(#accGlow)"/>
+        <circle cx="500" cy="500" r="40" fill="#39ff14" opacity="0.04" filter="url(#bh)"/>
+        <ellipse cx="500" cy="500" rx="150" ry="42" fill="none" stroke="#39ff14" stroke-width="0.8" opacity="0.12" stroke-dasharray="3 5">
+            <animate attributeName="stroke-dashoffset" from="0" to="32" dur="3s" repeatCount="indefinite"/>
+            <animateTransform attributeName="transform" type="rotate" from="0 500 500" to="360 500 500" dur="22s" repeatCount="indefinite"/>
+        </ellipse>
+        <ellipse cx="500" cy="500" rx="120" ry="50" fill="none" stroke="#39ff14" stroke-width="0.6" opacity="0.08" stroke-dasharray="2 7" transform="rotate(50 500 500)">
+            <animate attributeName="stroke-dashoffset" from="0" to="36" dur="4s" repeatCount="indefinite"/>
+            <animateTransform attributeName="transform" type="rotate" from="50 500 500" to="410 500 500" dur="28s" repeatCount="indefinite"/>
+        </ellipse>
+        <g font-family="'Courier New',monospace" fill="#39ff14" font-size="9">
+            <text x="498" y="500"><animate attributeName="y" values="500;40" dur="7s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.20;0.01" dur="7s" repeatCount="indefinite"/>10110</text>
+            <text x="502" y="500"><animate attributeName="y" values="500;960" dur="8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.20;0.01" dur="8s" repeatCount="indefinite"/>01001</text>
+            <text x="500" y="498"><animate attributeName="x" values="500;40" dur="9s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.16;0.01" dur="9s" repeatCount="indefinite"/>11010</text>
+            <text x="500" y="502"><animate attributeName="x" values="500;960" dur="7.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.16;0.01" dur="7.5s" repeatCount="indefinite"/>00101</text>
+        </g>
+        <circle cx="500" cy="500" r="380" fill="url(#sphere3d)"/>
+        <circle cx="500" cy="500" r="380" fill="url(#specular)"/>
+        <circle cx="500" cy="500" r="380" fill="url(#atmosphere)"/>
+        <g clip-path="url(#gc)" opacity="0.06" stroke="#39ff14" fill="none" stroke-width="0.5">
+            <ellipse cx="500" cy="270" rx="350" ry="46"/><ellipse cx="500" cy="380" rx="375" ry="64"/>
+            <ellipse cx="500" cy="500" rx="380" ry="72"/><ellipse cx="500" cy="620" rx="375" ry="64"/>
+            <ellipse cx="500" cy="730" rx="350" ry="46"/><ellipse cx="500" cy="500" rx="100" ry="380"/>
+            <ellipse cx="500" cy="500" rx="220" ry="380"/><ellipse cx="500" cy="500" rx="330" ry="380"/>
+        </g>
+        <circle cx="500" cy="500" r="380" fill="none" stroke="#39ff14" stroke-width="1" opacity="0.18" filter="url(#gs)"/>
+        <g clip-path="url(#gc)" fill="url(#landFill)" stroke="#39ff14" stroke-width="0.6" stroke-opacity="0.4">
+            <path d="M389.4,377.9 L396.3,371.6 L403.2,365.3 L416.7,352.6 L429.8,339.9 L441.4,334.0 L452.7,327.9 L458.7,321.5 L464.4,315.1 L470.1,308.8 L475.5,302.5 L476.0,296.0 L481.2,289.8 L486.2,283.6 L491.0,277.4 L491.2,271.2 L495.7,265.1 L495.8,259.1 L500.0,253.1 L504.0,247.2 L507.8,241.4 L507.5,235.6 L514.6,229.9 L522.0,229.6 L528.3,223.8 L536.5,228.9 L541.3,234.3 L550.1,239.5 L555.3,244.9 L560.8,250.4 L566.4,255.9 L572.2,261.4 L579.9,273.1 L587.9,285.0 L596.1,297.0 L599.8,309.9 L596.7,317.0 L594.9,330.8 L591.3,338.0 L587.4,345.3 L583.3,352.6 L579.0,359.9 L568.8,367.7 L558.2,375.5 L547.3,383.1 L535.1,376.6 L523.1,369.9 L511.4,363.2 L500.0,356.4 L489.1,342.6 L478.6,335.6 L469.0,321.9 L459.4,314.9 L450.3,307.8 L440.4,307.2 L429.4,312.9 L423.1,319.0 L411.7,324.7 L403.5,337.4 L395.3,350.4 L386.8,363.4 L389.4,377.9Z"/>
+            <path d="M315.8,521.5 L317.7,507.0 L320.8,485.3 L330.5,464.6 L340.5,444.0 L356.5,424.3 L378.2,405.3 L392.4,392.6 L411.0,387.3 L429.4,381.7 L441.0,382.5 L459.1,376.3 L470.8,376.8 L488.3,377.1 L500.0,377.2 L505.9,384.2 L518.0,391.1 L530.7,405.1 L549.6,411.5 L562.5,418.0 L575.6,424.3 L596.0,437.2 L610.4,450.5 L624.9,463.6 L639.6,476.5 L654.2,489.3 L670.6,516.4 L686.5,543.1 L701.6,569.5 L715.8,595.3 L728.7,613.6 L740.9,624.5 L746.5,636.7 L739.6,658.3 L725.3,687.2 L709.9,715.0 L693.7,741.4 L676.8,766.5 L660.9,784.8 L644.9,802.0 L630.3,813.5 L616.0,824.3 L601.8,834.6 L590.1,835.7 L578.3,836.7 L567.2,833.2 L556.3,824.9 L544.8,816.0 L532.6,806.7 L526.8,791.4 L520.7,769.8 L514.1,746.8 L507.2,722.5 L500.0,697.2 L485.4,670.7 L470.7,643.3 L456.2,622.0 L441.8,607.3 L427.5,599.4 L413.3,591.4 L399.6,575.9 L386.4,560.2 L373.5,544.3 L360.6,535.5 L347.3,533.8 L334.2,531.9 L321.4,529.8 L315.8,521.5Z"/>
+            <path d="M122.1,316.7 L126.2,309.0 L131.2,301.5 L137.2,294.0 L129.4,310.3 L122.5,327.0 L129.2,314.7 L144.0,295.1 L161.0,276.1 L180.0,257.8 L190.9,250.8 L202.5,243.8 L214.6,236.8 L227.3,230.0 L219.5,243.6 L212.7,257.8 L235.9,239.6 L260.3,222.1 L274.5,215.0 L298.3,197.5 L305.3,185.1 L312.5,172.4 L321.4,160.5 L331.8,149.6 L343.3,138.8 L356.4,129.1 L370.7,120.8 L386.0,113.7 L388.2,110.4 L404.5,105.2 L399.7,100.8 L400.6,96.1 L407.7,91.5 L421.3,87.5Z"/>
+            <path d="M606.8,336.2 L613.2,321.6 L623.3,306.5 L631.9,291.6 L643.1,276.0 L652.0,260.5 L658.7,245.4 L666.1,229.6 L670.5,214.2 L672.0,199.4 L670.8,185.2 L666.9,171.9 L660.5,159.4 L652.0,148.0 L641.5,137.7 L629.3,128.5 L629.8,124.6 L643.1,124.8 L654.9,124.7 L677.8,129.0 L697.3,133.6 L718.3,141.9 L728.3,147.5 L917.7,458.7 L915.7,450.0 L909.8,427.7 L901.5,405.6 L890.8,383.8 L883.5,375.3 L875.3,366.8 L872.3,371.2 L874.3,388.9 L875.4,406.7 L875.4,424.8 L874.3,442.9 L872.3,461.2 L862.9,451.7 L848.5,428.4 L832.3,405.1 L814.5,381.9 L798.0,374.0 L780.7,365.9 L770.3,385.9 L762.2,404.4 L743.4,395.1 L719.3,386.9 L699.7,376.9 L675.4,353.0 L651.0,343.5 L631.9,332.7 L606.8,336.2Z"/>
+        </g>
+        <g clip-path="url(#gc)" stroke="#39ff14" stroke-width="0.6" opacity="0.15">
+            <line x1="477" y1="275" x2="454" y2="279"/><line x1="454" y1="279" x2="463" y2="296"/>
+            <line x1="477" y1="275" x2="463" y2="296"/><line x1="477" y1="275" x2="515" y2="274"/>
+            <line x1="515" y1="274" x2="609" y2="245"/><line x1="609" y1="245" x2="632" y2="419"/>
+            <line x1="632" y1="419" x2="770" y2="423"/><line x1="770" y1="423" x2="853" y2="433"/>
+            <line x1="632" y1="419" x2="689" y2="637"/><line x1="452" y1="597" x2="689" y2="637"/>
+            <line x1="183" y1="254" x2="454" y2="279"/><line x1="632" y1="419" x2="452" y2="597"/>
+        </g>
+        <g filter="url(#glow)">
+            <circle cx="477" cy="275" r="5" fill="#39ff14" opacity="0.95"><animate attributeName="opacity" values="0.95;0.4;0.95" dur="2.0s" repeatCount="indefinite"/></circle>
+            <circle cx="454" cy="279" r="4.5" fill="#39ff14" opacity="0.9"><animate attributeName="opacity" values="0.9;0.35;0.9" dur="2.3s" repeatCount="indefinite"/></circle>
+            <circle cx="515" cy="274" r="4" fill="#39ff14" opacity="0.9"><animate attributeName="opacity" values="0.9;0.35;0.9" dur="1.8s" repeatCount="indefinite"/></circle>
+            <circle cx="609" cy="245" r="4" fill="#39ff14" opacity="0.85"><animate attributeName="opacity" values="0.85;0.3;0.85" dur="3.0s" repeatCount="indefinite"/></circle>
+            <circle cx="632" cy="419" r="4" fill="#39ff14" opacity="0.85"><animate attributeName="opacity" values="0.85;0.3;0.85" dur="2.1s" repeatCount="indefinite"/></circle>
+            <circle cx="183" cy="254" r="5" fill="#39ff14" opacity="0.95"><animate attributeName="opacity" values="0.95;0.4;0.95" dur="1.5s" repeatCount="indefinite"/></circle>
+            <circle cx="853" cy="433" r="3.5" fill="#39ff14" opacity="0.85"><animate attributeName="opacity" values="0.85;0.3;0.85" dur="3.1s" repeatCount="indefinite"/></circle>
+        </g>
+        <g transform="translate(500,500) rotate(-8)">
+            <ellipse rx="440" ry="110" fill="none" stroke="#39ff14" stroke-width="1.2" opacity="0.18" filter="url(#gs)"/>
+            <text font-family="'Courier New',monospace" font-size="20" fill="#39ff14" filter="url(#gs)" font-weight="bold"><animateMotion dur="12s" repeatCount="indefinite" path="M440,0 A440,110 0 1 1 -440,0 A440,110 0 1 1 440,0"/>1</text>
+            <text font-family="'Courier New',monospace" font-size="16" fill="#39ff14" filter="url(#gs)" opacity="0.8"><animateMotion dur="12s" repeatCount="indefinite" begin="-1.5s" path="M440,0 A440,110 0 1 1 -440,0 A440,110 0 1 1 440,0"/>0</text>
+            <text font-family="'Courier New',monospace" font-size="18" fill="#39ff14" filter="url(#gs)" opacity="0.85"><animateMotion dur="12s" repeatCount="indefinite" begin="-4.5s" path="M440,0 A440,110 0 1 1 -440,0 A440,110 0 1 1 440,0"/>0</text>
+            <text font-family="'Courier New',monospace" font-size="14" fill="#39ff14" filter="url(#gs)" opacity="0.65"><animateMotion dur="12s" repeatCount="indefinite" begin="-6s" path="M440,0 A440,110 0 1 1 -440,0 A440,110 0 1 1 440,0"/>1</text>
+            <text font-family="'Courier New',monospace" font-size="17" fill="#39ff14" filter="url(#gs)" opacity="0.75"><animateMotion dur="12s" repeatCount="indefinite" begin="-7.5s" path="M440,0 A440,110 0 1 1 -440,0 A440,110 0 1 1 440,0"/>0</text>
+        </g>
+        <g transform="translate(500,500) rotate(35)">
+            <ellipse rx="420" ry="150" fill="none" stroke="#39ff14" stroke-width="0.5" opacity="0.08"/>
+            <text font-family="'Courier New',monospace" font-size="14" fill="#39ff14" filter="url(#gs)" opacity="0.5"><animateMotion dur="15s" repeatCount="indefinite" path="M420,0 A420,150 0 1 0 -420,0 A420,150 0 1 0 420,0"/>0</text>
+            <text font-family="'Courier New',monospace" font-size="17" fill="#39ff14" filter="url(#gs)" opacity="0.65"><animateMotion dur="15s" repeatCount="indefinite" begin="-5s" path="M420,0 A420,150 0 1 0 -420,0 A420,150 0 1 0 420,0"/>1</text>
+        </g>
+    </svg>
+
+    <h1 class="hero-title">DataConsultants</h1>
+    <p class="hero-tagline">Dataprojecten voor <em>een betere wereld</em> — en voor de fun.</p>
+    <a href="#projecten" class="btn-primary">
+        <span class="material-icons-round" style="font-size:18px">rocket_launch</span>
+        Bekijk projecten
+    </a>
+    <div class="scroll-hint">
+        <span class="material-icons-round">expand_more</span>
+    </div>
+</section>
+
+<!-- Diensten -->
+<section id="diensten" class="fade-in">
+    <h2 class="section-title"><span>//</span> Diensten</h2>
+    <p class="section-subtitle">Van ruwe data tot inzichtelijke dashboards en kaarten.</p>
+    <div class="services-grid">
+        <div class="service-card">
+            <div class="service-icon"><span class="material-icons-round">analytics</span></div>
+            <h3>Data Analyse</h3>
+            <p>CBS open data, statistische analyses en data-gedreven inzichten voor beleid en onderzoek.</p>
+        </div>
+        <div class="service-card">
+            <div class="service-icon"><span class="material-icons-round">map</span></div>
+            <h3>Geo-analyse & GIS</h3>
+            <p>Ruimtelijke analyses met PostGIS, GeoServer en Leaflet. Van buurtdata tot landelijke kaarten.</p>
+        </div>
+        <div class="service-card">
+            <div class="service-icon"><span class="material-icons-round">dashboard</span></div>
+            <h3>Dashboards</h3>
+            <p>Interactieve dashboards met realtime data, grafieken en KPI-monitoring.</p>
+        </div>
+        <div class="service-card">
+            <div class="service-icon"><span class="material-icons-round">storage</span></div>
+            <h3>Data Warehousing</h3>
+            <p>ETL-pipelines, PostgreSQL, SQL Server. Gestructureerde opslag en verwerking van grote datasets.</p>
+        </div>
+        <div class="service-card">
+            <div class="service-icon"><span class="material-icons-round">code</span></div>
+            <h3>Web Applicaties</h3>
+            <p>Single-page apps, PWA's en API-ontwikkeling. Van concept tot werkende applicatie.</p>
+        </div>
+        <div class="service-card">
+            <div class="service-icon"><span class="material-icons-round">psychology</span></div>
+            <h3>Advies & Consultancy</h3>
+            <p>Data-strategie, architectuuradvies en begeleiding bij digitale transformatie.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Projecten -->
+<section id="projecten" class="fade-in">
+    <h2 class="section-title"><span>//</span> Projecten</h2>
+    <p class="section-subtitle">Live applicaties — klik om te openen.</p>
+    <div class="projects-grid" id="projects-grid">
+        <div class="project-card" style="--card-accent: #38bdf8" data-port="8888">
+            <div class="project-header">
+                <span class="project-name">GeoInzicht DWH</span>
+                <div class="project-status"><div class="status-dot" id="status-8888"></div><span>checking...</span></div>
+            </div>
+            <p class="project-desc">CBS buurtdata dashboard met 16 domeinen. Bevolking, inkomen, woningen, energie en meer — op kaartniveau.</p>
+            <div class="project-tags">
+                <span class="tag">Flask</span><span class="tag">PostGIS</span><span class="tag">GeoServer</span><span class="tag">SQL Server</span><span class="tag">Leaflet</span>
+            </div>
+            <div class="project-footer">
+                <span class="project-port">:8888</span>
+                <a href="http://localhost:8888/dashboard_cbs_buurt.html" target="_blank" class="btn-open">
+                    <span class="material-icons-round" style="font-size:14px">open_in_new</span> Open
+                </a>
+            </div>
+        </div>
+
+        <div class="project-card" style="--card-accent: #38bdf8" data-port="8091">
+            <div class="project-header">
+                <span class="project-name">GeoInzicht App</span>
+                <div class="project-status"><div class="status-dot" id="status-8091"></div><span>checking...</span></div>
+            </div>
+            <p class="project-desc">Standalone kaartapplicatie met CBS en GeoJSON data. Werkt onafhankelijk van de DWH via API's.</p>
+            <div class="project-tags">
+                <span class="tag">Python</span><span class="tag">Leaflet</span><span class="tag">CBS API</span><span class="tag">GeoJSON</span>
+            </div>
+            <div class="project-footer">
+                <span class="project-port">:8091</span>
+                <a href="http://localhost:8091" target="_blank" class="btn-open">
+                    <span class="material-icons-round" style="font-size:14px">open_in_new</span> Open
+                </a>
+            </div>
+        </div>
+
+        <div class="project-card" style="--card-accent: #ef4444" data-port="8090">
+            <div class="project-header">
+                <span class="project-name">Meldpunt Ambtenaren</span>
+                <div class="project-status"><div class="status-dot" id="status-8090"></div><span>checking...</span></div>
+            </div>
+            <p class="project-desc">PWA voor het melden en beheren van dossiers. Document upload met anonimisering en EHRM-wizard.</p>
+            <div class="project-tags">
+                <span class="tag">PWA</span><span class="tag">Supabase</span><span class="tag">Flask</span><span class="tag">Document AI</span>
+            </div>
+            <div class="project-footer">
+                <span class="project-port">:8090</span>
+                <a href="http://localhost:8090" target="_blank" class="btn-open">
+                    <span class="material-icons-round" style="font-size:14px">open_in_new</span> Open
+                </a>
+            </div>
+        </div>
+
+        <div class="project-card" style="--card-accent: #fbbf24" data-port="8765">
+            <div class="project-header">
+                <span class="project-name">Astronomy</span>
+                <div class="project-status"><div class="status-dot" id="status-8765"></div><span>checking...</span></div>
+            </div>
+            <p class="project-desc">Interactief zonnestelsel, sterrenbeelden, zwarte gaten en geboortehoroscoop. Educatief en visueel.</p>
+            <div class="project-tags">
+                <span class="tag">Canvas</span><span class="tag">Astronomy Engine</span><span class="tag">WebGL</span>
+            </div>
+            <div class="project-footer">
+                <span class="project-port">:8765</span>
+                <a href="http://localhost:8765" target="_blank" class="btn-open">
+                    <span class="material-icons-round" style="font-size:14px">open_in_new</span> Open
+                </a>
+            </div>
+        </div>
+
+        <div class="project-card" style="--card-accent: #4a7fff" data-port="8086">
+            <div class="project-header">
+                <span class="project-name">DAW</span>
+                <div class="project-status"><div class="status-dot" id="status-8086"></div><span>checking...</span></div>
+            </div>
+            <p class="project-desc">Digitale audio werkplaats met timeline, mixer, instrumenten en sound library. Logic Pro-achtige interface.</p>
+            <div class="project-tags">
+                <span class="tag">Web Audio API</span><span class="tag">Canvas</span><span class="tag">PostgreSQL</span><span class="tag">Flask</span>
+            </div>
+            <div class="project-footer">
+                <span class="project-port">:8086</span>
+                <a href="http://localhost:8086" target="_blank" class="btn-open">
+                    <span class="material-icons-round" style="font-size:14px">open_in_new</span> Open
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Over -->
+<section id="over" class="fade-in">
+    <h2 class="section-title"><span>//</span> Over</h2>
+    <div class="about-content">
+        <div class="about-text">
+            <p>DataConsultants bouwt dataprojecten die er <em>toe doen</em>. Van CBS-buurtanalyses die lokaal beleid ondersteunen tot creatieve tools die de wereld een beetje leuker maken.</p>
+            <p>Onze missie is simpel: data inzetten voor <em>een betere wereld</em> — en daar plezier in hebben. Elk project begint met nieuwsgierigheid en eindigt met werkende software.</p>
+            <p>We werken met open data, open source en moderne webtechnologie. Geen complexe frameworks, maar snelle, efficiënte applicaties die gewoon werken.</p>
+        </div>
+        <div class="about-stats">
+            <div class="stat">
+                <div class="stat-num" data-target="5">0</div>
+                <div class="stat-label">Projecten</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num" data-target="12">0</div>
+                <div class="stat-label">Technologieën</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num" data-target="16">0</div>
+                <div class="stat-label">Data Domeinen</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="fade-in">
+    <h2 class="section-title"><span>//</span> Contact</h2>
+    <p class="section-subtitle">Neem gerust contact op voor een dataproject of gewoon een goed gesprek.</p>
+    <div class="contact-grid">
+        <div class="contact-card">
+            <span class="material-icons-round">email</span>
+            <h3>Email</h3>
+            <p><a href="mailto:info@dataconsultants.nl">info@dataconsultants.nl</a></p>
+        </div>
+        <div class="contact-card">
+            <span class="material-icons-round">location_on</span>
+            <h3>Locatie</h3>
+            <p>Nederland</p>
+        </div>
+        <div class="contact-card">
+            <span class="material-icons-round">code</span>
+            <h3>GitHub</h3>
+            <p><a href="https://github.com/AnneVersion" target="_blank">AnneVersion</a></p>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="16" cy="16" r="14" stroke="#39ff14" stroke-width="1.5"/>
+                <circle cx="16" cy="16" r="3" fill="#39ff14" opacity=".4"/>
+                <ellipse cx="16" cy="16" rx="14" ry="5" stroke="#39ff14" stroke-width=".7" opacity=".4" transform="rotate(-8 16 16)"/>
+            </svg>
+            &copy; 2026 DataConsultants
+        </div>
+        <div class="footer-links">
+            <a href="#diensten">Diensten</a>
+            <a href="#projecten">Projecten</a>
+            <a href="#over">Over</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+// ---- Mobile menu ----
+document.getElementById('hamburger').addEventListener('click', () => {
+    document.getElementById('nav-links').classList.toggle('open');
+});
+document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => document.getElementById('nav-links').classList.remove('open'));
+});
+
+// ---- Active nav highlighting ----
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            navLinks.forEach(l => l.classList.remove('active'));
+            const link = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+            if (link) link.classList.add('active');
+        }
+    });
+}, { threshold: 0.3 });
+sections.forEach(s => observer.observe(s));
+
+// ---- Fade-in animations ----
+const fadeObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            fadeObserver.unobserve(e.target);
+        }
+    });
+}, { threshold: 0.15 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+
+// ---- Stats counter ----
+let statsCounted = false;
+const statsObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+        if (e.isIntersecting && !statsCounted) {
+            statsCounted = true;
+            document.querySelectorAll('.stat-num').forEach(el => {
+                const target = parseInt(el.dataset.target);
+                let current = 0;
+                const step = Math.ceil(target / 30);
+                const interval = setInterval(() => {
+                    current += step;
+                    if (current >= target) { current = target; clearInterval(interval); }
+                    el.textContent = current;
+                }, 40);
+            });
+        }
+    });
+}, { threshold: 0.5 });
+const statsSection = document.querySelector('.about-stats');
+if (statsSection) statsObserver.observe(statsSection);
+
+// ---- App status checker ----
+const PROJECTS = [
+    { port: 8888, url: 'http://localhost:8888/dashboard_cbs_buurt.html' },
+    { port: 8091, url: 'http://localhost:8091' },
+    { port: 8090, url: 'http://localhost:8090' },
+    { port: 8765, url: 'http://localhost:8765' },
+    { port: 8086, url: 'http://localhost:8086' }
+];
+
+async function checkStatus(port, url) {
+    const dot = document.getElementById(`status-${port}`);
+    const label = dot?.parentElement?.querySelector('span:last-child');
+    try {
+        await fetch(url, { mode: 'no-cors', signal: AbortSignal.timeout(2000) });
+        dot?.classList.add('online');
+        dot?.classList.remove('offline');
+        if (label) label.textContent = 'online';
+    } catch {
+        dot?.classList.add('offline');
+        dot?.classList.remove('online');
+        if (label) label.textContent = 'offline';
+    }
+}
+
+function checkAllStatuses() {
+    PROJECTS.forEach(p => checkStatus(p.port, p.url));
+}
+checkAllStatuses();
+setInterval(checkAllStatuses, 30000);
+</script>
+</body>
+</html>
