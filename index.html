@@ -764,6 +764,23 @@ footer {
                 </a>
             </div>
         </div>
+
+        <div class="project-card" style="--card-accent: #39ff14" data-port="8088">
+            <div class="project-header">
+                <span class="project-name">Vastgoed</span>
+                <div class="project-status"><div class="status-dot" id="status-8088"></div><span>checking...</span></div>
+            </div>
+            <p class="project-desc">Verhuur website en admin dashboard voor 9 panden. Huurder beheer, onderhoud administratie en financieel overzicht.</p>
+            <div class="project-tags">
+                <span class="tag">Python</span><span class="tag">JSON API</span><span class="tag">Responsive</span>
+            </div>
+            <div class="project-footer">
+                <span class="project-port">:8088</span>
+                <a href="http://localhost:8088" target="_blank" class="btn-open">
+                    <span class="material-icons-round" style="font-size:14px">open_in_new</span> Open
+                </a>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -778,7 +795,7 @@ footer {
         </div>
         <div class="about-stats">
             <div class="stat">
-                <div class="stat-num" data-target="5">0</div>
+                <div class="stat-num" data-target="6">0</div>
                 <div class="stat-label">Projecten</div>
             </div>
             <div class="stat">
@@ -898,7 +915,8 @@ const PROJECTS = [
     { port: 8091, url: 'http://localhost:8091' },
     { port: 8090, url: 'http://localhost:8090' },
     { port: 8765, url: 'http://localhost:8765' },
-    { port: 8086, url: 'http://localhost:8086' }
+    { port: 8086, url: 'http://localhost:8086' },
+    { port: 8088, url: 'http://localhost:8088' }
 ];
 
 async function checkStatus(port, url) {
