@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DataConsultants — Open Data & Geo-analyse</title>
-    <meta name="description" content="DataConsultants — Dataverzamelaars en datamodelleurs. Wij verzamelen, koppelen en modelleren open databronnen voor dashboards, analyses en dataprojecten.">
+    <title>Data Consultants — Open Data & Geo-analyse</title>
+    <meta name="description" content="Data Consultants — Dataverzamelaars en datamodelleurs. Wij verzamelen, koppelen en modelleren open databronnen voor dashboards, analyses en dataprojecten.">
     <meta name="keywords" content="open data, geo-analyse, data modellering, CBS data, buurtdata, PostGIS, GeoServer, dashboard, data warehouse, Python, Flask, Nederland">
-    <meta name="author" content="DataConsultants">
+    <meta name="author" content="Data Consultants">
     <meta name="robots" content="index, follow">
 
     <meta property="og:type" content="website">
-    <meta property="og:title" content="DataConsultants — Open Data & Geo-analyse">
+    <meta property="og:title" content="Data Consultants — Open Data & Geo-analyse">
     <meta property="og:description" content="Dataverzamelaars en datamodelleurs. Wij verzamelen, koppelen en modelleren open databronnen voor dashboards, analyses en dataprojecten.">
     <meta property="og:url" content="https://dataconsultants.nl">
-    <meta property="og:site_name" content="DataConsultants">
+    <meta property="og:site_name" content="Data Consultants">
     <meta property="og:locale" content="nl_NL">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="DataConsultants — Open Data & Geo-analyse">
+    <meta name="twitter:title" content="Data Consultants — Open Data & Geo-analyse">
     <meta name="twitter:description" content="Dataverzamelaars en datamodelleurs. Open data verzamelen, koppelen en modelleren.">
 
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='none' stroke='%2339ff14' stroke-width='1.5'/><circle cx='16' cy='16' r='3' fill='%2339ff14' opacity='.4'/><ellipse cx='16' cy='16' rx='14' ry='5' fill='none' stroke='%2339ff14' stroke-width='.7' opacity='.4' transform='rotate(-8 16 16)'/></svg>">
@@ -644,6 +644,50 @@ section {
     border: 1px solid rgba(30, 41, 59, .8);
 }
 
+/* ---- Projecten Grid ---- */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+@media (max-width: 900px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .projects-grid { grid-template-columns: 1fr; } }
+.project-card {
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: transform .2s, border-color .3s, box-shadow .3s;
+}
+.project-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+    box-shadow: 0 8px 32px rgba(57, 255, 20, .08);
+}
+.project-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: var(--accent-glow);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 14px;
+}
+.project-icon .material-icons-round { color: var(--accent); font-size: 24px; }
+.project-status {
+    position: absolute; top: 16px; right: 16px;
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 6px; letter-spacing: .5px;
+}
+.project-status.dev { background: rgba(59, 130, 246, .15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, .3); }
+.project-status.poc { background: rgba(168, 85, 247, .15); color: #c084fc; border: 1px solid rgba(168, 85, 247, .3); }
+.project-card h3 { font-size: 17px; margin-bottom: 8px; color: var(--text); }
+.project-card p { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 14px; }
+.project-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.project-tags span {
+    font-size: 10px; padding: 2px 7px; border-radius: 4px;
+    background: rgba(30, 41, 59, .6); color: var(--dim); border: 1px solid var(--border);
+}
+
 /* ---- Tech Stack ---- */
 .tech-categories {
     display: grid;
@@ -951,12 +995,13 @@ footer {
             <circle cx="16" cy="16" r="3" fill="#39ff14" opacity=".4"/>
             <ellipse cx="16" cy="16" rx="14" ry="5" stroke="#39ff14" stroke-width=".7" opacity=".4" transform="rotate(-8 16 16)"/>
         </svg>
-        DataConsultants
+        Data Consultants
     </a>
     <div class="nav-right">
         <ul class="nav-links" id="nav-links">
             <li><a href="#over-ons">Over Ons</a></li>
-            <li><a href="#geoinzicht">GeoInzicht</a></li>
+            <li><a href="http://localhost:8091" target="_blank">GeoInzicht <span class="material-icons-round" style="font-size:14px;vertical-align:middle">open_in_new</span></a></li>
+            <li><a href="#projecten">Projecten</a></li>
             <li><a href="#tech">Technologie</a></li>
             <li><a href="#visie">Visie</a></li>
             <li><a href="#contact">Contact</a></li>
@@ -998,7 +1043,7 @@ footer {
     <p class="section-subtitle anim-fade-in">Dataverzamelaars en modelleurs met een passie voor open data.</p>
     <div class="about-content">
         <div class="about-text anim-slide-left">
-            <p>DataConsultants is een team van <strong>dataverzamelaars en datamodelleurs</strong>. Wij zijn gespecialiseerd in het vinden, verzamelen en koppelen van open databronnen tot samenhangende datasets.</p>
+            <p>Data Consultants is een team van <strong>dataverzamelaars en datamodelleurs</strong>. Wij zijn gespecialiseerd in het vinden, verzamelen en koppelen van open databronnen tot samenhangende datasets.</p>
             <p>Van CBS-statistieken tot BAG-adressen, van politiedata tot zorgkosten &mdash; wij <strong>verbinden</strong> wat los beschikbaar is tot bruikbare data voor dashboards, wetenschappelijke analyses, dataprojecten en beleidsondersteuning.</p>
             <p>Onze focus ligt op <strong>inzicht</strong>, niet op dienstverlening. Wij bouwen data-infrastructuur en delen kennis.</p>
         </div>
@@ -1189,6 +1234,68 @@ footer {
                 <span class="compare-tag">Leaflet</span>
                 <span class="compare-tag">Chart.js</span>
                 <span class="compare-tag">API</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projecten in Ontwikkeling -->
+<section id="projecten">
+    <h2 class="section-title anim-fade-in"><span>//</span> Projecten in Ontwikkeling / POC's</h2>
+    <p class="section-subtitle anim-fade-in">Naast GeoInzicht werken we aan diverse data- en softwareprojecten.</p>
+    <div class="projects-grid stagger-children anim-fade-in">
+        <div class="project-card">
+            <div class="project-icon"><span class="material-icons-round">apartment</span></div>
+            <div class="project-status poc">POC</div>
+            <h3>Vastgoed Booking Engine</h3>
+            <p>Serviced apartments platform met booking wizard, iDEAL betalingen, admin panel en beschikbaarheidskalender. PostgreSQL backend met interactieve Leaflet kaart.</p>
+            <div class="project-tags">
+                <span>Flask</span><span>PostgreSQL</span><span>Leaflet</span><span>iDEAL</span>
+            </div>
+        </div>
+        <div class="project-card">
+            <div class="project-icon"><span class="material-icons-round">music_note</span></div>
+            <div class="project-status dev">In Ontwikkeling</div>
+            <h3>DAW Platform</h3>
+            <p>Browser-based muziekproductie platform. DAW met timeline en mixer, DJ app met streaming, audio editor, producer contests en live kanalen. Web Audio API.</p>
+            <div class="project-tags">
+                <span>Web Audio API</span><span>Canvas</span><span>Flask</span><span>PostgreSQL</span>
+            </div>
+        </div>
+        <div class="project-card">
+            <div class="project-icon"><span class="material-icons-round">email</span></div>
+            <div class="project-status dev">In Ontwikkeling</div>
+            <h3>Email Validator</h3>
+            <p>Email validatie tool met 14 checks: syntax, DNS, MX records, SMTP verificatie, SPF/DMARC, disposable detectie. Bulk upload en volledige historie (SCD Type 2).</p>
+            <div class="project-tags">
+                <span>Python</span><span>DNS</span><span>SMTP</span><span>PostgreSQL</span>
+            </div>
+        </div>
+        <div class="project-card">
+            <div class="project-icon"><span class="material-icons-round">report</span></div>
+            <div class="project-status poc">POC</div>
+            <h3>Meldpunt Ambtenaren</h3>
+            <p>PWA voor het melden van misstanden door ambtenaren. Dossier-management, document upload met anonimisering en EHRM wizard. Supabase backend.</p>
+            <div class="project-tags">
+                <span>PWA</span><span>Supabase</span><span>Anonimisering</span>
+            </div>
+        </div>
+        <div class="project-card">
+            <div class="project-icon"><span class="material-icons-round">auto_graph</span></div>
+            <div class="project-status poc">POC</div>
+            <h3>KvK Enrichment</h3>
+            <p>Automatische verrijking van KvK-nummers met bedrijfsgegevens, jaarrekeningen en financiele data via de KvK Open Dataset en betaalde API.</p>
+            <div class="project-tags">
+                <span>Python</span><span>KvK API</span><span>Excel</span>
+            </div>
+        </div>
+        <div class="project-card">
+            <div class="project-icon"><span class="material-icons-round">star</span></div>
+            <div class="project-status poc">POC</div>
+            <h3>Astronomy</h3>
+            <p>Interactief zonnestelsel, sterrenbeelden, zwarte gaten en geboortehoroscoop. Educatief astronomie platform met 3D visualisaties.</p>
+            <div class="project-tags">
+                <span>JavaScript</span><span>Canvas</span><span>API's</span>
             </div>
         </div>
     </div>
@@ -1409,7 +1516,7 @@ footer {
 
 <!-- Footer -->
 <footer>
-    <p>&copy; 2025 DataConsultants &mdash; Dataverzamelaars &amp; Datamodelleurs</p>
+    <p>&copy; 2025 Data Consultants &mdash; Dataverzamelaars &amp; Datamodelleurs</p>
 </footer>
 
 <!-- Scroll to top -->

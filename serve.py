@@ -1,4 +1,4 @@
-"""DataConsultants Website - port 8087"""
+"""Data Consultants Website - port 8087"""
 import http.server
 import os
 
@@ -11,5 +11,5 @@ class CORSHandler(http.server.SimpleHTTPRequestHandler):
         self.send_header('Cache-Control', 'no-cache')
         super().end_headers()
 
-print(f"DataConsultants website: http://localhost:{PORT}")
+print(f"Data Consultants website: http://localhost:{PORT}")
 http.server.ThreadingHTTPServer(('', PORT), CORSHandler).serve_forever()
