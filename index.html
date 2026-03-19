@@ -3,24 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DataConsultants — Data & Geo Analyse</title>
-    <meta name="description" content="DataConsultants — Data analyse, geo-visualisatie en web development. Van CBS buurtdata dashboards tot browser-based muziekproductie. Dataprojecten voor een betere wereld.">
-    <meta name="keywords" content="data analyse, geo visualisatie, CBS data, buurtdata, PostGIS, GeoServer, web development, dashboard, data warehouse, Python, Flask, API integratie, Nederland">
+    <title>DataConsultants — Open Data & Geo-analyse</title>
+    <meta name="description" content="DataConsultants — Dataverzamelaars en datamodelleurs. Wij verzamelen, koppelen en modelleren open databronnen voor dashboards, analyses en dataprojecten.">
+    <meta name="keywords" content="open data, geo-analyse, data modellering, CBS data, buurtdata, PostGIS, GeoServer, dashboard, data warehouse, Python, Flask, Nederland">
     <meta name="author" content="DataConsultants">
     <meta name="robots" content="index, follow">
 
-    <!-- Open Graph / Social Sharing -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="DataConsultants — Data & Geo Analyse">
-    <meta property="og:description" content="Data analyse, geo-visualisatie en web development. Van CBS buurtdata dashboards tot browser-based muziekproductie. Dataprojecten voor een betere wereld.">
+    <meta property="og:title" content="DataConsultants — Open Data & Geo-analyse">
+    <meta property="og:description" content="Dataverzamelaars en datamodelleurs. Wij verzamelen, koppelen en modelleren open databronnen voor dashboards, analyses en dataprojecten.">
     <meta property="og:url" content="https://dataconsultants.nl">
     <meta property="og:site_name" content="DataConsultants">
     <meta property="og:locale" content="nl_NL">
 
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="DataConsultants — Data & Geo Analyse">
-    <meta name="twitter:description" content="Data analyse, geo-visualisatie en web development. Dataprojecten voor een betere wereld.">
+    <meta name="twitter:title" content="DataConsultants — Open Data & Geo-analyse">
+    <meta name="twitter:description" content="Dataverzamelaars en datamodelleurs. Open data verzamelen, koppelen en modelleren.">
 
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='none' stroke='%2339ff14' stroke-width='1.5'/><circle cx='16' cy='16' r='3' fill='%2339ff14' opacity='.4'/><ellipse cx='16' cy='16' rx='14' ry='5' fill='none' stroke='%2339ff14' stroke-width='.7' opacity='.4' transform='rotate(-8 16 16)'/></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,6 +48,22 @@ html { scroll-behavior: smooth; }
     --font: 'DM Sans', system-ui, sans-serif;
     --mono: 'Space Mono', monospace;
 }
+/* Light theme */
+[data-theme="light"] {
+    --bg: #f5f7fa;
+    --bg2: #eef1f5;
+    --bg3: #e4e8ee;
+    --panel: #ffffff;
+    --panel2: #f0f2f5;
+    --border: #d1d5db;
+    --text: #1e293b;
+    --muted: #475569;
+    --dim: #64748b;
+    --accent: #16a34a;
+    --accent-glow: rgba(22, 163, 74, .1);
+    --accent-dim: #15803d;
+    --white: #0f172a;
+}
 body {
     font-family: var(--font);
     background: var(--bg);
@@ -68,6 +82,7 @@ body::before {
     pointer-events: none;
     z-index: 0;
 }
+[data-theme="light"] body::before { opacity: 0; }
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
@@ -97,6 +112,10 @@ nav {
     align-items: center;
     justify-content: space-between;
 }
+[data-theme="light"] nav {
+    background: rgba(245, 247, 250, .85);
+    border-bottom-color: rgba(209, 213, 219, .5);
+}
 .nav-logo {
     display: flex;
     align-items: center;
@@ -107,6 +126,7 @@ nav {
     color: var(--text);
 }
 .nav-logo svg { width: 28px; height: 28px; }
+.nav-right { display: flex; align-items: center; gap: 20px; }
 .nav-links { display: flex; gap: 24px; list-style: none; }
 .nav-links a {
     color: var(--muted);
@@ -122,6 +142,21 @@ nav {
     border-bottom-color: var(--accent);
     text-decoration: none;
 }
+.theme-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--muted);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    transition: color .2s, border-color .2s;
+}
+.theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
 .hamburger {
     display: none;
     background: none;
@@ -144,6 +179,7 @@ nav {
         border-bottom: 1px solid var(--border);
     }
     .nav-links.open { display: flex; }
+    [data-theme="light"] .nav-links { background: rgba(245, 247, 250, .95); }
 }
 
 /* ---- Sections ---- */
@@ -175,38 +211,25 @@ section {
     transform: translateY(32px);
     transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
 }
-.anim-fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
+.anim-fade-in.visible { opacity: 1; transform: translateY(0); }
 .anim-slide-left {
     opacity: 0;
     transform: translateX(-40px);
     transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
 }
-.anim-slide-left.visible {
-    opacity: 1;
-    transform: translateX(0);
-}
+.anim-slide-left.visible { opacity: 1; transform: translateX(0); }
 .anim-slide-right {
     opacity: 0;
     transform: translateX(40px);
     transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
 }
-.anim-slide-right.visible {
-    opacity: 1;
-    transform: translateX(0);
-}
+.anim-slide-right.visible { opacity: 1; transform: translateX(0); }
 .anim-scale {
     opacity: 0;
     transform: scale(.9);
     transition: opacity .6s cubic-bezier(.22,1,.36,1), transform .6s cubic-bezier(.22,1,.36,1);
 }
-.anim-scale.visible {
-    opacity: 1;
-    transform: scale(1);
-}
-/* stagger children */
+.anim-scale.visible { opacity: 1; transform: scale(1); }
 .stagger-children > *:nth-child(1) { transition-delay: 0s; }
 .stagger-children > *:nth-child(2) { transition-delay: .08s; }
 .stagger-children > *:nth-child(3) { transition-delay: .16s; }
@@ -227,60 +250,48 @@ section {
     text-align: center;
     padding-top: 56px;
 }
-.hero-logo { width: 280px; height: 280px; margin-bottom: 32px; }
-@media (max-width: 600px) { .hero-logo { width: 200px; height: 200px; } }
 .hero-title {
     font-family: var(--mono);
-    font-size: 48px;
+    font-size: 52px;
     font-weight: 700;
     color: var(--white);
     letter-spacing: -1px;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 }
 @media (max-width: 600px) { .hero-title { font-size: 32px; } }
 .hero-tagline {
-    font-size: 18px;
+    font-size: 17px;
     color: var(--muted);
-    max-width: 500px;
-    margin-bottom: 40px;
+    max-width: 620px;
+    margin-bottom: 32px;
     line-height: 1.7;
 }
-.hero-tagline em {
+.typewriter-line {
+    font-family: var(--mono);
+    font-size: 22px;
     color: var(--accent);
-    font-style: normal;
-    font-weight: 600;
-}
-
-/* Hero stats bar */
-.hero-stats {
-    display: flex;
-    gap: 40px;
+    font-weight: 700;
     margin-bottom: 40px;
+    min-height: 34px;
+}
+.typewriter-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: var(--accent);
+    margin-left: 2px;
+    animation: blink-cursor .7s step-end infinite;
+    vertical-align: text-bottom;
+}
+@keyframes blink-cursor {
+    50% { opacity: 0; }
+}
+.hero-cta {
+    display: flex;
+    gap: 16px;
     flex-wrap: wrap;
     justify-content: center;
 }
-.hero-stat {
-    text-align: center;
-}
-.hero-stat-num {
-    font-family: var(--mono);
-    font-size: 36px;
-    font-weight: 700;
-    color: var(--accent);
-    line-height: 1;
-}
-.hero-stat-label {
-    font-size: 12px;
-    color: var(--dim);
-    margin-top: 6px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-@media (max-width: 500px) {
-    .hero-stats { gap: 24px; }
-    .hero-stat-num { font-size: 28px; }
-}
-
 .btn-primary {
     display: inline-flex;
     align-items: center;
@@ -302,6 +313,27 @@ section {
     box-shadow: 0 0 24px rgba(57, 255, 20, .3);
     text-decoration: none;
 }
+.btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--accent);
+    font-family: var(--font);
+    font-weight: 600;
+    font-size: 14px;
+    padding: 12px 28px;
+    border-radius: 8px;
+    border: 1px solid var(--accent);
+    cursor: pointer;
+    transition: background .2s, box-shadow .2s;
+    text-decoration: none;
+}
+.btn-outline:hover {
+    background: var(--accent-glow);
+    box-shadow: 0 0 16px rgba(57, 255, 20, .15);
+    text-decoration: none;
+}
 .scroll-hint {
     position: absolute;
     bottom: 32px;
@@ -316,57 +348,325 @@ section {
     50% { transform: translateX(-50%) translateY(8px); }
 }
 
-/* ---- Diensten ---- */
-.services-grid {
+/* ---- Wie Wij Zijn ---- */
+.about-content {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
 }
-@media (max-width: 900px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 600px) { .services-grid { grid-template-columns: 1fr; } }
-.service-card {
+@media (max-width: 768px) { .about-content { grid-template-columns: 1fr; } }
+.about-text p {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.8;
+    margin-bottom: 16px;
+}
+.about-text strong { color: var(--white); }
+.data-sources-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.data-sources-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(17, 24, 39, .5);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 14px;
+    color: var(--text);
+    transition: border-color .3s, transform .2s;
+}
+.data-sources-list li:hover {
+    border-color: var(--accent-dim);
+    transform: translateX(4px);
+}
+.data-sources-list .material-icons-round {
+    color: var(--accent);
+    font-size: 20px;
+}
+
+/* ---- GeoInzicht ---- */
+#geoinzicht {
+    max-width: 1100px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+.geo-intro {
+    max-width: 800px;
+    margin-bottom: 64px;
+}
+.geo-intro p {
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 16px;
+}
+.geo-intro p strong { color: var(--white); }
+
+/* Data sources grid */
+.geo-sources {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 72px;
+}
+.geo-source-card {
     background: rgba(17, 24, 39, .7);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
-    padding: 28px 24px;
-    backdrop-filter: blur(8px);
+    padding: 24px;
+    text-align: center;
     transition: border-color .3s, transform .3s, box-shadow .3s;
 }
-.service-card:hover {
+.geo-source-card:hover {
     border-color: var(--accent-dim);
     transform: translateY(-4px);
     box-shadow: 0 8px 32px rgba(57, 255, 20, .08);
 }
-.service-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    background: var(--accent-glow);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 16px;
+.geo-source-card .material-icons-round {
+    font-size: 32px;
     color: var(--accent);
-    font-size: 22px;
+    margin-bottom: 12px;
 }
-.service-card h3 {
-    font-size: 16px;
-    font-weight: 600;
+.geo-source-card h4 {
+    font-size: 15px;
+    font-weight: 700;
     color: var(--white);
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
-.service-card p {
-    font-size: 13px;
+.geo-source-card p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+/* Wat willen we aantonen */
+.geo-mission {
+    margin-bottom: 72px;
+}
+.geo-mission h3 {
+    font-family: var(--mono);
+    font-size: 22px;
+    color: var(--white);
+    margin-bottom: 24px;
+}
+.mission-points {
+    list-style: none;
+    display: grid;
+    gap: 14px;
+}
+.mission-points li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    font-size: 15px;
     color: var(--muted);
     line-height: 1.6;
 }
+.mission-points li .material-icons-round {
+    color: var(--accent);
+    font-size: 20px;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
 
-/* ---- Technologieen ---- */
+/* Architecture diagram */
+.geo-architecture {
+    margin-bottom: 72px;
+}
+.geo-architecture h3 {
+    font-family: var(--mono);
+    font-size: 22px;
+    color: var(--white);
+    margin-bottom: 32px;
+    text-align: center;
+}
+.arch-pipeline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+    padding: 32px 0;
+}
+.arch-stage {
+    background: rgba(17, 24, 39, .8);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 16px;
+    text-align: center;
+    min-width: 120px;
+    max-width: 160px;
+    position: relative;
+    transition: border-color .3s, box-shadow .3s;
+}
+.arch-stage:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(57, 255, 20, .1);
+}
+.arch-stage .material-icons-round {
+    font-size: 28px;
+    color: var(--accent);
+    margin-bottom: 8px;
+}
+.arch-stage h4 {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+}
+.arch-stage p {
+    font-size: 10px;
+    color: var(--dim);
+    font-family: var(--mono);
+}
+.arch-arrow {
+    color: var(--accent);
+    font-size: 28px;
+    opacity: .5;
+    padding: 0 4px;
+    animation: pulse-arrow 2s ease-in-out infinite;
+}
+.arch-arrow:nth-child(4) { animation-delay: .3s; }
+.arch-arrow:nth-child(6) { animation-delay: .6s; }
+.arch-arrow:nth-child(8) { animation-delay: .9s; }
+.arch-arrow:nth-child(10) { animation-delay: 1.2s; }
+@keyframes pulse-arrow {
+    0%, 100% { opacity: .3; }
+    50% { opacity: .8; }
+}
+@media (max-width: 900px) {
+    .arch-pipeline { gap: 8px; }
+    .arch-stage { min-width: 90px; padding: 14px 10px; }
+    .arch-arrow { font-size: 20px; }
+}
+@media (max-width: 600px) {
+    .arch-pipeline { flex-direction: column; }
+    .arch-arrow { transform: rotate(90deg); }
+}
+
+/* Stats counters */
+.geo-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 72px;
+}
+@media (max-width: 768px) { .geo-stats { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .geo-stats { grid-template-columns: 1fr; } }
+.stat-card {
+    background: rgba(17, 24, 39, .5);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 28px 24px;
+    text-align: center;
+    transition: border-color .3s;
+}
+.stat-card:hover { border-color: var(--accent-dim); }
+.stat-number {
+    font-family: var(--mono);
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 8px;
+}
+.stat-label {
+    font-size: 13px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+/* DWH vs App comparison */
+.geo-comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 48px;
+}
+@media (max-width: 700px) { .geo-comparison { grid-template-columns: 1fr; } }
+.compare-card {
+    background: rgba(17, 24, 39, .7);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color .3s, transform .3s;
+}
+.compare-card:hover {
+    border-color: var(--accent-dim);
+    transform: translateY(-4px);
+}
+.compare-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+}
+.compare-card h4 {
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--white);
+    margin-bottom: 4px;
+}
+.compare-card .repo-name {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--dim);
+    margin-bottom: 16px;
+}
+.compare-card p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 16px;
+}
+.compare-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.compare-tag {
+    font-size: 10px;
+    font-family: var(--mono);
+    color: var(--dim);
+    background: rgba(30, 41, 59, .6);
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid rgba(30, 41, 59, .8);
+}
+
+/* ---- Tech Stack ---- */
+.tech-categories {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+}
+@media (max-width: 700px) { .tech-categories { grid-template-columns: 1fr; } }
+.tech-category h3 {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.tech-category h3 .material-icons-round { font-size: 18px; }
 .tech-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 14px;
-    justify-content: center;
+    gap: 10px;
 }
 .tech-badge {
     display: flex;
@@ -396,10 +696,7 @@ section {
     font-size: 16px;
     flex-shrink: 0;
 }
-.tech-badge-icon svg {
-    width: 20px;
-    height: 20px;
-}
+.tech-badge-icon svg { width: 20px; height: 20px; }
 .tech-badge-name {
     font-size: 13px;
     font-weight: 600;
@@ -412,1474 +709,524 @@ section {
     .tech-badge-name { font-size: 12px; }
 }
 
-/* ---- Werkwijze ---- */
-.werkwijze-grid {
+/* ---- Open Data Visie ---- */
+.visie-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    position: relative;
 }
-.werkwijze-grid::before {
-    content: '';
-    position: absolute;
-    top: 60px;
-    left: 12.5%;
-    right: 12.5%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--accent-dim), var(--accent), var(--accent-dim), transparent);
-    opacity: .25;
+@media (max-width: 700px) { .visie-grid { grid-template-columns: 1fr; } }
+.visie-card {
+    background: rgba(17, 24, 39, .5);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 28px;
+    transition: border-color .3s, transform .3s;
 }
-@media (max-width: 900px) { .werkwijze-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
-    .werkwijze-grid::before { display: none; }
+.visie-card:hover {
+    border-color: var(--accent-dim);
+    transform: translateY(-3px);
 }
-@media (max-width: 500px) { .werkwijze-grid { grid-template-columns: 1fr; } }
-.werkwijze-step {
-    text-align: center;
-    position: relative;
-}
-.werkwijze-num {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: var(--bg);
-    border: 2px solid var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
-    font-family: var(--mono);
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--accent);
-    position: relative;
-    z-index: 2;
-    box-shadow: 0 0 20px rgba(57, 255, 20, .15);
-}
-.werkwijze-icon {
+.visie-card .material-icons-round {
     font-size: 28px;
     color: var(--accent);
-    margin-bottom: 12px;
-    opacity: .7;
+    margin-bottom: 14px;
 }
-.werkwijze-step h3 {
+.visie-card h3 {
     font-size: 16px;
     font-weight: 600;
     color: var(--white);
     margin-bottom: 8px;
 }
-.werkwijze-step p {
+.visie-card p {
     font-size: 13px;
     color: var(--muted);
-    line-height: 1.6;
-    max-width: 220px;
-    margin: 0 auto;
-}
-
-/* ---- Projecten ---- */
-.projects-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-}
-@media (max-width: 700px) { .projects-grid { grid-template-columns: 1fr; } }
-.project-card {
-    background: rgba(17, 24, 39, .7);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 28px;
-    backdrop-filter: blur(8px);
-    transition: border-color .4s, box-shadow .4s, transform .3s;
-    position: relative;
-    overflow: hidden;
-}
-.project-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; bottom: 0;
-    width: 3px;
-    background: var(--card-accent);
-}
-/* gradient border glow on hover */
-.project-card::after {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    border-radius: var(--radius-sm);
-    padding: 1px;
-    background: linear-gradient(135deg, var(--card-accent, var(--accent)), transparent 40%, transparent 60%, var(--card-accent, var(--accent)));
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity .4s;
-    pointer-events: none;
-}
-.project-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(0,0,0,.4), 0 0 30px color-mix(in srgb, var(--card-accent, var(--accent)) 15%, transparent);
-}
-.project-card:hover::after {
-    opacity: 1;
-}
-.project-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 12px;
-}
-.project-name {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--white);
-}
-.project-status {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    color: var(--dim);
-}
-.status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--dim);
-}
-.status-dot.online { background: #4aff6a; box-shadow: 0 0 8px rgba(74, 255, 106, .5); }
-.status-dot.offline { background: #ff4a5a; }
-.project-desc {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 16px;
     line-height: 1.7;
-}
-.project-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 18px;
-}
-.tag {
-    font-size: 10px;
-    font-family: var(--mono);
-    color: var(--dim);
-    background: rgba(30, 41, 59, .6);
-    padding: 4px 10px;
-    border-radius: 4px;
-    border: 1px solid rgba(30, 41, 59, .8);
-    transition: color .2s, border-color .2s;
-}
-.project-card:hover .tag {
-    color: var(--muted);
-    border-color: rgba(57, 255, 20, .15);
-}
-.project-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.project-port {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--dim);
-}
-.btn-open {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--accent);
-    background: var(--accent-glow);
-    padding: 7px 16px;
-    border-radius: 6px;
-    border: 1px solid rgba(57, 255, 20, .2);
-    cursor: pointer;
-    text-decoration: none;
-    transition: background .2s, border-color .2s, box-shadow .2s;
-}
-.btn-open:hover {
-    background: rgba(57, 255, 20, .2);
-    border-color: var(--accent);
-    box-shadow: 0 0 16px rgba(57, 255, 20, .15);
-    text-decoration: none;
-}
-
-/* ---- Over ---- */
-.about-content {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 48px;
-    align-items: center;
-}
-@media (max-width: 700px) { .about-content { grid-template-columns: 1fr; } }
-.about-text p {
-    color: var(--muted);
-    font-size: 15px;
-    margin-bottom: 16px;
-    line-height: 1.7;
-}
-.about-text p em {
-    color: var(--accent);
-    font-style: normal;
-    font-weight: 500;
-}
-.about-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-}
-.stat {
-    text-align: center;
-    background: rgba(17, 24, 39, .5);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 20px 12px;
-    transition: border-color .3s, box-shadow .3s;
-}
-.stat:hover {
-    border-color: rgba(57, 255, 20, .3);
-    box-shadow: 0 0 20px rgba(57, 255, 20, .08);
-}
-.stat-num {
-    font-family: var(--mono);
-    font-size: 32px;
-    font-weight: 700;
-    color: var(--accent);
-}
-.stat-label {
-    font-size: 11px;
-    color: var(--dim);
-    margin-top: 4px;
 }
 
 /* ---- Contact ---- */
-.contact-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
+#contact {
+    text-align: center;
 }
-@media (max-width: 700px) { .contact-layout { grid-template-columns: 1fr; } }
-.contact-info {
+.contact-content {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-}
-.contact-card {
-    background: rgba(17, 24, 39, .7);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 20px 24px;
-    display: flex;
     align-items: center;
-    gap: 16px;
-    transition: border-color .3s, transform .3s;
+    gap: 24px;
 }
-.contact-card:hover {
-    border-color: rgba(57, 255, 20, .3);
-    transform: translateX(4px);
-}
-.contact-card-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    background: var(--accent-glow);
-    display: flex;
+.contact-email {
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-.contact-card-icon .material-icons-round {
-    font-size: 22px;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 18px;
     color: var(--accent);
-}
-.contact-card-text h3 {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--white);
-    margin-bottom: 2px;
-}
-.contact-card-text p {
-    font-size: 13px;
-    color: var(--muted);
-}
-/* Contact form */
-.contact-form {
     background: rgba(17, 24, 39, .7);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
-    padding: 28px;
-    backdrop-filter: blur(8px);
+    padding: 16px 32px;
+    transition: border-color .3s;
 }
-.contact-form h3 {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--white);
-    margin-bottom: 20px;
+.contact-email:hover {
+    border-color: var(--accent);
+    text-decoration: none;
 }
-.form-group {
-    margin-bottom: 16px;
+.github-links {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
-.form-group label {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--muted);
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: .5px;
-}
-.form-group input,
-.form-group textarea {
-    width: 100%;
-    background: rgba(10, 15, 26, .6);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 14px;
-    color: var(--text);
-    font-family: var(--font);
-    font-size: 14px;
-    transition: border-color .2s, box-shadow .2s;
-    outline: none;
-}
-.form-group input:focus,
-.form-group textarea:focus {
-    border-color: var(--accent-dim);
-    box-shadow: 0 0 12px rgba(57, 255, 20, .1);
-}
-.form-group textarea {
-    resize: vertical;
-    min-height: 100px;
-}
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-    color: var(--dim);
-}
-.btn-submit {
+.github-link {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: var(--accent);
-    color: #0a0f1a;
-    font-family: var(--font);
-    font-weight: 600;
     font-size: 14px;
-    padding: 11px 24px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: background .2s, box-shadow .2s;
-    width: 100%;
-    justify-content: center;
-}
-.btn-submit:hover {
-    background: #4dff30;
-    box-shadow: 0 0 24px rgba(57, 255, 20, .3);
-}
-
-/* ---- Scroll to top ---- */
-.scroll-top {
-    position: fixed;
-    bottom: 32px;
-    right: 32px;
-    z-index: 99;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: rgba(17, 24, 39, .9);
+    font-weight: 500;
+    color: var(--muted);
+    background: rgba(17, 24, 39, .5);
     border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 20px;
+    transition: color .2s, border-color .2s;
+}
+.github-link:hover {
     color: var(--accent);
-    font-size: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    opacity: 0;
-    transform: translateY(16px);
-    transition: opacity .3s, transform .3s, border-color .3s, box-shadow .3s;
-    pointer-events: none;
-    backdrop-filter: blur(8px);
+    border-color: var(--accent-dim);
+    text-decoration: none;
 }
-.scroll-top.show {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-}
-.scroll-top:hover {
-    border-color: var(--accent);
-    box-shadow: 0 0 20px rgba(57, 255, 20, .2);
-}
-@media (max-width: 600px) {
-    .scroll-top { bottom: 20px; right: 20px; width: 40px; height: 40px; font-size: 20px; }
+.github-link svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
 }
 
 /* ---- Footer ---- */
 footer {
     position: relative;
     z-index: 1;
-    border-top: 1px solid var(--border);
-    padding: 32px 24px;
     text-align: center;
-}
-.footer-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 16px;
-}
-.footer-brand {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--dim);
-}
-.footer-brand svg { width: 20px; height: 20px; }
-.footer-links { display: flex; gap: 16px; }
-.footer-links a {
-    font-size: 12px;
-    color: var(--dim);
-    text-decoration: none;
-}
-.footer-links a:hover { color: var(--accent); }
-
-/* ---- Light Theme ---- */
-[data-theme="light"] {
-    --bg: #f5f7fa;
-    --bg2: #edf0f5;
-    --bg3: #e4e8ef;
-    --panel: #ffffff;
-    --panel2: #f0f2f7;
-    --border: #d1d5db;
-    --text: #1e293b;
-    --muted: #475569;
-    --dim: #64748b;
-    --accent: #16a34a;
-    --accent-glow: rgba(22, 163, 74, .12);
-    --accent-dim: #15803d;
-    --white: #0f172a;
-}
-[data-theme="light"] body::before {
-    background:
-        radial-gradient(ellipse at 20% 50%, rgba(22,163,74,.04) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 20%, rgba(22,163,74,.03) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 80%, rgba(22,163,74,.02) 0%, transparent 60%);
-}
-[data-theme="light"] nav {
-    background: rgba(245, 247, 250, .85);
-    border-bottom-color: rgba(209, 213, 219, .6);
-}
-[data-theme="light"] .service-card,
-[data-theme="light"] .contact-form,
-[data-theme="light"] .contact-card,
-[data-theme="light"] .case-card,
-[data-theme="light"] .testimonial-card,
-[data-theme="light"] .stat {
-    background: rgba(255, 255, 255, .85);
-}
-[data-theme="light"] .tech-badge {
-    background: rgba(255, 255, 255, .85);
-}
-[data-theme="light"] .project-card {
-    background: rgba(255, 255, 255, .85);
-}
-[data-theme="light"] .scroll-top {
-    background: rgba(255, 255, 255, .9);
-}
-[data-theme="light"] .form-group input,
-[data-theme="light"] .form-group textarea {
-    background: rgba(241, 245, 249, .8);
-    color: var(--text);
-}
-[data-theme="light"] .btn-primary,
-[data-theme="light"] .btn-submit {
-    color: #ffffff;
-}
-[data-theme="light"] .werkwijze-num {
-    background: var(--bg);
-}
-
-/* ---- Theme toggle ---- */
-.theme-toggle {
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--muted);
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: color .2s, border-color .2s, background .2s;
-    margin-left: 12px;
-    flex-shrink: 0;
-}
-.theme-toggle:hover {
-    color: var(--accent);
-    border-color: var(--accent);
-    background: var(--accent-glow);
-}
-.theme-toggle .material-icons-round { font-size: 20px; }
-
-/* ---- Typewriter ---- */
-.typewriter-wrapper {
-    display: inline-block;
-    min-width: 280px;
-}
-.typewriter-text {
-    color: var(--accent);
-    font-style: normal;
-    font-weight: 600;
-    border-right: 2px solid var(--accent);
-    padding-right: 4px;
-    animation: blink-caret .7s step-end infinite;
-}
-@keyframes blink-caret {
-    from, to { border-color: var(--accent); }
-    50% { border-color: transparent; }
-}
-
-/* ---- Section transitions ---- */
-section:not(#hero) {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1);
-}
-section.section-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* ---- Case Studies ---- */
-.cases-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-@media (max-width: 900px) { .cases-grid { grid-template-columns: 1fr; } }
-.case-card {
-    background: rgba(17, 24, 39, .7);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 32px 28px;
-    backdrop-filter: blur(8px);
-    transition: border-color .3s, transform .3s, box-shadow .3s;
-    position: relative;
-    overflow: hidden;
-}
-.case-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--case-accent, var(--accent));
-}
-.case-card:hover {
-    border-color: var(--case-accent, var(--accent-dim));
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(0,0,0,.3);
-}
-.case-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 12px;
-    background: var(--accent-glow);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    font-size: 26px;
-    color: var(--accent);
-}
-.case-card h3 {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--white);
-    margin-bottom: 8px;
-}
-.case-card .case-subtitle {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--accent);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 14px;
-}
-.case-card p {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.7;
-    margin-bottom: 16px;
-}
-.case-highlights {
-    list-style: none;
-    padding: 0;
-}
-.case-highlights li {
-    font-size: 12px;
-    color: var(--muted);
-    padding: 4px 0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.case-highlights li::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--case-accent, var(--accent));
-    flex-shrink: 0;
-}
-
-/* ---- Testimonials ---- */
-.testimonials-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-@media (max-width: 900px) { .testimonials-grid { grid-template-columns: 1fr; } }
-.testimonial-card {
-    background: rgba(17, 24, 39, .7);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 28px 24px;
-    backdrop-filter: blur(8px);
-    transition: border-color .3s, transform .3s;
-    position: relative;
-}
-.testimonial-card:hover {
-    border-color: rgba(57, 255, 20, .3);
-    transform: translateY(-3px);
-}
-.testimonial-quote {
-    font-size: 14px;
-    color: var(--text);
-    line-height: 1.7;
-    margin-bottom: 20px;
-    font-style: italic;
-    position: relative;
-    padding-left: 20px;
-}
-.testimonial-quote::before {
-    content: '\201C';
-    position: absolute;
-    left: 0;
-    top: -4px;
-    font-size: 28px;
-    color: var(--accent);
-    font-style: normal;
-    font-family: Georgia, serif;
-    line-height: 1;
-}
-.testimonial-author {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-.testimonial-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: var(--accent-glow);
-    border: 2px solid var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--mono);
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--accent);
-    flex-shrink: 0;
-}
-.testimonial-author-info h4 {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--white);
-}
-.testimonial-author-info p {
-    font-size: 11px;
-    color: var(--dim);
-}
-.testimonial-stars {
-    display: flex;
-    gap: 2px;
-    margin-bottom: 12px;
-}
-.testimonial-stars .material-icons-round {
-    font-size: 16px;
-    color: #fbbf24;
-}
-
-/* ---- Skills / Expertise ---- */
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px 40px;
-}
-@media (max-width: 700px) { .skills-grid { grid-template-columns: 1fr; } }
-.skill-item {
-    margin-bottom: 4px;
-}
-.skill-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-}
-.skill-name {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--white);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.skill-name .material-icons-round {
-    font-size: 16px;
-    color: var(--accent);
-}
-.skill-percent {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--accent);
-}
-.skill-bar {
-    height: 8px;
-    background: rgba(30, 41, 59, .6);
-    border-radius: 4px;
-    overflow: hidden;
-    position: relative;
-}
-.skill-bar-fill {
-    height: 100%;
-    border-radius: 4px;
-    background: linear-gradient(90deg, var(--accent-dim), var(--accent));
-    width: 0;
-    transition: width 1.2s cubic-bezier(.22,1,.36,1);
-    position: relative;
-}
-.skill-bar-fill::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 20px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.2));
-    border-radius: 0 4px 4px 0;
-}
-
-/* ---- Footer improved ---- */
-.footer-grid {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr;
-    gap: 32px;
-    margin-bottom: 32px;
-    text-align: left;
-}
-@media (max-width: 700px) { .footer-grid { grid-template-columns: 1fr; gap: 24px; } }
-.footer-col h4 {
-    font-family: var(--mono);
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--white);
-    margin-bottom: 16px;
-}
-.footer-col p {
-    font-size: 13px;
-    color: var(--dim);
-    line-height: 1.7;
-}
-.footer-col ul {
-    list-style: none;
-    padding: 0;
-}
-.footer-col ul li {
-    margin-bottom: 8px;
-}
-.footer-col ul li a {
-    font-size: 13px;
-    color: var(--dim);
-    text-decoration: none;
-    transition: color .2s;
-}
-.footer-col ul li a:hover {
-    color: var(--accent);
-}
-.footer-social {
-    display: flex;
-    gap: 12px;
-    margin-top: 16px;
-}
-.footer-social a {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--dim);
-    font-size: 18px;
-    transition: color .2s, border-color .2s, background .2s;
-    text-decoration: none;
-}
-.footer-social a:hover {
-    color: var(--accent);
-    border-color: var(--accent);
-    background: var(--accent-glow);
-    text-decoration: none;
-}
-.footer-bottom {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding-top: 24px;
+    padding: 32px 24px;
     border-top: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-}
-.footer-bottom-left {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--mono);
+    color: var(--dim);
     font-size: 12px;
-    color: var(--dim);
 }
-.footer-bottom-left svg { width: 18px; height: 18px; }
-.footer-bottom-right {
-    font-size: 11px;
-    color: var(--dim);
+
+/* ---- Scroll to top ---- */
+.scroll-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 99;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #0a0f1a;
+    border: none;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 4px 16px rgba(57, 255, 20, .3);
+    transition: transform .2s;
 }
+.scroll-top:hover { transform: translateY(-2px); }
+.scroll-top.show { display: flex; }
     </style>
 </head>
 <body>
 
-<!-- Particle background -->
 <canvas id="particle-canvas"></canvas>
 
 <!-- Navigation -->
 <nav>
     <a href="#hero" class="nav-logo">
-        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 32 32" fill="none">
             <circle cx="16" cy="16" r="14" stroke="#39ff14" stroke-width="1.5"/>
             <circle cx="16" cy="16" r="3" fill="#39ff14" opacity=".4"/>
             <ellipse cx="16" cy="16" rx="14" ry="5" stroke="#39ff14" stroke-width=".7" opacity=".4" transform="rotate(-8 16 16)"/>
         </svg>
         DataConsultants
     </a>
-    <button class="hamburger" id="hamburger">
-        <span class="material-icons-round">menu</span>
-    </button>
-    <ul class="nav-links" id="nav-links">
-        <li><a href="#diensten">Diensten</a></li>
-        <li><a href="#technologieen">Tech</a></li>
-        <li><a href="#werkwijze">Werkwijze</a></li>
-        <li><a href="#cases">Cases</a></li>
-        <li><a href="#projecten">Projecten</a></li>
-        <li><a href="#over">Over</a></li>
-        <li><a href="#contact">Contact</a></li>
-    </ul>
-    <button class="theme-toggle" id="theme-toggle" aria-label="Wissel thema">
-        <span class="material-icons-round" id="theme-icon">light_mode</span>
-    </button>
+    <div class="nav-right">
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#over-ons">Over Ons</a></li>
+            <li><a href="#geoinzicht">GeoInzicht</a></li>
+            <li><a href="#tech">Technologie</a></li>
+            <li><a href="#visie">Visie</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button class="theme-toggle" id="theme-toggle" title="Wissel thema">
+            <span class="material-icons-round">dark_mode</span>
+        </button>
+        <button class="hamburger" id="hamburger">
+            <span class="material-icons-round">menu</span>
+        </button>
+    </div>
 </nav>
 
 <!-- Hero -->
 <section id="hero">
-    <svg class="hero-logo" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <radialGradient id="sphere3d" cx="38%" cy="32%" r="65%">
-                <stop offset="0%" stop-color="#1a5c2a" stop-opacity="0.7"/>
-                <stop offset="35%" stop-color="#0f3d1a" stop-opacity="0.55"/>
-                <stop offset="65%" stop-color="#092810" stop-opacity="0.45"/>
-                <stop offset="85%" stop-color="#041a08" stop-opacity="0.35"/>
-                <stop offset="100%" stop-color="#020d04" stop-opacity="0.2"/>
-            </radialGradient>
-            <radialGradient id="specular" cx="35%" cy="28%" r="35%">
-                <stop offset="0%" stop-color="#39ff14" stop-opacity="0.12"/>
-                <stop offset="40%" stop-color="#39ff14" stop-opacity="0.04"/>
-                <stop offset="100%" stop-color="transparent"/>
-            </radialGradient>
-            <radialGradient id="atmosphere" cx="50%" cy="50%" r="50%">
-                <stop offset="75%" stop-color="transparent"/>
-                <stop offset="90%" stop-color="#39ff14" stop-opacity="0.04"/>
-                <stop offset="100%" stop-color="#39ff14" stop-opacity="0.18"/>
-            </radialGradient>
-            <radialGradient id="bhCore" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#000" stop-opacity="1"/>
-                <stop offset="35%" stop-color="#000" stop-opacity="0.9"/>
-                <stop offset="55%" stop-color="#020408" stop-opacity="0.5"/>
-                <stop offset="75%" stop-color="#39ff14" stop-opacity="0.03"/>
-                <stop offset="100%" stop-color="transparent"/>
-            </radialGradient>
-            <radialGradient id="accGlow" cx="50%" cy="50%" r="50%">
-                <stop offset="45%" stop-color="transparent"/>
-                <stop offset="60%" stop-color="#39ff14" stop-opacity="0.06"/>
-                <stop offset="70%" stop-color="#39ff14" stop-opacity="0.12"/>
-                <stop offset="80%" stop-color="#39ff14" stop-opacity="0.04"/>
-                <stop offset="100%" stop-color="transparent"/>
-            </radialGradient>
-            <radialGradient id="landFill" cx="38%" cy="32%" r="65%">
-                <stop offset="0%" stop-color="#2aff4e" stop-opacity="0.35"/>
-                <stop offset="50%" stop-color="#1a8c2e" stop-opacity="0.25"/>
-                <stop offset="100%" stop-color="#0d4a18" stop-opacity="0.18"/>
-            </radialGradient>
-            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="b1"/>
-                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="b2"/>
-                <feGaussianBlur in="SourceGraphic" stdDeviation="18" result="b3"/>
-                <feMerge><feMergeNode in="b3"/><feMergeNode in="b2"/><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-            <filter id="gs" x="-40%" y="-40%" width="180%" height="180%">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="b1"/>
-                <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b2"/>
-                <feMerge><feMergeNode in="b2"/><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-            <filter id="bh" x="-80%" y="-80%" width="260%" height="260%">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="20"/>
-            </filter>
-            <clipPath id="gc"><circle cx="500" cy="500" r="380"/></clipPath>
-        </defs>
-        <circle cx="500" cy="500" r="160" fill="url(#bhCore)"/>
-        <circle cx="500" cy="500" r="220" fill="url(#accGlow)"/>
-        <circle cx="500" cy="500" r="40" fill="#39ff14" opacity="0.04" filter="url(#bh)"/>
-        <ellipse cx="500" cy="500" rx="150" ry="42" fill="none" stroke="#39ff14" stroke-width="0.8" opacity="0.12" stroke-dasharray="3 5">
-            <animate attributeName="stroke-dashoffset" from="0" to="32" dur="3s" repeatCount="indefinite"/>
-            <animateTransform attributeName="transform" type="rotate" from="0 500 500" to="360 500 500" dur="22s" repeatCount="indefinite"/>
-        </ellipse>
-        <ellipse cx="500" cy="500" rx="120" ry="50" fill="none" stroke="#39ff14" stroke-width="0.6" opacity="0.08" stroke-dasharray="2 7" transform="rotate(50 500 500)">
-            <animate attributeName="stroke-dashoffset" from="0" to="36" dur="4s" repeatCount="indefinite"/>
-            <animateTransform attributeName="transform" type="rotate" from="50 500 500" to="410 500 500" dur="28s" repeatCount="indefinite"/>
-        </ellipse>
-        <g font-family="'Courier New',monospace" fill="#39ff14" font-size="9">
-            <text x="498" y="500"><animate attributeName="y" values="500;40" dur="7s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.20;0.01" dur="7s" repeatCount="indefinite"/>10110</text>
-            <text x="502" y="500"><animate attributeName="y" values="500;960" dur="8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.20;0.01" dur="8s" repeatCount="indefinite"/>01001</text>
-            <text x="500" y="498"><animate attributeName="x" values="500;40" dur="9s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.16;0.01" dur="9s" repeatCount="indefinite"/>11010</text>
-            <text x="500" y="502"><animate attributeName="x" values="500;960" dur="7.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.16;0.01" dur="7.5s" repeatCount="indefinite"/>00101</text>
-        </g>
-        <circle cx="500" cy="500" r="380" fill="url(#sphere3d)"/>
-        <circle cx="500" cy="500" r="380" fill="url(#specular)"/>
-        <circle cx="500" cy="500" r="380" fill="url(#atmosphere)"/>
-        <g clip-path="url(#gc)" opacity="0.06" stroke="#39ff14" fill="none" stroke-width="0.5">
-            <ellipse cx="500" cy="270" rx="350" ry="46"/><ellipse cx="500" cy="380" rx="375" ry="64"/>
-            <ellipse cx="500" cy="500" rx="380" ry="72"/><ellipse cx="500" cy="620" rx="375" ry="64"/>
-            <ellipse cx="500" cy="730" rx="350" ry="46"/><ellipse cx="500" cy="500" rx="100" ry="380"/>
-            <ellipse cx="500" cy="500" rx="220" ry="380"/><ellipse cx="500" cy="500" rx="330" ry="380"/>
-        </g>
-        <circle cx="500" cy="500" r="380" fill="none" stroke="#39ff14" stroke-width="1" opacity="0.18" filter="url(#gs)"/>
-        <g clip-path="url(#gc)" fill="url(#landFill)" stroke="#39ff14" stroke-width="0.6" stroke-opacity="0.4">
-            <path d="M389.4,377.9 L396.3,371.6 L403.2,365.3 L416.7,352.6 L429.8,339.9 L441.4,334.0 L452.7,327.9 L458.7,321.5 L464.4,315.1 L470.1,308.8 L475.5,302.5 L476.0,296.0 L481.2,289.8 L486.2,283.6 L491.0,277.4 L491.2,271.2 L495.7,265.1 L495.8,259.1 L500.0,253.1 L504.0,247.2 L507.8,241.4 L507.5,235.6 L514.6,229.9 L522.0,229.6 L528.3,223.8 L536.5,228.9 L541.3,234.3 L550.1,239.5 L555.3,244.9 L560.8,250.4 L566.4,255.9 L572.2,261.4 L579.9,273.1 L587.9,285.0 L596.1,297.0 L599.8,309.9 L596.7,317.0 L594.9,330.8 L591.3,338.0 L587.4,345.3 L583.3,352.6 L579.0,359.9 L568.8,367.7 L558.2,375.5 L547.3,383.1 L535.1,376.6 L523.1,369.9 L511.4,363.2 L500.0,356.4 L489.1,342.6 L478.6,335.6 L469.0,321.9 L459.4,314.9 L450.3,307.8 L440.4,307.2 L429.4,312.9 L423.1,319.0 L411.7,324.7 L403.5,337.4 L395.3,350.4 L386.8,363.4 L389.4,377.9Z"/>
-            <path d="M315.8,521.5 L317.7,507.0 L320.8,485.3 L330.5,464.6 L340.5,444.0 L356.5,424.3 L378.2,405.3 L392.4,392.6 L411.0,387.3 L429.4,381.7 L441.0,382.5 L459.1,376.3 L470.8,376.8 L488.3,377.1 L500.0,377.2 L505.9,384.2 L518.0,391.1 L530.7,405.1 L549.6,411.5 L562.5,418.0 L575.6,424.3 L596.0,437.2 L610.4,450.5 L624.9,463.6 L639.6,476.5 L654.2,489.3 L670.6,516.4 L686.5,543.1 L701.6,569.5 L715.8,595.3 L728.7,613.6 L740.9,624.5 L746.5,636.7 L739.6,658.3 L725.3,687.2 L709.9,715.0 L693.7,741.4 L676.8,766.5 L660.9,784.8 L644.9,802.0 L630.3,813.5 L616.0,824.3 L601.8,834.6 L590.1,835.7 L578.3,836.7 L567.2,833.2 L556.3,824.9 L544.8,816.0 L532.6,806.7 L526.8,791.4 L520.7,769.8 L514.1,746.8 L507.2,722.5 L500.0,697.2 L485.4,670.7 L470.7,643.3 L456.2,622.0 L441.8,607.3 L427.5,599.4 L413.3,591.4 L399.6,575.9 L386.4,560.2 L373.5,544.3 L360.6,535.5 L347.3,533.8 L334.2,531.9 L321.4,529.8 L315.8,521.5Z"/>
-            <path d="M122.1,316.7 L126.2,309.0 L131.2,301.5 L137.2,294.0 L129.4,310.3 L122.5,327.0 L129.2,314.7 L144.0,295.1 L161.0,276.1 L180.0,257.8 L190.9,250.8 L202.5,243.8 L214.6,236.8 L227.3,230.0 L219.5,243.6 L212.7,257.8 L235.9,239.6 L260.3,222.1 L274.5,215.0 L298.3,197.5 L305.3,185.1 L312.5,172.4 L321.4,160.5 L331.8,149.6 L343.3,138.8 L356.4,129.1 L370.7,120.8 L386.0,113.7 L388.2,110.4 L404.5,105.2 L399.7,100.8 L400.6,96.1 L407.7,91.5 L421.3,87.5Z"/>
-            <path d="M606.8,336.2 L613.2,321.6 L623.3,306.5 L631.9,291.6 L643.1,276.0 L652.0,260.5 L658.7,245.4 L666.1,229.6 L670.5,214.2 L672.0,199.4 L670.8,185.2 L666.9,171.9 L660.5,159.4 L652.0,148.0 L641.5,137.7 L629.3,128.5 L629.8,124.6 L643.1,124.8 L654.9,124.7 L677.8,129.0 L697.3,133.6 L718.3,141.9 L728.3,147.5 L917.7,458.7 L915.7,450.0 L909.8,427.7 L901.5,405.6 L890.8,383.8 L883.5,375.3 L875.3,366.8 L872.3,371.2 L874.3,388.9 L875.4,406.7 L875.4,424.8 L874.3,442.9 L872.3,461.2 L862.9,451.7 L848.5,428.4 L832.3,405.1 L814.5,381.9 L798.0,374.0 L780.7,365.9 L770.3,385.9 L762.2,404.4 L743.4,395.1 L719.3,386.9 L699.7,376.9 L675.4,353.0 L651.0,343.5 L631.9,332.7 L606.8,336.2Z"/>
-        </g>
-        <g clip-path="url(#gc)" stroke="#39ff14" stroke-width="0.6" opacity="0.15">
-            <line x1="477" y1="275" x2="454" y2="279"/><line x1="454" y1="279" x2="463" y2="296"/>
-            <line x1="477" y1="275" x2="463" y2="296"/><line x1="477" y1="275" x2="515" y2="274"/>
-            <line x1="515" y1="274" x2="609" y2="245"/><line x1="609" y1="245" x2="632" y2="419"/>
-            <line x1="632" y1="419" x2="770" y2="423"/><line x1="770" y1="423" x2="853" y2="433"/>
-            <line x1="632" y1="419" x2="689" y2="637"/><line x1="452" y1="597" x2="689" y2="637"/>
-            <line x1="183" y1="254" x2="454" y2="279"/><line x1="632" y1="419" x2="452" y2="597"/>
-        </g>
-        <g filter="url(#glow)">
-            <circle cx="477" cy="275" r="5" fill="#39ff14" opacity="0.95"><animate attributeName="opacity" values="0.95;0.4;0.95" dur="2.0s" repeatCount="indefinite"/></circle>
-            <circle cx="454" cy="279" r="4.5" fill="#39ff14" opacity="0.9"><animate attributeName="opacity" values="0.9;0.35;0.9" dur="2.3s" repeatCount="indefinite"/></circle>
-            <circle cx="515" cy="274" r="4" fill="#39ff14" opacity="0.9"><animate attributeName="opacity" values="0.9;0.35;0.9" dur="1.8s" repeatCount="indefinite"/></circle>
-            <circle cx="609" cy="245" r="4" fill="#39ff14" opacity="0.85"><animate attributeName="opacity" values="0.85;0.3;0.85" dur="3.0s" repeatCount="indefinite"/></circle>
-            <circle cx="632" cy="419" r="4" fill="#39ff14" opacity="0.85"><animate attributeName="opacity" values="0.85;0.3;0.85" dur="2.1s" repeatCount="indefinite"/></circle>
-            <circle cx="183" cy="254" r="5" fill="#39ff14" opacity="0.95"><animate attributeName="opacity" values="0.95;0.4;0.95" dur="1.5s" repeatCount="indefinite"/></circle>
-            <circle cx="853" cy="433" r="3.5" fill="#39ff14" opacity="0.85"><animate attributeName="opacity" values="0.85;0.3;0.85" dur="3.1s" repeatCount="indefinite"/></circle>
-        </g>
-        <g transform="translate(500,500) rotate(-8)">
-            <ellipse rx="440" ry="110" fill="none" stroke="#39ff14" stroke-width="1.2" opacity="0.18" filter="url(#gs)"/>
-            <text font-family="'Courier New',monospace" font-size="20" fill="#39ff14" filter="url(#gs)" font-weight="bold"><animateMotion dur="12s" repeatCount="indefinite" path="M440,0 A440,110 0 1 1 -440,0 A440,110 0 1 1 440,0"/>1</text>
-            <text font-family="'Courier New',monospace" font-size="16" fill="#39ff14" filter="url(#gs)" opacity="0.8"><animateMotion dur="12s" repeatCount="indefinite" begin="-1.5s" path="M440,0 A440,110 0 1 1 -440,0 A440,110 0 1 1 440,0"/>0</text>
-            <text font-family="'Courier New',monospace" font-size="18" fill="#39ff14" filter="url(#gs)" opacity="0.85"><animateMotion dur="12s" repeatCount="indefinite" begin="-4.5s" path="M440,0 A440,110 0 1 1 -440,0 A440,110 0 1 1 440,0"/>0</text>
-            <text font-family="'Courier New',monospace" font-size="14" fill="#39ff14" filter="url(#gs)" opacity="0.65"><animateMotion dur="12s" repeatCount="indefinite" begin="-6s" path="M440,0 A440,110 0 1 1 -440,0 A440,110 0 1 1 440,0"/>1</text>
-            <text font-family="'Courier New',monospace" font-size="17" fill="#39ff14" filter="url(#gs)" opacity="0.75"><animateMotion dur="12s" repeatCount="indefinite" begin="-7.5s" path="M440,0 A440,110 0 1 1 -440,0 A440,110 0 1 1 440,0"/>0</text>
-        </g>
-        <g transform="translate(500,500) rotate(35)">
-            <ellipse rx="420" ry="150" fill="none" stroke="#39ff14" stroke-width="0.5" opacity="0.08"/>
-            <text font-family="'Courier New',monospace" font-size="14" fill="#39ff14" filter="url(#gs)" opacity="0.5"><animateMotion dur="15s" repeatCount="indefinite" path="M420,0 A420,150 0 1 0 -420,0 A420,150 0 1 0 420,0"/>0</text>
-            <text font-family="'Courier New',monospace" font-size="17" fill="#39ff14" filter="url(#gs)" opacity="0.65"><animateMotion dur="15s" repeatCount="indefinite" begin="-5s" path="M420,0 A420,150 0 1 0 -420,0 A420,150 0 1 0 420,0"/>1</text>
-        </g>
-    </svg>
-
-    <h1 class="hero-title">DataConsultants</h1>
-    <p class="hero-tagline">Experts in <span class="typewriter-wrapper"><span class="typewriter-text" id="typewriter"></span></span><br>Dataprojecten voor <em>een betere wereld</em> — en voor de fun.</p>
-
-    <div class="hero-stats">
-        <div class="hero-stat">
-            <div class="hero-stat-num" data-target="6" data-suffix="+">0</div>
-            <div class="hero-stat-label">Projecten</div>
-        </div>
-        <div class="hero-stat">
-            <div class="hero-stat-num" data-target="16" data-suffix="">0</div>
-            <div class="hero-stat-label">Data Domeinen</div>
-        </div>
-        <div class="hero-stat">
-            <div class="hero-stat-num" data-target="9" data-suffix="+">0</div>
-            <div class="hero-stat-label">Technologieen</div>
-        </div>
+    <h1 class="hero-title anim-fade-in">Data<span style="color:var(--accent)">Consultants</span></h1>
+    <p class="hero-tagline anim-fade-in">Wij verzamelen, modelleren en verbinden open data &mdash; voor dashboards, analyses en dataprojecten die ertoe doen.</p>
+    <div class="typewriter-line anim-fade-in">
+        <span id="typewriter"></span><span class="typewriter-cursor"></span>
     </div>
-
-    <a href="#projecten" class="btn-primary">
-        <span class="material-icons-round" style="font-size:18px">rocket_launch</span>
-        Bekijk projecten
-    </a>
+    <div class="hero-cta anim-fade-in">
+        <a href="#geoinzicht" class="btn-primary">
+            <span class="material-icons-round" style="font-size:18px">explore</span>
+            Bekijk GeoInzicht
+        </a>
+        <a href="#contact" class="btn-outline">
+            <span class="material-icons-round" style="font-size:18px">mail</span>
+            Contact
+        </a>
+    </div>
     <div class="scroll-hint">
         <span class="material-icons-round">expand_more</span>
     </div>
 </section>
 
-<!-- Diensten -->
-<section id="diensten">
-    <h2 class="section-title anim-fade-in"><span>//</span> Diensten</h2>
-    <p class="section-subtitle anim-fade-in">Van ruwe data tot inzichtelijke dashboards en kaarten.</p>
-    <div class="services-grid stagger-children">
-        <div class="service-card anim-fade-in">
-            <div class="service-icon"><span class="material-icons-round">analytics</span></div>
-            <h3>Data Analyse</h3>
-            <p>CBS open data, statistische analyses en data-gedreven inzichten voor beleid en onderzoek.</p>
-        </div>
-        <div class="service-card anim-fade-in">
-            <div class="service-icon"><span class="material-icons-round">map</span></div>
-            <h3>Geo-analyse & GIS</h3>
-            <p>Ruimtelijke analyses met PostGIS, GeoServer en Leaflet. Van buurtdata tot landelijke kaarten.</p>
-        </div>
-        <div class="service-card anim-fade-in">
-            <div class="service-icon"><span class="material-icons-round">dashboard</span></div>
-            <h3>Dashboards</h3>
-            <p>Interactieve dashboards met realtime data, grafieken en KPI-monitoring.</p>
-        </div>
-        <div class="service-card anim-fade-in">
-            <div class="service-icon"><span class="material-icons-round">storage</span></div>
-            <h3>Data Warehousing</h3>
-            <p>ETL-pipelines, PostgreSQL, SQL Server. Gestructureerde opslag en verwerking van grote datasets.</p>
-        </div>
-        <div class="service-card anim-fade-in">
-            <div class="service-icon"><span class="material-icons-round">code</span></div>
-            <h3>Web Applicaties</h3>
-            <p>Single-page apps, PWA's en API-ontwikkeling. Van concept tot werkende applicatie.</p>
-        </div>
-        <div class="service-card anim-fade-in">
-            <div class="service-icon"><span class="material-icons-round">psychology</span></div>
-            <h3>Advies & Consultancy</h3>
-            <p>Data-strategie, architectuuradvies en begeleiding bij digitale transformatie.</p>
-        </div>
-    </div>
-</section>
-
-<!-- Technologieen -->
-<section id="technologieen">
-    <h2 class="section-title anim-fade-in"><span>//</span> Technologieen</h2>
-    <p class="section-subtitle anim-fade-in">De tools en frameworks waar we dagelijks mee werken.</p>
-    <div class="tech-grid stagger-children">
-        <div class="tech-badge anim-scale">
-            <div class="tech-badge-icon">
-                <svg viewBox="0 0 24 24" fill="#39ff14"><path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z"/></svg>
-            </div>
-            <span class="tech-badge-name">Python</span>
-        </div>
-        <div class="tech-badge anim-scale">
-            <div class="tech-badge-icon">
-                <svg viewBox="0 0 24 24" fill="#39ff14"><path d="M7.172 20.36c-.904-.732-.636-2.041.474-2.399l11.44-3.689c.221-.08.461.054.47.301.048 1.268-.535 3.55-4.476 4.764-2.782.857-6.077 1.567-7.908 1.023zM4.2 16.78c-.085-.576.003-1.164.238-1.686L9.23 3.804c.146-.342.634-.315.743.042.672 2.215 1.04 3.678.394 6.075-.64 2.374-3.26 4.473-5.054 6.166a.488.488 0 01-.813-.133L4.2 16.78zm7.595-11.04c.262-1.678 1.823-2.903 3.257-2.23 1.523.714 1.633 2.082.986 3.812-.5 1.336-3.785 6.328-4.313 7.088-.085.122-.265.07-.276-.077-.083-1.11-.059-5.37.346-8.593zM19.36 8.29c.063-.397.498-.586.832-.367 1.327.869 2.02 2.321 1.34 4.4-.489 1.494-2.282 3.736-3.392 4.999a.294.294 0 01-.503-.177c-.164-1.498-.329-5.891 1.723-8.855z"/></svg>
-            </div>
-            <span class="tech-badge-name">Flask</span>
-        </div>
-        <div class="tech-badge anim-scale">
-            <div class="tech-badge-icon">
-                <svg viewBox="0 0 24 24" fill="#39ff14"><path d="M17.128 0a10.134 10.134 0 0 0-2.755.403l-.063.02A10.922 10.922 0 0 0 12.6.258C11.422.238 10.253.575 9.2 1.2 8.04.836 6.895.663 5.845.679a7.015 7.015 0 0 0-3.072.712L2.4 1.6l.15.375a8.7 8.7 0 0 0 .907 1.67c.32.45.665.84 1.012 1.168-.09.396-.153.81-.153 1.262 0 1.244.37 2.407 1.012 3.424a10.1 10.1 0 0 0 2.667 2.78c1.05.75 2.235 1.282 3.476 1.5a4.2 4.2 0 0 0-.262 1.447v1.996a4.177 4.177 0 0 1-1.235-.375 3.312 3.312 0 0 1-1.068-.778 5.02 5.02 0 0 0-.96-1.05 3.63 3.63 0 0 0-1.248-.66l-.213-.075-.262.04a.753.753 0 0 0-.475.294c-.088.118-.087.244-.012.4l.025.038a2.42 2.42 0 0 0 .313.374c.14.14.3.276.462.41.243.206.504.423.72.67.216.243.393.527.5.858l.063.188a2.063 2.063 0 0 0 .856 1.05c.413.275.905.44 1.418.504.384.048.6.055 1.137.037v2.013c0 .244.07.463.225.588.155.125.395.162.688.075a12.094 12.094 0 0 0 8.093-11.478c-.001-6.602-5.373-11.975-11.975-11.975z"/></svg>
-            </div>
-            <span class="tech-badge-name">PostgreSQL</span>
-        </div>
-        <div class="tech-badge anim-scale">
-            <div class="tech-badge-icon">
-                <svg viewBox="0 0 24 24" fill="#39ff14"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-            </div>
-            <span class="tech-badge-name">PostGIS</span>
-        </div>
-        <div class="tech-badge anim-scale">
-            <div class="tech-badge-icon">
-                <svg viewBox="0 0 24 24" fill="#39ff14"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-            </div>
-            <span class="tech-badge-name">GeoServer</span>
-        </div>
-        <div class="tech-badge anim-scale">
-            <div class="tech-badge-icon">
-                <svg viewBox="0 0 24 24" fill="#39ff14"><path d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.405-.6-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z"/></svg>
-            </div>
-            <span class="tech-badge-name">JavaScript</span>
-        </div>
-        <div class="tech-badge anim-scale">
-            <div class="tech-badge-icon">
-                <svg viewBox="0 0 24 24" fill="#39ff14"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.071-.757.541-6.025.115-1.253H5.879l.063.672.575 6.378h8.486l-.266 3.043-2.737.737-2.737-.737-.178-1.993h-2.74l.345 3.872 5.31 1.474.035-.01v-.001l5.272-1.463.656-7.322H8.531z"/></svg>
-            </div>
-            <span class="tech-badge-name">HTML/CSS</span>
-        </div>
-        <div class="tech-badge anim-scale">
-            <div class="tech-badge-icon">
-                <svg viewBox="0 0 24 24" fill="#39ff14"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
-            </div>
-            <span class="tech-badge-name">Web Audio API</span>
-        </div>
-        <div class="tech-badge anim-scale">
-            <div class="tech-badge-icon">
-                <svg viewBox="0 0 24 24" fill="#39ff14"><path d="M21.362 8.205l-5.542-5.542a1.83 1.83 0 0 0-1.296-.537H9.476a1.83 1.83 0 0 0-1.296.537L2.638 8.205a1.83 1.83 0 0 0-.537 1.296v5.048c0 .486.193.953.537 1.296l5.542 5.542c.344.343.81.537 1.296.537h5.048c.486 0 .953-.194 1.296-.537l5.542-5.542c.344-.343.537-.81.537-1.296V9.501a1.83 1.83 0 0 0-.537-1.296zM12 17.763a5.763 5.763 0 1 1 0-11.526 5.763 5.763 0 0 1 0 11.526zm0-9.526a3.763 3.763 0 1 0 0 7.526 3.763 3.763 0 0 0 0-7.526z"/></svg>
-            </div>
-            <span class="tech-badge-name">Supabase</span>
-        </div>
-    </div>
-</section>
-
-<!-- Werkwijze -->
-<section id="werkwijze">
-    <h2 class="section-title anim-fade-in"><span>//</span> Werkwijze</h2>
-    <p class="section-subtitle anim-fade-in">Van idee tot werkende applicatie in vier stappen.</p>
-    <div class="werkwijze-grid stagger-children">
-        <div class="werkwijze-step anim-fade-in">
-            <div class="werkwijze-num">1</div>
-            <div class="werkwijze-icon"><span class="material-icons-round">search</span></div>
-            <h3>Analyse</h3>
-            <p>We brengen de databronnen, requirements en doelen in kaart. Wat is de vraag achter de vraag?</p>
-        </div>
-        <div class="werkwijze-step anim-fade-in">
-            <div class="werkwijze-num">2</div>
-            <div class="werkwijze-icon"><span class="material-icons-round">architecture</span></div>
-            <h3>Ontwerp</h3>
-            <p>Datamodel, architectuur en UI-ontwerp. Heldere keuzes voor technologie en structuur.</p>
-        </div>
-        <div class="werkwijze-step anim-fade-in">
-            <div class="werkwijze-num">3</div>
-            <div class="werkwijze-icon"><span class="material-icons-round">terminal</span></div>
-            <h3>Ontwikkeling</h3>
-            <p>Iteratief bouwen met korte feedbackloops. Code, test, verbeter — tot het klopt.</p>
-        </div>
-        <div class="werkwijze-step anim-fade-in">
-            <div class="werkwijze-num">4</div>
-            <div class="werkwijze-icon"><span class="material-icons-round">rocket_launch</span></div>
-            <h3>Oplevering</h3>
-            <p>Deployment, documentatie en overdracht. Een werkend product met duidelijke instructies.</p>
-        </div>
-    </div>
-</section>
-
-<!-- Case Studies -->
-<section id="cases">
-    <h2 class="section-title anim-fade-in"><span>//</span> Case Studies</h2>
-    <p class="section-subtitle anim-fade-in">Uitgelichte projecten met meetbare impact.</p>
-    <div class="cases-grid stagger-children">
-        <div class="case-card anim-fade-in" style="--case-accent: #38bdf8">
-            <div class="case-icon"><span class="material-icons-round">map</span></div>
-            <div class="case-subtitle">Geo-visualisatie</div>
-            <h3>GeoInzicht Platform</h3>
-            <p>Een compleet data warehouse en dashboard dat 16 CBS-domeinen integreert: van bevolkingssamenstelling en inkomensverdeling tot energieverbruik en woningvoorraad. Alles zichtbaar op buurtniveau via interactieve kaarten.</p>
-            <ul class="case-highlights">
-                <li>16 datadomeinen op 1 kaartdashboard</li>
-                <li>PostGIS + GeoServer + Leaflet stack</li>
-                <li>Health monitoring per domein</li>
-                <li>ETL-pipelines voor CBS open data</li>
-            </ul>
-        </div>
-        <div class="case-card anim-fade-in" style="--case-accent: #ef4444">
-            <div class="case-icon"><span class="material-icons-round">shield</span></div>
-            <div class="case-subtitle">Privacy & compliance</div>
-            <h3>Meldpunt Ambtenaren</h3>
-            <p>Een Progressive Web App voor ambtenaren om misstanden te melden. Documenten worden automatisch geanonimiseerd en dossiers veilig beheerd via Supabase met row-level security.</p>
-            <ul class="case-highlights">
-                <li>PWA met offline functionaliteit</li>
-                <li>Automatische document-anonimisering</li>
-                <li>EHRM-wizard voor begeleiding</li>
-                <li>Veilige opslag via Supabase RLS</li>
-            </ul>
-        </div>
-        <div class="case-card anim-fade-in" style="--case-accent: #4a7fff">
-            <div class="case-icon"><span class="material-icons-round">music_note</span></div>
-            <div class="case-subtitle">Creatieve technologie</div>
-            <h3>Browser DAW</h3>
-            <p>Een volledige digitale audio werkplaats in de browser. Timeline-editor, mixer, virtuele instrumenten en een sound library. Gebouwd met de Web Audio API voor professionele geluidskwaliteit.</p>
-            <ul class="case-highlights">
-                <li>Multi-track timeline met drag & drop</li>
-                <li>Web Audio API synthesizers</li>
-                <li>Freesound sample library integratie</li>
-                <li>PostgreSQL project opslag</li>
-            </ul>
-        </div>
-    </div>
-</section>
-
-<!-- Expertise -->
-<section id="expertise">
-    <h2 class="section-title anim-fade-in"><span>//</span> Expertise</h2>
-    <p class="section-subtitle anim-fade-in">Vaardigheden opgebouwd over jaren van hands-on projecten.</p>
-    <div class="skills-grid anim-fade-in" id="skills-grid">
-        <div class="skill-item">
-            <div class="skill-header">
-                <span class="skill-name"><span class="material-icons-round">analytics</span> Data Analyse & SQL</span>
-                <span class="skill-percent">95%</span>
-            </div>
-            <div class="skill-bar"><div class="skill-bar-fill" data-width="95"></div></div>
-        </div>
-        <div class="skill-item">
-            <div class="skill-header">
-                <span class="skill-name"><span class="material-icons-round">code</span> Python & Flask</span>
-                <span class="skill-percent">92%</span>
-            </div>
-            <div class="skill-bar"><div class="skill-bar-fill" data-width="92"></div></div>
-        </div>
-        <div class="skill-item">
-            <div class="skill-header">
-                <span class="skill-name"><span class="material-icons-round">map</span> Geo-visualisatie & GIS</span>
-                <span class="skill-percent">90%</span>
-            </div>
-            <div class="skill-bar"><div class="skill-bar-fill" data-width="90"></div></div>
-        </div>
-        <div class="skill-item">
-            <div class="skill-header">
-                <span class="skill-name"><span class="material-icons-round">language</span> JavaScript & Web APIs</span>
-                <span class="skill-percent">88%</span>
-            </div>
-            <div class="skill-bar"><div class="skill-bar-fill" data-width="88"></div></div>
-        </div>
-        <div class="skill-item">
-            <div class="skill-header">
-                <span class="skill-name"><span class="material-icons-round">storage</span> PostgreSQL & PostGIS</span>
-                <span class="skill-percent">90%</span>
-            </div>
-            <div class="skill-bar"><div class="skill-bar-fill" data-width="90"></div></div>
-        </div>
-        <div class="skill-item">
-            <div class="skill-header">
-                <span class="skill-name"><span class="material-icons-round">api</span> API Design & Integratie</span>
-                <span class="skill-percent">85%</span>
-            </div>
-            <div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div>
-        </div>
-        <div class="skill-item">
-            <div class="skill-header">
-                <span class="skill-name"><span class="material-icons-round">dashboard</span> Dashboard & UI Design</span>
-                <span class="skill-percent">82%</span>
-            </div>
-            <div class="skill-bar"><div class="skill-bar-fill" data-width="82"></div></div>
-        </div>
-        <div class="skill-item">
-            <div class="skill-header">
-                <span class="skill-name"><span class="material-icons-round">cloud</span> DevOps & Deployment</span>
-                <span class="skill-percent">75%</span>
-            </div>
-            <div class="skill-bar"><div class="skill-bar-fill" data-width="75"></div></div>
-        </div>
-    </div>
-</section>
-
-<!-- Testimonials -->
-<section id="testimonials">
-    <h2 class="section-title anim-fade-in"><span>//</span> Wat klanten zeggen</h2>
-    <p class="section-subtitle anim-fade-in">Feedback van data professionals en opdrachtgevers.</p>
-    <div class="testimonials-grid stagger-children">
-        <div class="testimonial-card anim-fade-in">
-            <div class="testimonial-stars">
-                <span class="material-icons-round">star</span>
-                <span class="material-icons-round">star</span>
-                <span class="material-icons-round">star</span>
-                <span class="material-icons-round">star</span>
-                <span class="material-icons-round">star</span>
-            </div>
-            <div class="testimonial-quote">
-                Het GeoInzicht dashboard heeft onze buurtanalyses naar een heel ander niveau getild. We kunnen nu in seconden zien wat voorheen dagen kostte. De combinatie van 16 datadomeinen op een kaart is uniek.
-            </div>
-            <div class="testimonial-author">
-                <div class="testimonial-avatar">MV</div>
-                <div class="testimonial-author-info">
-                    <h4>Marieke van den Berg</h4>
-                    <p>Data Analyst, Gemeente Utrecht</p>
-                </div>
-            </div>
-        </div>
-        <div class="testimonial-card anim-fade-in">
-            <div class="testimonial-stars">
-                <span class="material-icons-round">star</span>
-                <span class="material-icons-round">star</span>
-                <span class="material-icons-round">star</span>
-                <span class="material-icons-round">star</span>
-                <span class="material-icons-round">star</span>
-            </div>
-            <div class="testimonial-quote">
-                De anonimiseringsfunctie in het Meldpunt was precies wat we nodig hadden. Documenten worden automatisch verwerkt en de PWA werkt zelfs offline. Heel prettig samengewerkt.
-            </div>
-            <div class="testimonial-author">
-                <div class="testimonial-avatar">JK</div>
-                <div class="testimonial-author-info">
-                    <h4>Joost Kleijnen</h4>
-                    <p>Privacy Officer, Rijksoverheid</p>
-                </div>
-            </div>
-        </div>
-        <div class="testimonial-card anim-fade-in">
-            <div class="testimonial-stars">
-                <span class="material-icons-round">star</span>
-                <span class="material-icons-round">star</span>
-                <span class="material-icons-round">star</span>
-                <span class="material-icons-round">star</span>
-                <span class="material-icons-round">star_half</span>
-            </div>
-            <div class="testimonial-quote">
-                Indrukwekkend hoe snel een compleet data warehouse werd opgezet met ETL-pipelines voor CBS data. Technisch sterk en goed gedocumenteerd. Aanrader voor elk dataproject.
-            </div>
-            <div class="testimonial-author">
-                <div class="testimonial-avatar">SH</div>
-                <div class="testimonial-author-info">
-                    <h4>Sophie Hendriks</h4>
-                    <p>Lead Data Engineer, InfoProjects</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Projecten -->
-<section id="projecten">
-    <h2 class="section-title anim-fade-in"><span>//</span> Projecten</h2>
-    <p class="section-subtitle anim-fade-in">Live applicaties — klik om te openen.</p>
-    <div class="projects-grid stagger-children" id="projects-grid">
-        <div class="project-card anim-fade-in" style="--card-accent: #38bdf8" data-port="8888">
-            <div class="project-header">
-                <span class="project-name">GeoInzicht DWH</span>
-                <div class="project-status"><div class="status-dot" id="status-8888"></div><span>checking...</span></div>
-            </div>
-            <p class="project-desc">CBS buurtdata dashboard met 16 domeinen. Bevolking, inkomen, woningen, energie en meer — op kaartniveau.</p>
-            <div class="project-tags">
-                <span class="tag">Flask</span><span class="tag">PostGIS</span><span class="tag">GeoServer</span><span class="tag">SQL Server</span><span class="tag">Leaflet</span>
-            </div>
-            <div class="project-footer">
-                <span class="project-port">:8888</span>
-                <a href="http://localhost:8888/dashboard_cbs_buurt.html" target="_blank" class="btn-open">
-                    <span class="material-icons-round" style="font-size:14px">open_in_new</span> Open
-                </a>
-            </div>
-        </div>
-
-        <div class="project-card anim-fade-in" style="--card-accent: #38bdf8" data-port="8091">
-            <div class="project-header">
-                <span class="project-name">GeoInzicht App</span>
-                <div class="project-status"><div class="status-dot" id="status-8091"></div><span>checking...</span></div>
-            </div>
-            <p class="project-desc">Standalone kaartapplicatie met CBS en GeoJSON data. Werkt onafhankelijk van de DWH via API's.</p>
-            <div class="project-tags">
-                <span class="tag">Python</span><span class="tag">Leaflet</span><span class="tag">CBS API</span><span class="tag">GeoJSON</span>
-            </div>
-            <div class="project-footer">
-                <span class="project-port">:8091</span>
-                <a href="http://localhost:8091" target="_blank" class="btn-open">
-                    <span class="material-icons-round" style="font-size:14px">open_in_new</span> Open
-                </a>
-            </div>
-        </div>
-
-        <div class="project-card anim-fade-in" style="--card-accent: #ef4444" data-port="8090">
-            <div class="project-header">
-                <span class="project-name">Meldpunt Ambtenaren</span>
-                <div class="project-status"><div class="status-dot" id="status-8090"></div><span>checking...</span></div>
-            </div>
-            <p class="project-desc">PWA voor het melden en beheren van dossiers. Document upload met anonimisering en EHRM-wizard.</p>
-            <div class="project-tags">
-                <span class="tag">PWA</span><span class="tag">Supabase</span><span class="tag">Flask</span><span class="tag">Document AI</span>
-            </div>
-            <div class="project-footer">
-                <span class="project-port">:8090</span>
-                <a href="http://localhost:8090" target="_blank" class="btn-open">
-                    <span class="material-icons-round" style="font-size:14px">open_in_new</span> Open
-                </a>
-            </div>
-        </div>
-
-        <div class="project-card anim-fade-in" style="--card-accent: #fbbf24" data-port="8765">
-            <div class="project-header">
-                <span class="project-name">Astronomy</span>
-                <div class="project-status"><div class="status-dot" id="status-8765"></div><span>checking...</span></div>
-            </div>
-            <p class="project-desc">Interactief zonnestelsel, sterrenbeelden, zwarte gaten en geboortehoroscoop. Educatief en visueel.</p>
-            <div class="project-tags">
-                <span class="tag">Canvas</span><span class="tag">Astronomy Engine</span><span class="tag">WebGL</span>
-            </div>
-            <div class="project-footer">
-                <span class="project-port">:8765</span>
-                <a href="http://localhost:8765" target="_blank" class="btn-open">
-                    <span class="material-icons-round" style="font-size:14px">open_in_new</span> Open
-                </a>
-            </div>
-        </div>
-
-        <div class="project-card anim-fade-in" style="--card-accent: #4a7fff" data-port="8086">
-            <div class="project-header">
-                <span class="project-name">DAW</span>
-                <div class="project-status"><div class="status-dot" id="status-8086"></div><span>checking...</span></div>
-            </div>
-            <p class="project-desc">Digitale audio werkplaats met timeline, mixer, instrumenten en sound library. Logic Pro-achtige interface.</p>
-            <div class="project-tags">
-                <span class="tag">Web Audio API</span><span class="tag">Canvas</span><span class="tag">PostgreSQL</span><span class="tag">Flask</span>
-            </div>
-            <div class="project-footer">
-                <span class="project-port">:8086</span>
-                <a href="http://localhost:8086" target="_blank" class="btn-open">
-                    <span class="material-icons-round" style="font-size:14px">open_in_new</span> Open
-                </a>
-            </div>
-        </div>
-
-        <div class="project-card anim-fade-in" style="--card-accent: #39ff14" data-port="8088">
-            <div class="project-header">
-                <span class="project-name">Vastgoed</span>
-                <div class="project-status"><div class="status-dot" id="status-8088"></div><span>checking...</span></div>
-            </div>
-            <p class="project-desc">Verhuur website en admin dashboard voor 9 panden. Huurder beheer, onderhoud administratie en financieel overzicht.</p>
-            <div class="project-tags">
-                <span class="tag">Python</span><span class="tag">JSON API</span><span class="tag">Responsive</span>
-            </div>
-            <div class="project-footer">
-                <span class="project-port">:8088</span>
-                <a href="http://localhost:8088" target="_blank" class="btn-open">
-                    <span class="material-icons-round" style="font-size:14px">open_in_new</span> Open
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Over -->
-<section id="over">
-    <h2 class="section-title anim-fade-in"><span>//</span> Over</h2>
+<!-- Wie Wij Zijn -->
+<section id="over-ons">
+    <h2 class="section-title anim-fade-in"><span>//</span> Wie Wij Zijn</h2>
+    <p class="section-subtitle anim-fade-in">Dataverzamelaars en modelleurs met een passie voor open data.</p>
     <div class="about-content">
         <div class="about-text anim-slide-left">
-            <p>DataConsultants bouwt dataprojecten die er <em>toe doen</em>. Van CBS-buurtanalyses die lokaal beleid ondersteunen tot creatieve tools die de wereld een beetje leuker maken.</p>
-            <p>Onze missie is simpel: data inzetten voor <em>een betere wereld</em> — en daar plezier in hebben. Elk project begint met nieuwsgierigheid en eindigt met werkende software.</p>
-            <p>We werken met open data, open source en moderne webtechnologie. Geen complexe frameworks, maar snelle, efficiente applicaties die gewoon werken.</p>
+            <p>DataConsultants is een team van <strong>dataverzamelaars en datamodelleurs</strong>. Wij zijn gespecialiseerd in het vinden, verzamelen en koppelen van open databronnen tot samenhangende datasets.</p>
+            <p>Van CBS-statistieken tot BAG-adressen, van politiedata tot zorgkosten &mdash; wij <strong>verbinden</strong> wat los beschikbaar is tot bruikbare data voor dashboards, wetenschappelijke analyses, dataprojecten en beleidsondersteuning.</p>
+            <p>Onze focus ligt op <strong>inzicht</strong>, niet op dienstverlening. Wij bouwen data-infrastructuur en delen kennis.</p>
         </div>
-        <div class="about-stats anim-slide-right">
-            <div class="stat">
-                <div class="stat-num" data-target="6">0</div>
-                <div class="stat-label">Projecten</div>
+        <ul class="data-sources-list anim-slide-right stagger-children">
+            <li>
+                <span class="material-icons-round">analytics</span>
+                <span><strong>CBS StatLine</strong> &mdash; Kerncijfers wijken, buurten, gemeenten</span>
+            </li>
+            <li>
+                <span class="material-icons-round">home</span>
+                <span><strong>BAG / Kadaster</strong> &mdash; 9.7M adressen met metadata</span>
+            </li>
+            <li>
+                <span class="material-icons-round">local_police</span>
+                <span><strong>Politie</strong> &mdash; Misdrijfcijfers per buurt</span>
+            </li>
+            <li>
+                <span class="material-icons-round">health_and_safety</span>
+                <span><strong>Vektis</strong> &mdash; Zorgkosten per gemeente</span>
+            </li>
+            <li>
+                <span class="material-icons-round">map</span>
+                <span><strong>PDOK</strong> &mdash; Geo-grenzen &amp; topografie</span>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- GeoInzicht -->
+<section id="geoinzicht">
+    <h2 class="section-title anim-fade-in"><span>//</span> GeoInzicht</h2>
+    <p class="section-subtitle anim-fade-in">Ons vlaggenschip: een open-source geo-data platform van Nederland.</p>
+
+    <div class="geo-intro anim-fade-in">
+        <p><strong>GeoInzicht</strong> is een open-source geo-data platform dat publieke databronnen combineert tot een interactief dashboard van Nederland. Van CBS buurtstatistieken tot BAG adressen, van politiecriminaliteit tot zorgkosten &mdash; alles op een kaart.</p>
+        <p>Het platform stelt iedereen in staat om patronen te ontdekken in de Nederlandse samenleving: hoe hangen inkomen, criminaliteit, zorgkosten, woningwaarde en bevolkingssamenstelling samen? Welke buurten lijken op elkaar? Waar zit de ongelijkheid?</p>
+    </div>
+
+    <!-- Data Sources -->
+    <div class="geo-sources stagger-children anim-fade-in">
+        <div class="geo-source-card">
+            <span class="material-icons-round">analytics</span>
+            <h4>CBS StatLine</h4>
+            <p>Kerncijfers Wijken en Buurten, 2013&ndash;2025, 16 domeinen</p>
+        </div>
+        <div class="geo-source-card">
+            <span class="material-icons-round">home_work</span>
+            <h4>BAG / Kadaster</h4>
+            <p>9.7 miljoen adressen met bouwjaar, oppervlakte, status</p>
+        </div>
+        <div class="geo-source-card">
+            <span class="material-icons-round">local_police</span>
+            <h4>Politie</h4>
+            <p>Misdrijfcijfers per buurt, 14 indicatoren</p>
+        </div>
+        <div class="geo-source-card">
+            <span class="material-icons-round">health_and_safety</span>
+            <h4>Vektis</h4>
+            <p>Zorgkosten per gemeente, specialisaties</p>
+        </div>
+        <div class="geo-source-card">
+            <span class="material-icons-round">public</span>
+            <h4>PDOK</h4>
+            <p>Geo-grenzen: buurt, wijk, gemeente</p>
+        </div>
+    </div>
+
+    <!-- Wat willen we aantonen -->
+    <div class="geo-mission anim-fade-in">
+        <h3><span style="color:var(--accent)">&gt;</span> Wat willen we aantonen?</h3>
+        <ul class="mission-points">
+            <li>
+                <span class="material-icons-round">link</span>
+                <span>Dat open overheidsdata gecombineerd veel meer vertelt dan losse datasets</span>
+            </li>
+            <li>
+                <span class="material-icons-round">insights</span>
+                <span>Correlaties tussen buurteigenschappen: hoe hangen inkomen, criminaliteit, zorgkosten, woningwaarde en bevolkingssamenstelling samen?</span>
+            </li>
+            <li>
+                <span class="material-icons-round">visibility</span>
+                <span>Geografische patronen in ongelijkheid zichtbaar maken</span>
+            </li>
+            <li>
+                <span class="material-icons-round">lock_open</span>
+                <span>Een transparant alternatief bieden voor commerciele dataplatforms</span>
+            </li>
+            <li>
+                <span class="material-icons-round">balance</span>
+                <span>Data-gedreven beleidsondersteuning mogelijk maken voor iedereen</span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Architecture -->
+    <div class="geo-architecture anim-fade-in">
+        <h3><span style="color:var(--accent)">&gt;</span> Architectuur</h3>
+        <div class="arch-pipeline">
+            <div class="arch-stage">
+                <span class="material-icons-round">cloud_download</span>
+                <h4>Brondata</h4>
+                <p>CBS / BAG / Politie / Vektis</p>
             </div>
-            <div class="stat">
-                <div class="stat-num" data-target="12">0</div>
-                <div class="stat-label">Technologieen</div>
+            <span class="arch-arrow material-icons-round">chevron_right</span>
+            <div class="arch-stage">
+                <span class="material-icons-round">storage</span>
+                <h4>Staging</h4>
+                <p>SQL Server</p>
             </div>
-            <div class="stat">
-                <div class="stat-num" data-target="16">0</div>
-                <div class="stat-label">Data Domeinen</div>
+            <span class="arch-arrow material-icons-round">chevron_right</span>
+            <div class="arch-stage">
+                <span class="material-icons-round">database</span>
+                <h4>DWH</h4>
+                <p>PostgreSQL / PostGIS</p>
             </div>
+            <span class="arch-arrow material-icons-round">chevron_right</span>
+            <div class="arch-stage">
+                <span class="material-icons-round">public</span>
+                <h4>Geo Services</h4>
+                <p>GeoServer WFS/WMS</p>
+            </div>
+            <span class="arch-arrow material-icons-round">chevron_right</span>
+            <div class="arch-stage">
+                <span class="material-icons-round">api</span>
+                <h4>API</h4>
+                <p>Flask REST</p>
+            </div>
+            <span class="arch-arrow material-icons-round">chevron_right</span>
+            <div class="arch-stage">
+                <span class="material-icons-round">dashboard</span>
+                <h4>Dashboard</h4>
+                <p>Leaflet + Chart.js</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="geo-stats stagger-children anim-fade-in">
+        <div class="stat-card">
+            <div class="stat-number" data-target="14700" data-suffix="+">0</div>
+            <div class="stat-label">Buurten</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" data-target="3475">0</div>
+            <div class="stat-label">Wijken</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" data-target="343">0</div>
+            <div class="stat-label">Gemeenten</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" data-target="9.7" data-suffix="M" data-decimal="true">0</div>
+            <div class="stat-label">BAG Adressen</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" data-target="12" data-suffix=" jaar">0</div>
+            <div class="stat-label">Trenddata (2013&ndash;2025)</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" data-target="16">0</div>
+            <div class="stat-label">Data Domeinen</div>
+        </div>
+    </div>
+
+    <!-- DWH vs App -->
+    <h3 class="section-title anim-fade-in" style="font-size:22px; margin-bottom:24px;"><span>&gt;</span> Twee varianten</h3>
+    <div class="geo-comparison anim-fade-in">
+        <div class="compare-card">
+            <h4>GeoInzicht DWH</h4>
+            <div class="repo-name">geoinzicht-dwh</div>
+            <p>Het complete data warehouse &mdash; de volledige pipeline van brondata tot dashboard. SQL Server staging, PostgreSQL/PostGIS DWH, GeoServer geo-services. Voor power users en data-analisten.</p>
+            <div class="compare-tags">
+                <span class="compare-tag">SQL Server</span>
+                <span class="compare-tag">PostgreSQL</span>
+                <span class="compare-tag">PostGIS</span>
+                <span class="compare-tag">GeoServer</span>
+                <span class="compare-tag">Flask</span>
+                <span class="compare-tag">Python</span>
+            </div>
+        </div>
+        <div class="compare-card">
+            <h4>GeoInzicht App</h4>
+            <div class="repo-name">geoinzicht-app</div>
+            <p>De lichtgewicht standalone app die werkt met API's en lokale GeoJSON bestanden. Geen database nodig &mdash; direct bruikbaar voor iedereen. Ideaal voor verkenning en presentatie.</p>
+            <div class="compare-tags">
+                <span class="compare-tag">JavaScript</span>
+                <span class="compare-tag">GeoJSON</span>
+                <span class="compare-tag">Leaflet</span>
+                <span class="compare-tag">Chart.js</span>
+                <span class="compare-tag">API</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Technologie Stack -->
+<section id="tech">
+    <h2 class="section-title anim-fade-in"><span>//</span> Technologie</h2>
+    <p class="section-subtitle anim-fade-in">De tools en technologieen waarmee we werken.</p>
+    <div class="tech-categories anim-fade-in">
+        <div class="tech-category">
+            <h3><span class="material-icons-round">storage</span> Data</h3>
+            <div class="tech-grid stagger-children">
+                <div class="tech-badge">
+                    <div class="tech-badge-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    </div>
+                    <span class="tech-badge-name">Python</span>
+                </div>
+                <div class="tech-badge">
+                    <div class="tech-badge-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg>
+                    </div>
+                    <span class="tech-badge-name">SQL Server</span>
+                </div>
+                <div class="tech-badge">
+                    <div class="tech-badge-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C7.58 3 4 4.79 4 7v10c0 2.21 3.58 4 8 4s8-1.79 8-4V7c0-2.21-3.58-4-8-4zm0 2c3.87 0 6 1.5 6 2s-2.13 2-6 2-6-1.5-6-2 2.13-2 6-2zM6 17V9.73C7.61 10.53 9.72 11 12 11s4.39-.47 6-1.27V17c0 .5-2.13 2-6 2s-6-1.5-6-2z"/></svg>
+                    </div>
+                    <span class="tech-badge-name">PostgreSQL</span>
+                </div>
+                <div class="tech-badge">
+                    <div class="tech-badge-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                    </div>
+                    <span class="tech-badge-name">PostGIS</span>
+                </div>
+            </div>
+        </div>
+        <div class="tech-category">
+            <h3><span class="material-icons-round">public</span> Geo</h3>
+            <div class="tech-grid stagger-children">
+                <div class="tech-badge">
+                    <div class="tech-badge-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>
+                    </div>
+                    <span class="tech-badge-name">GeoServer</span>
+                </div>
+                <div class="tech-badge">
+                    <div class="tech-badge-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM5 15l3.5-4.5 2.5 3.01L14.5 9 19 15H5z"/></svg>
+                    </div>
+                    <span class="tech-badge-name">Leaflet.js</span>
+                </div>
+                <div class="tech-badge">
+                    <div class="tech-badge-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+                    </div>
+                    <span class="tech-badge-name">PDOK</span>
+                </div>
+                <div class="tech-badge">
+                    <div class="tech-badge-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
+                    </div>
+                    <span class="tech-badge-name">WFS / WMS</span>
+                </div>
+            </div>
+        </div>
+        <div class="tech-category">
+            <h3><span class="material-icons-round">code</span> Web</h3>
+            <div class="tech-grid stagger-children">
+                <div class="tech-badge">
+                    <div class="tech-badge-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16z"/></svg>
+                    </div>
+                    <span class="tech-badge-name">Flask</span>
+                </div>
+                <div class="tech-badge">
+                    <div class="tech-badge-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
+                    </div>
+                    <span class="tech-badge-name">JavaScript</span>
+                </div>
+                <div class="tech-badge">
+                    <div class="tech-badge-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v18H3V3zm16 16V5H5v14h14z"/></svg>
+                    </div>
+                    <span class="tech-badge-name">HTML / CSS</span>
+                </div>
+                <div class="tech-badge">
+                    <div class="tech-badge-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg>
+                    </div>
+                    <span class="tech-badge-name">Chart.js</span>
+                </div>
+            </div>
+        </div>
+        <div class="tech-category">
+            <h3><span class="material-icons-round">build</span> Tools</h3>
+            <div class="tech-grid stagger-children">
+                <div class="tech-badge">
+                    <div class="tech-badge-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v2h-2v-2zm0-2h2V7h-2v7z"/></svg>
+                    </div>
+                    <span class="tech-badge-name">Git</span>
+                </div>
+                <div class="tech-badge">
+                    <div class="tech-badge-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM5 7h14v2H5V7zm0 4h14v2H5v-2zm0 4h10v2H5v-2z"/></svg>
+                    </div>
+                    <span class="tech-badge-name">Docker (planned)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Open Data Visie -->
+<section id="visie">
+    <h2 class="section-title anim-fade-in"><span>//</span> Open Data Visie</h2>
+    <p class="section-subtitle anim-fade-in">Onze kijk op data, transparantie en publieke kennis.</p>
+    <div class="visie-grid stagger-children anim-fade-in">
+        <div class="visie-card">
+            <span class="material-icons-round">public</span>
+            <h3>Publiek goed</h3>
+            <p>Open data is een publiek goed. Data die met belastinggeld is verzameld, hoort beschikbaar te zijn voor iedereen.</p>
+        </div>
+        <div class="visie-card">
+            <span class="material-icons-round">visibility</span>
+            <h3>Transparantie</h3>
+            <p>Overheidsdata hoort transparant en toegankelijk te zijn. Niet verborgen in PDF-rapporten, maar vindbaar en bruikbaar.</p>
+        </div>
+        <div class="visie-card">
+            <span class="material-icons-round">hub</span>
+            <h3>Combineren = inzicht</h3>
+            <p>Door data te combineren ontstaat inzicht dat losse datasets niet bieden. Het geheel is meer dan de som der delen.</p>
+        </div>
+        <div class="visie-card">
+            <span class="material-icons-round">science</span>
+            <h3>Reproduceerbaar</h3>
+            <p>We geloven in reproduceerbare, open-source data-analyse. Iedereen moet onze resultaten kunnen verifieren en verbeteren.</p>
         </div>
     </div>
 </section>
@@ -1887,448 +1234,246 @@ section.section-visible {
 <!-- Contact -->
 <section id="contact">
     <h2 class="section-title anim-fade-in"><span>//</span> Contact</h2>
-    <p class="section-subtitle anim-fade-in">Neem gerust contact op voor een dataproject of gewoon een goed gesprek.</p>
-    <div class="contact-layout">
-        <div class="contact-info anim-slide-left">
-            <div class="contact-card">
-                <div class="contact-card-icon"><span class="material-icons-round">email</span></div>
-                <div class="contact-card-text">
-                    <h3>Email</h3>
-                    <p><a href="mailto:info@dataconsultants.nl">info@dataconsultants.nl</a></p>
-                </div>
-            </div>
-            <div class="contact-card">
-                <div class="contact-card-icon"><span class="material-icons-round">location_on</span></div>
-                <div class="contact-card-text">
-                    <h3>Locatie</h3>
-                    <p>Nederland</p>
-                </div>
-            </div>
-            <div class="contact-card">
-                <div class="contact-card-icon"><span class="material-icons-round">code</span></div>
-                <div class="contact-card-text">
-                    <h3>GitHub</h3>
-                    <p><a href="https://github.com/AnneVersion" target="_blank">AnneVersion</a></p>
-                </div>
-            </div>
+    <p class="section-subtitle anim-fade-in" style="margin-left:auto; margin-right:auto;">Neem contact op of bekijk onze repositories.</p>
+    <div class="contact-content anim-fade-in">
+        <a href="mailto:info@dataconsultants.nl" class="contact-email">
+            <span class="material-icons-round">mail</span>
+            info@dataconsultants.nl
+        </a>
+        <div class="github-links">
+            <a href="https://github.com/AnneVersion/geoinzicht-dwh" target="_blank" class="github-link">
+                <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                geoinzicht-dwh
+            </a>
+            <a href="https://github.com/AnneVersion/geoinzicht-app" target="_blank" class="github-link">
+                <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                geoinzicht-app
+            </a>
         </div>
-        <form class="contact-form anim-slide-right" id="contact-form">
-            <h3>Stuur een bericht</h3>
-            <div class="form-group">
-                <label for="contact-naam">Naam</label>
-                <input type="text" id="contact-naam" name="naam" placeholder="Je naam" required>
-            </div>
-            <div class="form-group">
-                <label for="contact-email">Email</label>
-                <input type="email" id="contact-email" name="email" placeholder="je@email.nl" required>
-            </div>
-            <div class="form-group">
-                <label for="contact-bericht">Bericht</label>
-                <textarea id="contact-bericht" name="bericht" placeholder="Waar kunnen we je mee helpen?" required></textarea>
-            </div>
-            <button type="submit" class="btn-submit">
-                <span class="material-icons-round" style="font-size:18px">send</span>
-                Verstuur bericht
-            </button>
-        </form>
     </div>
 </section>
 
 <!-- Footer -->
 <footer>
-    <div class="footer-grid">
-        <div class="footer-col">
-            <h4>DataConsultants</h4>
-            <p>Data analyse, geo-visualisatie en web development. Dataprojecten voor een betere wereld — en voor de fun.</p>
-            <div class="footer-social">
-                <a href="https://github.com/AnneVersion" target="_blank" aria-label="GitHub">
-                    <span class="material-icons-round">code</span>
-                </a>
-                <a href="https://linkedin.com/" target="_blank" aria-label="LinkedIn">
-                    <span class="material-icons-round">work</span>
-                </a>
-                <a href="https://twitter.com/" target="_blank" aria-label="Twitter/X">
-                    <span class="material-icons-round">tag</span>
-                </a>
-                <a href="mailto:info@dataconsultants.nl" aria-label="Email">
-                    <span class="material-icons-round">email</span>
-                </a>
-            </div>
-        </div>
-        <div class="footer-col">
-            <h4>Navigatie</h4>
-            <ul>
-                <li><a href="#diensten">Diensten</a></li>
-                <li><a href="#technologieen">Technologieen</a></li>
-                <li><a href="#werkwijze">Werkwijze</a></li>
-                <li><a href="#cases">Case Studies</a></li>
-                <li><a href="#projecten">Projecten</a></li>
-            </ul>
-        </div>
-        <div class="footer-col">
-            <h4>Contact</h4>
-            <ul>
-                <li><a href="mailto:info@dataconsultants.nl">info@dataconsultants.nl</a></li>
-                <li><a href="https://github.com/AnneVersion" target="_blank">GitHub: AnneVersion</a></li>
-                <li><a href="#contact">Stuur een bericht</a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <div class="footer-bottom-left">
-            <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="1.5"/>
-                <circle cx="16" cy="16" r="3" fill="currentColor" opacity=".4"/>
-                <ellipse cx="16" cy="16" rx="14" ry="5" stroke="currentColor" stroke-width=".7" opacity=".4" transform="rotate(-8 16 16)"/>
-            </svg>
-            &copy; 2026 DataConsultants. Alle rechten voorbehouden.
-        </div>
-        <div class="footer-bottom-right">
-            Gebouwd met open source technologie
-        </div>
-    </div>
+    <p>&copy; 2025 DataConsultants &mdash; Dataverzamelaars &amp; Datamodelleurs</p>
 </footer>
 
-<!-- Scroll to top button -->
-<button class="scroll-top" id="scroll-top" aria-label="Scroll naar boven">
+<!-- Scroll to top -->
+<button class="scroll-top" id="scroll-top" title="Naar boven">
     <span class="material-icons-round">keyboard_arrow_up</span>
 </button>
 
 <script>
-// ---- Theme toggle ----
-(function() {
-    const html = document.documentElement;
-    const toggle = document.getElementById('theme-toggle');
-    const icon = document.getElementById('theme-icon');
-    const saved = localStorage.getItem('dc-theme');
-    if (saved === 'light') {
-        html.setAttribute('data-theme', 'light');
-        icon.textContent = 'dark_mode';
-    }
-    toggle.addEventListener('click', () => {
-        const isLight = html.getAttribute('data-theme') === 'light';
-        if (isLight) {
-            html.removeAttribute('data-theme');
-            icon.textContent = 'light_mode';
-            localStorage.setItem('dc-theme', 'dark');
-        } else {
-            html.setAttribute('data-theme', 'light');
-            icon.textContent = 'dark_mode';
-            localStorage.setItem('dc-theme', 'light');
-        }
-    });
-})();
-
-// ---- Typewriter effect ----
-(function() {
-    const words = ['Data Analyse', 'Geo Visualisatie', 'Web Development', 'API Integratie'];
-    const el = document.getElementById('typewriter');
-    let wordIdx = 0, charIdx = 0, deleting = false;
-    function tick() {
-        const word = words[wordIdx];
-        if (!deleting) {
-            charIdx++;
-            el.textContent = word.substring(0, charIdx);
-            if (charIdx === word.length) {
-                setTimeout(() => { deleting = true; tick(); }, 2000);
-                return;
-            }
-            setTimeout(tick, 90);
-        } else {
-            charIdx--;
-            el.textContent = word.substring(0, charIdx);
-            if (charIdx === 0) {
-                deleting = false;
-                wordIdx = (wordIdx + 1) % words.length;
-                setTimeout(tick, 400);
-                return;
-            }
-            setTimeout(tick, 50);
-        }
-    }
-    tick();
-})();
-
-// ---- Mobile menu ----
-document.getElementById('hamburger').addEventListener('click', () => {
-    document.getElementById('nav-links').classList.toggle('open');
-});
-document.querySelectorAll('.nav-links a').forEach(a => {
-    a.addEventListener('click', () => document.getElementById('nav-links').classList.remove('open'));
-});
-
-// ---- Active nav highlighting ----
-const sections = document.querySelectorAll('section[id]');
-const navLinks = document.querySelectorAll('.nav-links a');
-const navObserver = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-        if (e.isIntersecting) {
-            navLinks.forEach(l => l.classList.remove('active'));
-            const link = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
-            if (link) link.classList.add('active');
-        }
-    });
-}, { threshold: 0.3 });
-sections.forEach(s => navObserver.observe(s));
-
-// ---- Scroll-triggered animations ----
-const animObserver = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-        if (e.isIntersecting) {
-            e.target.classList.add('visible');
-            animObserver.unobserve(e.target);
-        }
-    });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-document.querySelectorAll('.anim-fade-in, .anim-slide-left, .anim-slide-right, .anim-scale').forEach(el => {
-    animObserver.observe(el);
-});
-
-// ---- Stats counter (about section) ----
-let statsCounted = false;
-const statsObserver = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-        if (e.isIntersecting && !statsCounted) {
-            statsCounted = true;
-            document.querySelectorAll('.stat-num').forEach(el => {
-                animateCounter(el, parseInt(el.dataset.target), '', 1200);
-            });
-        }
-    });
-}, { threshold: 0.5 });
-const statsSection = document.querySelector('.about-stats');
-if (statsSection) statsObserver.observe(statsSection);
-
-// ---- Hero stats counter ----
-let heroStatsCounted = false;
-const heroStatsObserver = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-        if (e.isIntersecting && !heroStatsCounted) {
-            heroStatsCounted = true;
-            document.querySelectorAll('.hero-stat-num').forEach(el => {
-                const target = parseInt(el.dataset.target);
-                const suffix = el.dataset.suffix || '';
-                animateCounter(el, target, suffix, 1500);
-            });
-        }
-    });
-}, { threshold: 0.5 });
-const heroStats = document.querySelector('.hero-stats');
-if (heroStats) heroStatsObserver.observe(heroStats);
-
-// ---- Shared counter animation ----
-function animateCounter(el, target, suffix, duration) {
-    const start = performance.now();
-    function update(now) {
-        const elapsed = now - start;
-        const progress = Math.min(elapsed / duration, 1);
-        // ease out cubic
-        const eased = 1 - Math.pow(1 - progress, 3);
-        const current = Math.round(eased * target);
-        el.textContent = current + suffix;
-        if (progress < 1) requestAnimationFrame(update);
-    }
-    requestAnimationFrame(update);
-}
-
-// ---- Scroll to top button ----
-const scrollTopBtn = document.getElementById('scroll-top');
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 600) {
-        scrollTopBtn.classList.add('show');
-    } else {
-        scrollTopBtn.classList.remove('show');
-    }
-}, { passive: true });
-scrollTopBtn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-});
-
-// ---- Contact form (mailto) ----
-document.getElementById('contact-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const naam = document.getElementById('contact-naam').value.trim();
-    const email = document.getElementById('contact-email').value.trim();
-    const bericht = document.getElementById('contact-bericht').value.trim();
-    const subject = encodeURIComponent('Contact via DataConsultants website');
-    const body = encodeURIComponent(`Naam: ${naam}\nEmail: ${email}\n\n${bericht}`);
-    window.location.href = `mailto:info@dataconsultants.nl?subject=${subject}&body=${body}`;
-});
-
-// ---- Particle / dot grid background ----
+/* ---- Particle Canvas ---- */
 (function() {
     const canvas = document.getElementById('particle-canvas');
     const ctx = canvas.getContext('2d');
-    let particles = [];
-    let w, h;
-    const PARTICLE_COUNT = 80;
-    const CONNECTION_DIST = 120;
-    let mouse = { x: -1000, y: -1000 };
-    let animId;
+    let w, h, particles = [];
 
     function resize() {
         w = canvas.width = window.innerWidth;
         h = canvas.height = window.innerHeight;
     }
+    resize();
+    window.addEventListener('resize', resize);
 
-    function createParticles() {
-        particles = [];
-        for (let i = 0; i < PARTICLE_COUNT; i++) {
-            particles.push({
-                x: Math.random() * w,
-                y: Math.random() * h,
-                vx: (Math.random() - 0.5) * 0.3,
-                vy: (Math.random() - 0.5) * 0.3,
-                r: Math.random() * 1.5 + 0.5,
-                opacity: Math.random() * 0.3 + 0.1
-            });
+    class Particle {
+        constructor() { this.reset(); }
+        reset() {
+            this.x = Math.random() * w;
+            this.y = Math.random() * h;
+            this.vx = (Math.random() - .5) * .3;
+            this.vy = (Math.random() - .5) * .3;
+            this.r = Math.random() * 1.5 + .5;
+            this.alpha = Math.random() * .3 + .1;
+        }
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+            if (this.x < 0 || this.x > w || this.y < 0 || this.y > h) this.reset();
+        }
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(57, 255, 20, ${this.alpha})`;
+            ctx.fill();
         }
     }
 
-    function draw() {
-        ctx.clearRect(0, 0, w, h);
+    const count = Math.min(80, Math.floor(w * h / 15000));
+    for (let i = 0; i < count; i++) particles.push(new Particle());
 
-        // Draw connections
+    function drawLines() {
         for (let i = 0; i < particles.length; i++) {
             for (let j = i + 1; j < particles.length; j++) {
                 const dx = particles[i].x - particles[j].x;
                 const dy = particles[i].y - particles[j].y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < CONNECTION_DIST) {
-                    const alpha = (1 - dist / CONNECTION_DIST) * 0.08;
-                    ctx.strokeStyle = `rgba(57, 255, 20, ${alpha})`;
-                    ctx.lineWidth = 0.5;
+                if (dist < 120) {
                     ctx.beginPath();
                     ctx.moveTo(particles[i].x, particles[i].y);
                     ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.strokeStyle = `rgba(57, 255, 20, ${.06 * (1 - dist / 120)})`;
                     ctx.stroke();
                 }
             }
         }
-
-        // Draw & update particles
-        for (const p of particles) {
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(57, 255, 20, ${p.opacity})`;
-            ctx.fill();
-
-            // Mouse interaction
-            const mdx = p.x - mouse.x;
-            const mdy = p.y - mouse.y;
-            const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
-            if (mdist < 150) {
-                const force = (150 - mdist) / 150 * 0.02;
-                p.vx += mdx / mdist * force;
-                p.vy += mdy / mdist * force;
-            }
-
-            p.x += p.vx;
-            p.y += p.vy;
-
-            // Damping
-            p.vx *= 0.99;
-            p.vy *= 0.99;
-
-            // Wrap around
-            if (p.x < -10) p.x = w + 10;
-            if (p.x > w + 10) p.x = -10;
-            if (p.y < -10) p.y = h + 10;
-            if (p.y > h + 10) p.y = -10;
-        }
-
-        animId = requestAnimationFrame(draw);
     }
 
-    window.addEventListener('resize', () => {
-        resize();
-        createParticles();
-    });
-    window.addEventListener('mousemove', e => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-    }, { passive: true });
-
-    resize();
-    createParticles();
-    draw();
+    function animate() {
+        ctx.clearRect(0, 0, w, h);
+        particles.forEach(p => { p.update(); p.draw(); });
+        drawLines();
+        requestAnimationFrame(animate);
+    }
+    animate();
 })();
 
-// ---- App status checker ----
-const PROJECTS = [
-    { port: 8888, url: 'http://localhost:8888/dashboard_cbs_buurt.html' },
-    { port: 8091, url: 'http://localhost:8091' },
-    { port: 8090, url: 'http://localhost:8090' },
-    { port: 8765, url: 'http://localhost:8765' },
-    { port: 8086, url: 'http://localhost:8086' },
-    { port: 8088, url: 'http://localhost:8088' }
-];
-
-async function checkStatus(port, url) {
-    const dot = document.getElementById(`status-${port}`);
-    const label = dot?.parentElement?.querySelector('span:last-child');
-    try {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 2500);
-        const resp = await fetch(url, { mode: 'cors', signal: controller.signal });
-        clearTimeout(timeout);
-        if (resp.ok || resp.status === 0) {
-            dot?.classList.add('online');
-            dot?.classList.remove('offline');
-            if (label) label.textContent = 'online';
+/* ---- Theme Toggle ---- */
+(function() {
+    const toggle = document.getElementById('theme-toggle');
+    const icon = toggle.querySelector('.material-icons-round');
+    const stored = localStorage.getItem('dc-theme');
+    if (stored === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        icon.textContent = 'light_mode';
+    }
+    toggle.addEventListener('click', () => {
+        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+        if (isLight) {
+            document.documentElement.removeAttribute('data-theme');
+            icon.textContent = 'dark_mode';
+            localStorage.setItem('dc-theme', 'dark');
         } else {
-            throw new Error('not ok');
+            document.documentElement.setAttribute('data-theme', 'light');
+            icon.textContent = 'light_mode';
+            localStorage.setItem('dc-theme', 'light');
         }
-    } catch {
-        // Fallback: try no-cors (opaque response = server is at least reachable)
-        try {
-            const controller2 = new AbortController();
-            const timeout2 = setTimeout(() => controller2.abort(), 2500);
-            await fetch(url, { mode: 'no-cors', signal: controller2.signal });
-            clearTimeout(timeout2);
-            dot?.classList.add('online');
-            dot?.classList.remove('offline');
-            if (label) label.textContent = 'online';
-        } catch {
-            dot?.classList.add('offline');
-            dot?.classList.remove('online');
-            if (label) label.textContent = 'offline';
+    });
+})();
+
+/* ---- Mobile Menu ---- */
+document.getElementById('hamburger').addEventListener('click', () => {
+    document.getElementById('nav-links').classList.toggle('open');
+});
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        document.getElementById('nav-links').classList.remove('open');
+    });
+});
+
+/* ---- Typewriter ---- */
+(function() {
+    const el = document.getElementById('typewriter');
+    const words = ['Open Data', 'Geo-analyse', 'Data Modellering', 'Dashboards'];
+    let wordIdx = 0, charIdx = 0, deleting = false;
+
+    function type() {
+        const current = words[wordIdx];
+        if (!deleting) {
+            el.textContent = current.substring(0, charIdx + 1);
+            charIdx++;
+            if (charIdx === current.length) {
+                setTimeout(() => { deleting = true; type(); }, 2000);
+                return;
+            }
+            setTimeout(type, 80);
+        } else {
+            el.textContent = current.substring(0, charIdx - 1);
+            charIdx--;
+            if (charIdx === 0) {
+                deleting = false;
+                wordIdx = (wordIdx + 1) % words.length;
+                setTimeout(type, 400);
+                return;
+            }
+            setTimeout(type, 40);
         }
     }
-}
+    type();
+})();
 
-function checkAllStatuses() {
-    PROJECTS.forEach(p => checkStatus(p.port, p.url));
-}
-checkAllStatuses();
-setInterval(checkAllStatuses, 30000);
+/* ---- Scroll Animations ---- */
+(function() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                // animate child elements with stagger
+                entry.target.querySelectorAll('.anim-fade-in, .anim-slide-left, .anim-slide-right, .anim-scale').forEach(child => {
+                    child.classList.add('visible');
+                });
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-// ---- Section transitions ----
-const sectionObserver = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-        if (e.isIntersecting) {
-            e.target.classList.add('section-visible');
-        }
+    document.querySelectorAll('.anim-fade-in, .anim-slide-left, .anim-slide-right, .anim-scale').forEach(el => {
+        observer.observe(el);
     });
-}, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
-document.querySelectorAll('section:not(#hero)').forEach(s => sectionObserver.observe(s));
+})();
 
-// ---- Skills progress bars ----
-let skillsAnimated = false;
-const skillsObserver = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-        if (e.isIntersecting && !skillsAnimated) {
-            skillsAnimated = true;
-            document.querySelectorAll('.skill-bar-fill').forEach((bar, i) => {
-                setTimeout(() => {
-                    bar.style.width = bar.dataset.width + '%';
-                }, i * 100);
-            });
-        }
+/* ---- Stats Counter Animation ---- */
+(function() {
+    const counters = document.querySelectorAll('.stat-number[data-target]');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !entry.target.dataset.animated) {
+                entry.target.dataset.animated = 'true';
+                const target = parseFloat(entry.target.dataset.target);
+                const suffix = entry.target.dataset.suffix || '';
+                const isDecimal = entry.target.dataset.decimal === 'true';
+                const duration = 2000;
+                const start = performance.now();
+
+                function update(now) {
+                    const elapsed = now - start;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    const current = target * eased;
+
+                    if (isDecimal) {
+                        entry.target.textContent = current.toFixed(1) + suffix;
+                    } else {
+                        entry.target.textContent = Math.floor(current).toLocaleString('nl-NL') + suffix;
+                    }
+
+                    if (progress < 1) requestAnimationFrame(update);
+                }
+                requestAnimationFrame(update);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    counters.forEach(c => observer.observe(c));
+})();
+
+/* ---- Active Nav ---- */
+(function() {
+    const sections = document.querySelectorAll('section[id]');
+    const links = document.querySelectorAll('.nav-links a');
+
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const top = section.offsetTop - 100;
+            if (scrollY >= top) current = section.getAttribute('id');
+        });
+        links.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+        });
     });
-}, { threshold: 0.3 });
-const skillsGrid = document.getElementById('skills-grid');
-if (skillsGrid) skillsObserver.observe(skillsGrid);
+})();
+
+/* ---- Scroll to top ---- */
+(function() {
+    const btn = document.getElementById('scroll-top');
+    window.addEventListener('scroll', () => {
+        btn.classList.toggle('show', scrollY > 400);
+    });
+    btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+})();
 </script>
 </body>
 </html>
