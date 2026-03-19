@@ -801,6 +801,109 @@ section {
     fill: currentColor;
 }
 
+/* ---- Contact Form ---- */
+.contact-wrapper {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 32px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+.contact-form {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+}
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+.form-group {
+    margin-bottom: 16px;
+}
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    margin-bottom: 6px;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 14px;
+    transition: border-color .2s, box-shadow .2s;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+.form-group select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%2394a3b8'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+}
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+.form-success {
+    margin-top: 16px;
+    padding: 14px;
+    background: rgba(57, 255, 20, .1);
+    border: 1px solid rgba(57, 255, 20, .3);
+    border-radius: var(--radius-sm);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+.contact-side {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.contact-info-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+}
+.contact-info-card > .material-icons-round {
+    color: var(--accent);
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+.contact-info-card h4 {
+    color: var(--text);
+    margin-bottom: 6px;
+}
+.contact-info-card p {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+@media (max-width: 768px) {
+    .contact-wrapper { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+}
+
 /* ---- Footer ---- */
 footer {
     position: relative;
@@ -1234,21 +1337,72 @@ footer {
 <!-- Contact -->
 <section id="contact">
     <h2 class="section-title anim-fade-in"><span>//</span> Contact</h2>
-    <p class="section-subtitle anim-fade-in" style="margin-left:auto; margin-right:auto;">Neem contact op of bekijk onze repositories.</p>
-    <div class="contact-content anim-fade-in">
-        <a href="mailto:info@dataconsultants.nl" class="contact-email">
-            <span class="material-icons-round">mail</span>
-            info@dataconsultants.nl
-        </a>
-        <div class="github-links">
-            <a href="https://github.com/AnneVersion/geoinzicht-dwh" target="_blank" class="github-link">
-                <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                geoinzicht-dwh
-            </a>
-            <a href="https://github.com/AnneVersion/geoinzicht-app" target="_blank" class="github-link">
-                <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                geoinzicht-app
-            </a>
+    <p class="section-subtitle anim-fade-in" style="margin-left:auto; margin-right:auto;">Interesse in een samenwerking of heb je een datavraag? Neem contact op.</p>
+    <div class="contact-wrapper anim-fade-in">
+        <form class="contact-form" id="contact-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="contact-naam">Naam</label>
+                    <input type="text" id="contact-naam" name="naam" required placeholder="Je naam">
+                </div>
+                <div class="form-group">
+                    <label for="contact-organisatie">Organisatie</label>
+                    <input type="text" id="contact-organisatie" name="organisatie" placeholder="Bedrijf of instelling">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="contact-email">E-mail</label>
+                    <input type="email" id="contact-email" name="email" required placeholder="je@email.nl">
+                </div>
+                <div class="form-group">
+                    <label for="contact-telefoon">Telefoon <span style="color:var(--dim)">(optioneel)</span></label>
+                    <input type="tel" id="contact-telefoon" name="telefoon" placeholder="+31 6 ...">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="contact-onderwerp">Onderwerp</label>
+                <select id="contact-onderwerp" name="onderwerp">
+                    <option value="samenwerking">Samenwerking / Dataproject</option>
+                    <option value="geoinzicht">Vraag over GeoInzicht</option>
+                    <option value="data">Data-analyse aanvraag</option>
+                    <option value="overig">Overig</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="contact-bericht">Bericht</label>
+                <textarea id="contact-bericht" name="bericht" required rows="5" placeholder="Beschrijf je datavraag of projectidee..."></textarea>
+            </div>
+            <button type="submit" class="btn-primary" style="width:100%; justify-content:center;">
+                <span class="material-icons-round" style="font-size:18px">send</span>
+                Verstuur bericht
+            </button>
+            <div class="form-success" id="form-success" style="display:none;">
+                <span class="material-icons-round">check_circle</span>
+                Bedankt! We nemen zo snel mogelijk contact op.
+            </div>
+        </form>
+        <div class="contact-side">
+            <div class="contact-info-card">
+                <span class="material-icons-round">hub</span>
+                <h4>Open Source</h4>
+                <p>Bekijk onze code op GitHub</p>
+                <div class="github-links">
+                    <a href="https://github.com/AnneVersion/geoinzicht-dwh" target="_blank" class="github-link">
+                        <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        geoinzicht-dwh
+                    </a>
+                    <a href="https://github.com/AnneVersion/geoinzicht-app" target="_blank" class="github-link">
+                        <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        geoinzicht-app
+                    </a>
+                </div>
+            </div>
+            <div class="contact-info-card">
+                <span class="material-icons-round">location_on</span>
+                <h4>Locatie</h4>
+                <p>Nederland</p>
+            </div>
         </div>
     </div>
 </section>
@@ -1446,6 +1600,21 @@ document.querySelectorAll('.nav-links a').forEach(link => {
 
     counters.forEach(c => observer.observe(c));
 })();
+
+/* ---- Contact Form Submit ---- */
+document.getElementById('contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(this));
+    console.log('Contact formulier:', data);
+    // TODO: koppel aan backend API wanneer beschikbaar
+    this.querySelector('button[type="submit"]').style.display = 'none';
+    document.getElementById('form-success').style.display = 'flex';
+    setTimeout(() => {
+        this.reset();
+        this.querySelector('button[type="submit"]').style.display = '';
+        document.getElementById('form-success').style.display = 'none';
+    }, 4000);
+});
 
 /* ---- Active Nav ---- */
 (function() {
