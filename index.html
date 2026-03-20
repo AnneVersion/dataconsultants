@@ -647,11 +647,12 @@ section {
 /* ---- Projecten Grid ---- */
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
 }
-@media (max-width: 900px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 600px) { .projects-grid { grid-template-columns: 1fr; } }
+@media (max-width: 1100px) { .projects-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 768px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .projects-grid { grid-template-columns: 1fr; } }
 .project-card {
     position: relative;
     background: var(--panel);
@@ -680,13 +681,25 @@ section {
 }
 .project-status.dev { background: rgba(59, 130, 246, .15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, .3); }
 .project-status.poc { background: rgba(168, 85, 247, .15); color: #c084fc; border: 1px solid rgba(168, 85, 247, .3); }
+.project-status.beta { background: rgba(251, 191, 36, .15); color: #fbbf24; border: 1px solid rgba(251, 191, 36, .3); }
+.project-status.active { background: rgba(57, 255, 20, .15); color: var(--accent); border: 1px solid rgba(57, 255, 20, .3); }
 .project-card h3 { font-size: 17px; margin-bottom: 8px; color: var(--text); }
 .project-card p { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 14px; }
-.project-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.project-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
 .project-tags span {
     font-size: 10px; padding: 2px 7px; border-radius: 4px;
     background: rgba(30, 41, 59, .6); color: var(--dim); border: 1px solid var(--border);
 }
+.project-github {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--muted);
+    transition: color .2s;
+}
+.project-github:hover { color: var(--accent); text-decoration: none; }
+.project-github svg { width: 14px; height: 14px; fill: currentColor; }
 
 /* ---- Tech Stack ---- */
 .tech-categories {
@@ -1000,7 +1013,7 @@ footer {
     <div class="nav-right">
         <ul class="nav-links" id="nav-links">
             <li><a href="#over-ons">Over Ons</a></li>
-            <li><a href="http://localhost:8091" target="_blank">GeoInzicht <span class="material-icons-round" style="font-size:14px;vertical-align:middle">open_in_new</span></a></li>
+            <li><a href="https://github.com/AnneVersion/geoinzicht-app" target="_blank">GeoInzicht <span class="material-icons-round" style="font-size:14px;vertical-align:middle">open_in_new</span></a></li>
             <li><a href="#projecten">Projecten</a></li>
             <li><a href="#tech">Technologie</a></li>
             <li><a href="#visie">Visie</a></li>
@@ -1017,7 +1030,7 @@ footer {
 
 <!-- Hero -->
 <section id="hero">
-    <h1 class="hero-title anim-fade-in">Data<span style="color:var(--accent)">Consultants</span></h1>
+    <h1 class="hero-title anim-fade-in">Data <span style="color:var(--accent)">Consultants</span></h1>
     <p class="hero-tagline anim-fade-in">Wij verzamelen, modelleren en verbinden open data &mdash; voor dashboards, analyses en dataprojecten die ertoe doen.</p>
     <div class="typewriter-line anim-fade-in">
         <span id="typewriter"></span><span class="typewriter-cursor"></span>
@@ -1239,63 +1252,109 @@ footer {
     </div>
 </section>
 
-<!-- Projecten in Ontwikkeling -->
+<!-- Projecten in Ontwikkeling / POC's -->
 <section id="projecten">
     <h2 class="section-title anim-fade-in"><span>//</span> Projecten in Ontwikkeling / POC's</h2>
-    <p class="section-subtitle anim-fade-in">Naast GeoInzicht werken we aan diverse data- en softwareprojecten.</p>
+    <p class="section-subtitle anim-fade-in">Al onze data- en softwareprojecten in verschillende stadia van ontwikkeling.</p>
     <div class="projects-grid stagger-children anim-fade-in">
         <div class="project-card">
-            <div class="project-icon"><span class="material-icons-round">apartment</span></div>
-            <div class="project-status poc">POC</div>
-            <h3>Vastgoed Booking Engine</h3>
-            <p>Serviced apartments platform met booking wizard, iDEAL betalingen, admin panel en beschikbaarheidskalender. PostgreSQL backend met interactieve Leaflet kaart.</p>
+            <div class="project-icon"><span class="material-icons-round">public</span></div>
+            <div class="project-status active">Actief</div>
+            <h3>GeoInzicht DWH</h3>
+            <p>Data warehouse voor CBS buurtdata met 16 domeinen. Geo-visualisatie op kaart met GeoServer. Koppelt CBS, BAG, PDOK en andere open data bronnen.</p>
             <div class="project-tags">
-                <span>Flask</span><span>PostgreSQL</span><span>Leaflet</span><span>iDEAL</span>
+                <span>Python</span><span>Flask</span><span>PostgreSQL</span><span>PostGIS</span><span>GeoServer</span>
             </div>
+            <a href="https://github.com/AnneVersion/geoinzicht-dwh" target="_blank" class="project-github">
+                <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                GitHub
+            </a>
+        </div>
+        <div class="project-card">
+            <div class="project-icon"><span class="material-icons-round">map</span></div>
+            <div class="project-status active">Actief</div>
+            <h3>GeoInzicht App</h3>
+            <p>Standalone dashboard app voor geo-analyse. Werkt met API's en lokale GeoJSON bestanden. Geen database nodig.</p>
+            <div class="project-tags">
+                <span>JavaScript</span><span>HTML/CSS</span><span>Leaflet</span><span>Chart.js</span>
+            </div>
+            <a href="https://github.com/AnneVersion/geoinzicht-app" target="_blank" class="project-github">
+                <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                GitHub
+            </a>
+        </div>
+        <div class="project-card">
+            <div class="project-icon"><span class="material-icons-round">apartment</span></div>
+            <div class="project-status beta">Beta</div>
+            <h3>Serviced Apartments</h3>
+            <p>Booking engine voor short-stay appartementen. 5-stappen wizard, admin panel, iDEAL betalingen, PostgreSQL backend.</p>
+            <div class="project-tags">
+                <span>Python</span><span>Flask</span><span>PostgreSQL</span><span>Leaflet</span><span>iDEAL</span>
+            </div>
+            <a href="https://github.com/AnneVersion/vastgoed" target="_blank" class="project-github">
+                <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                GitHub
+            </a>
         </div>
         <div class="project-card">
             <div class="project-icon"><span class="material-icons-round">music_note</span></div>
-            <div class="project-status dev">In Ontwikkeling</div>
+            <div class="project-status poc">POC</div>
             <h3>DAW Platform</h3>
-            <p>Browser-based muziekproductie platform. DAW met timeline en mixer, DJ app met streaming, audio editor, producer contests en live kanalen. Web Audio API.</p>
+            <p>Browser-based muziekproductie platform. DAW, DJ app, audio editor, producer contests, live streaming.</p>
             <div class="project-tags">
                 <span>Web Audio API</span><span>Canvas</span><span>Flask</span><span>PostgreSQL</span>
             </div>
+            <a href="https://github.com/AnneVersion/daw" target="_blank" class="project-github">
+                <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                GitHub
+            </a>
         </div>
         <div class="project-card">
             <div class="project-icon"><span class="material-icons-round">email</span></div>
-            <div class="project-status dev">In Ontwikkeling</div>
+            <div class="project-status beta">Beta</div>
             <h3>Email Validator</h3>
-            <p>Email validatie tool met 14 checks: syntax, DNS, MX records, SMTP verificatie, SPF/DMARC, disposable detectie. Bulk upload en volledige historie (SCD Type 2).</p>
+            <p>Email validatie tool met 14 checks en SCD Type 2 historie. Bulk upload, score 0-100.</p>
             <div class="project-tags">
-                <span>Python</span><span>DNS</span><span>SMTP</span><span>PostgreSQL</span>
+                <span>Python</span><span>Flask</span><span>PostgreSQL</span><span>DNS</span><span>SMTP</span>
             </div>
+            <a href="https://github.com/AnneVersion/email-validator" target="_blank" class="project-github">
+                <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                GitHub
+            </a>
         </div>
         <div class="project-card">
             <div class="project-icon"><span class="material-icons-round">report</span></div>
             <div class="project-status poc">POC</div>
             <h3>Meldpunt Ambtenaren</h3>
-            <p>PWA voor het melden van misstanden door ambtenaren. Dossier-management, document upload met anonimisering en EHRM wizard. Supabase backend.</p>
+            <p>PWA voor het melden van misstanden door ambtenaren. Dossier-management, document anonimisering.</p>
             <div class="project-tags">
-                <span>PWA</span><span>Supabase</span><span>Anonimisering</span>
+                <span>PWA</span><span>Supabase</span><span>JavaScript</span>
             </div>
-        </div>
-        <div class="project-card">
-            <div class="project-icon"><span class="material-icons-round">auto_graph</span></div>
-            <div class="project-status poc">POC</div>
-            <h3>KvK Enrichment</h3>
-            <p>Automatische verrijking van KvK-nummers met bedrijfsgegevens, jaarrekeningen en financiele data via de KvK Open Dataset en betaalde API.</p>
-            <div class="project-tags">
-                <span>Python</span><span>KvK API</span><span>Excel</span>
-            </div>
+            <a href="https://github.com/AnneVersion/meldpunt-ambtenaren" target="_blank" class="project-github">
+                <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                GitHub
+            </a>
         </div>
         <div class="project-card">
             <div class="project-icon"><span class="material-icons-round">star</span></div>
             <div class="project-status poc">POC</div>
             <h3>Astronomy</h3>
-            <p>Interactief zonnestelsel, sterrenbeelden, zwarte gaten en geboortehoroscoop. Educatief astronomie platform met 3D visualisaties.</p>
+            <p>Interactieve astronomie app. Zoombaar zonnestelsel, N-body simulator, NASA API's, equinox tracker.</p>
             <div class="project-tags">
-                <span>JavaScript</span><span>Canvas</span><span>API's</span>
+                <span>JavaScript</span><span>Canvas</span><span>NASA API's</span>
+            </div>
+            <a href="https://github.com/AnneVersion/astronomy" target="_blank" class="project-github">
+                <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                GitHub
+            </a>
+        </div>
+        <div class="project-card">
+            <div class="project-icon"><span class="material-icons-round">auto_graph</span></div>
+            <div class="project-status poc">POC</div>
+            <h3>KvK Enrichment</h3>
+            <p>Bedrijfsgegevens verrijking via KvK Open Data API. Jaarrekeningen, omzet, FTE.</p>
+            <div class="project-tags">
+                <span>Python</span><span>openpyxl</span><span>KvK API</span>
             </div>
         </div>
     </div>
