@@ -21,9 +21,6 @@
     <meta name="twitter:description" content="Dataverzamelaars en datamodelleurs. Open data verzamelen, koppelen en modelleren.">
 
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='none' stroke='%2339ff14' stroke-width='1.5'/><circle cx='16' cy='16' r='3' fill='%2339ff14' opacity='.4'/><ellipse cx='16' cy='16' rx='14' ry='5' fill='none' stroke='%2339ff14' stroke-width='.7' opacity='.4' transform='rotate(-8 16 16)'/></svg>">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <style>
 /* ---- Reset & Base ---- */
@@ -33,8 +30,8 @@ html { scroll-behavior: smooth; }
     --bg: #0a0f1a;
     --bg2: #0f1520;
     --bg3: #141c2b;
-    --panel: #111827;
-    --panel2: #1a2332;
+    --panel: rgba(255,255,255,0.03);
+    --panel-solid: #111827;
     --border: #1e293b;
     --text: #e2e8f0;
     --muted: #94a3b8;
@@ -42,27 +39,12 @@ html { scroll-behavior: smooth; }
     --accent: #39ff14;
     --accent-glow: rgba(57, 255, 20, .15);
     --accent-dim: #2bcc10;
+    --indigo: #4F46E5;
+    --indigo-glow: rgba(79, 70, 229, .25);
     --white: #ffffff;
     --radius: 16px;
     --radius-sm: 10px;
-    --font: 'DM Sans', system-ui, sans-serif;
-    --mono: 'Space Mono', monospace;
-}
-/* Light theme */
-[data-theme="light"] {
-    --bg: #f5f7fa;
-    --bg2: #eef1f5;
-    --bg3: #e4e8ee;
-    --panel: #ffffff;
-    --panel2: #f0f2f5;
-    --border: #d1d5db;
-    --text: #1e293b;
-    --muted: #475569;
-    --dim: #64748b;
-    --accent: #16a34a;
-    --accent-glow: rgba(22, 163, 74, .1);
-    --accent-dim: #15803d;
-    --white: #0f172a;
+    --font: Verdana, Geneva, Tahoma, sans-serif;
 }
 body {
     font-family: var(--font);
@@ -71,18 +53,29 @@ body {
     line-height: 1.6;
     overflow-x: hidden;
 }
+
+/* Dot pattern overlay */
 body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background:
-        radial-gradient(ellipse at 20% 50%, rgba(57,255,20,.03) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 20%, rgba(57,255,20,.02) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 80%, rgba(57,255,20,.015) 0%, transparent 60%);
+    background-image: radial-gradient(rgba(57, 255, 20, .07) 1px, transparent 1px);
+    background-size: 40px 40px;
     pointer-events: none;
     z-index: 0;
 }
-[data-theme="light"] body::before { opacity: 0; }
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 20% 50%, rgba(57,255,20,.04) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(79,70,229,.04) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(57,255,20,.02) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+}
+
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
@@ -90,155 +83,162 @@ body::before {
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-/* ---- Particle Canvas ---- */
-#particle-canvas {
-    position: fixed;
+/* ---- Hero Canvas ---- */
+#hero-canvas {
+    position: absolute;
     inset: 0;
     z-index: 0;
     pointer-events: none;
 }
+
+/* ---- Mouse Spotlight ---- */
+.spotlight {
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(57,255,20,.06) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+    transition: opacity .3s;
+    opacity: 0;
+}
+.spotlight.active { opacity: 1; }
 
 /* ---- Navigation ---- */
 nav {
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 100;
-    background: rgba(10, 15, 26, .8);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(30, 41, 59, .5);
-    padding: 0 24px;
-    height: 56px;
+    background: rgba(10, 15, 26, .7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(57, 255, 20, .08);
+    padding: 0 32px;
+    height: 64px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-}
-[data-theme="light"] nav {
-    background: rgba(245, 247, 250, .85);
-    border-bottom-color: rgba(209, 213, 219, .5);
 }
 .nav-logo {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-family: var(--mono);
+    font-family: var(--font);
     font-weight: 700;
     font-size: 16px;
     color: var(--text);
+    text-decoration: none;
 }
+.nav-logo:hover { text-decoration: none; }
 .nav-logo svg { width: 28px; height: 28px; }
 .nav-right { display: flex; align-items: center; gap: 20px; }
-.nav-links { display: flex; gap: 24px; list-style: none; }
+.nav-links { display: flex; gap: 28px; list-style: none; }
 .nav-links a {
     color: var(--muted);
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 700;
     text-decoration: none;
     padding: 4px 0;
     border-bottom: 2px solid transparent;
-    transition: color .2s, border-color .2s;
+    transition: color .3s, border-color .3s;
+    text-transform: uppercase;
+    letter-spacing: .5px;
 }
 .nav-links a:hover, .nav-links a.active {
     color: var(--accent);
     border-bottom-color: var(--accent);
     text-decoration: none;
 }
-.theme-toggle {
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--muted);
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 18px;
-    transition: color .2s, border-color .2s;
-}
-.theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
 .hamburger {
     display: none;
     background: none;
     border: none;
     color: var(--text);
-    font-size: 24px;
+    font-size: 28px;
     cursor: pointer;
 }
-@media (max-width: 700px) {
+@media (max-width: 768px) {
     .hamburger { display: block; }
     .nav-links {
         display: none;
         position: absolute;
-        top: 56px; left: 0; right: 0;
+        top: 64px; left: 0; right: 0;
         background: rgba(10, 15, 26, .95);
-        backdrop-filter: blur(16px);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         flex-direction: column;
-        padding: 16px 24px;
-        gap: 12px;
-        border-bottom: 1px solid var(--border);
+        padding: 20px 32px;
+        gap: 16px;
+        border-bottom: 1px solid rgba(57, 255, 20, .08);
     }
     .nav-links.open { display: flex; }
-    [data-theme="light"] .nav-links { background: rgba(245, 247, 250, .95); }
 }
 
 /* ---- Sections ---- */
 section {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     max-width: 1100px;
     margin: 0 auto;
-    padding: 80px 24px;
+    padding: 100px 24px;
+}
+.section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+}
+.section-label::before {
+    content: '';
+    width: 32px;
+    height: 2px;
+    background: var(--accent);
 }
 .section-title {
-    font-family: var(--mono);
-    font-size: 28px;
+    font-family: var(--font);
+    font-size: 2.5rem;
     font-weight: 700;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
     color: var(--white);
+    line-height: 1.2;
 }
-.section-title span { color: var(--accent); }
+.section-title .accent { color: var(--accent); }
 .section-subtitle {
     color: var(--muted);
-    font-size: 15px;
-    margin-bottom: 48px;
+    font-size: 1rem;
+    margin-bottom: 56px;
     max-width: 600px;
+    line-height: 1.8;
 }
 
-/* ---- Scroll animations ---- */
-.anim-fade-in {
+/* ---- Scroll Animations ---- */
+.anim {
     opacity: 0;
-    transform: translateY(32px);
-    transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
+    transform: translateY(40px);
+    transition: opacity .8s cubic-bezier(.22,1,.36,1), transform .8s cubic-bezier(.22,1,.36,1);
 }
-.anim-fade-in.visible { opacity: 1; transform: translateY(0); }
-.anim-slide-left {
-    opacity: 0;
-    transform: translateX(-40px);
-    transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
+.anim.from-left { transform: translateX(-50px); }
+.anim.from-right { transform: translateX(50px); }
+.anim.from-scale { transform: scale(.85); }
+.anim.visible {
+    opacity: 1;
+    transform: translateY(0) translateX(0) scale(1);
 }
-.anim-slide-left.visible { opacity: 1; transform: translateX(0); }
-.anim-slide-right {
-    opacity: 0;
-    transform: translateX(40px);
-    transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
-}
-.anim-slide-right.visible { opacity: 1; transform: translateX(0); }
-.anim-scale {
-    opacity: 0;
-    transform: scale(.9);
-    transition: opacity .6s cubic-bezier(.22,1,.36,1), transform .6s cubic-bezier(.22,1,.36,1);
-}
-.anim-scale.visible { opacity: 1; transform: scale(1); }
-.stagger-children > *:nth-child(1) { transition-delay: 0s; }
-.stagger-children > *:nth-child(2) { transition-delay: .08s; }
-.stagger-children > *:nth-child(3) { transition-delay: .16s; }
-.stagger-children > *:nth-child(4) { transition-delay: .24s; }
-.stagger-children > *:nth-child(5) { transition-delay: .32s; }
-.stagger-children > *:nth-child(6) { transition-delay: .40s; }
-.stagger-children > *:nth-child(7) { transition-delay: .48s; }
-.stagger-children > *:nth-child(8) { transition-delay: .56s; }
-.stagger-children > *:nth-child(9) { transition-delay: .64s; }
+.stagger > *:nth-child(1) { transition-delay: 0s; }
+.stagger > *:nth-child(2) { transition-delay: .1s; }
+.stagger > *:nth-child(3) { transition-delay: .2s; }
+.stagger > *:nth-child(4) { transition-delay: .25s; }
+.stagger > *:nth-child(5) { transition-delay: .3s; }
+.stagger > *:nth-child(6) { transition-delay: .35s; }
+.stagger > *:nth-child(7) { transition-delay: .4s; }
+.stagger > *:nth-child(8) { transition-delay: .45s; }
 
 /* ---- Hero ---- */
 #hero {
@@ -248,49 +248,138 @@ section {
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding-top: 56px;
+    padding-top: 64px;
+    position: relative;
+    overflow: hidden;
 }
+/* Animated gradient background */
+#hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #0a0f1a 0%, #1a0a2e 30%, #0d1b2a 60%, #0a0f1a 100%);
+    background-size: 400% 400%;
+    animation: hero-gradient 15s ease infinite;
+    z-index: -1;
+}
+@keyframes hero-gradient {
+    0% { background-position: 0% 50%; }
+    25% { background-position: 100% 50%; }
+    50% { background-position: 100% 0%; }
+    75% { background-position: 0% 100%; }
+    100% { background-position: 0% 50%; }
+}
+/* Floating geometric shapes */
+.hero-shape {
+    position: absolute;
+    border: 1px solid rgba(57, 255, 20, .1);
+    border-radius: 4px;
+    pointer-events: none;
+    animation: float-shape 20s ease-in-out infinite;
+}
+.hero-shape:nth-child(1) {
+    width: 60px; height: 60px;
+    top: 15%; left: 10%;
+    animation-delay: 0s;
+    transform: rotate(45deg);
+    border-color: rgba(57, 255, 20, .12);
+}
+.hero-shape:nth-child(2) {
+    width: 40px; height: 40px;
+    top: 25%; right: 15%;
+    animation-delay: -4s;
+    border-radius: 50%;
+    border-color: rgba(79, 70, 229, .15);
+}
+.hero-shape:nth-child(3) {
+    width: 80px; height: 80px;
+    bottom: 20%; left: 20%;
+    animation-delay: -8s;
+    border-radius: 50%;
+    border-color: rgba(57, 255, 20, .08);
+}
+.hero-shape:nth-child(4) {
+    width: 30px; height: 30px;
+    top: 40%; right: 8%;
+    animation-delay: -12s;
+    transform: rotate(30deg);
+    border-color: rgba(79, 70, 229, .12);
+}
+.hero-shape:nth-child(5) {
+    width: 50px; height: 50px;
+    bottom: 30%; right: 25%;
+    animation-delay: -6s;
+    transform: rotate(60deg);
+    border-color: rgba(57, 255, 20, .1);
+}
+.hero-shape:nth-child(6) {
+    width: 25px; height: 25px;
+    top: 60%; left: 8%;
+    animation-delay: -10s;
+    border-radius: 50%;
+    border-color: rgba(79, 70, 229, .1);
+}
+@keyframes float-shape {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    25% { transform: translateY(-20px) rotate(5deg); }
+    50% { transform: translateY(-10px) rotate(-3deg); }
+    75% { transform: translateY(-25px) rotate(2deg); }
+}
+
 .hero-title {
-    font-family: var(--mono);
-    font-size: 52px;
+    font-family: var(--font);
+    font-size: 4rem;
     font-weight: 700;
     color: var(--white);
     letter-spacing: -1px;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
+    text-shadow: 0 0 60px rgba(57, 255, 20, .15), 0 0 120px rgba(57, 255, 20, .05);
+    position: relative;
+    z-index: 2;
 }
-@media (max-width: 600px) { .hero-title { font-size: 32px; } }
+.hero-title .accent {
+    color: var(--accent);
+    text-shadow: 0 0 40px rgba(57, 255, 20, .3), 0 0 80px rgba(57, 255, 20, .1);
+}
+@media (max-width: 768px) { .hero-title { font-size: 2.5rem; } }
+@media (max-width: 480px) { .hero-title { font-size: 2rem; } }
 .hero-tagline {
-    font-size: 17px;
+    font-size: 1.1rem;
     color: var(--muted);
     max-width: 620px;
     margin-bottom: 32px;
-    line-height: 1.7;
+    line-height: 1.8;
+    position: relative;
+    z-index: 2;
 }
 .typewriter-line {
-    font-family: var(--mono);
-    font-size: 22px;
+    font-family: var(--font);
+    font-size: 1.3rem;
     color: var(--accent);
     font-weight: 700;
-    margin-bottom: 40px;
+    margin-bottom: 48px;
     min-height: 34px;
+    position: relative;
+    z-index: 2;
 }
 .typewriter-cursor {
     display: inline-block;
     width: 2px;
-    height: 1em;
+    height: 1.1em;
     background: var(--accent);
     margin-left: 2px;
     animation: blink-cursor .7s step-end infinite;
     vertical-align: text-bottom;
+    box-shadow: 0 0 8px rgba(57, 255, 20, .5);
 }
-@keyframes blink-cursor {
-    50% { opacity: 0; }
-}
+@keyframes blink-cursor { 50% { opacity: 0; } }
 .hero-cta {
     display: flex;
     gap: 16px;
     flex-wrap: wrap;
     justify-content: center;
+    position: relative;
+    z-index: 2;
 }
 .btn-primary {
     display: inline-flex;
@@ -299,68 +388,137 @@ section {
     background: var(--accent);
     color: #0a0f1a;
     font-family: var(--font);
-    font-weight: 600;
+    font-weight: 700;
     font-size: 14px;
-    padding: 12px 28px;
+    padding: 14px 32px;
     border-radius: 8px;
     border: none;
     cursor: pointer;
-    transition: background .2s, box-shadow .2s;
+    transition: all .3s ease;
     text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: .5px;
 }
 .btn-primary:hover {
     background: #4dff30;
-    box-shadow: 0 0 24px rgba(57, 255, 20, .3);
+    box-shadow: 0 0 30px rgba(57, 255, 20, .4), 0 4px 20px rgba(57, 255, 20, .2);
+    transform: translateY(-2px);
     text-decoration: none;
 }
-.btn-outline {
+.btn-indigo {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: transparent;
-    color: var(--accent);
+    background: var(--indigo);
+    color: var(--white);
     font-family: var(--font);
-    font-weight: 600;
+    font-weight: 700;
     font-size: 14px;
-    padding: 12px 28px;
+    padding: 14px 32px;
     border-radius: 8px;
-    border: 1px solid var(--accent);
+    border: none;
     cursor: pointer;
-    transition: background .2s, box-shadow .2s;
+    transition: all .3s ease;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+.btn-indigo:hover {
+    background: #6366f1;
+    box-shadow: 0 0 30px rgba(79, 70, 229, .4), 0 4px 20px rgba(79, 70, 229, .2);
+    transform: translateY(-2px);
     text-decoration: none;
 }
-.btn-outline:hover {
-    background: var(--accent-glow);
-    box-shadow: 0 0 16px rgba(57, 255, 20, .15);
-    text-decoration: none;
-}
+/* Scroll indicator */
 .scroll-hint {
     position: absolute;
-    bottom: 32px;
+    bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
     color: var(--dim);
-    font-size: 24px;
-    animation: bounce 2s infinite;
+    z-index: 2;
 }
-@keyframes bounce {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(8px); }
+.scroll-hint span.label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
+.scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: scroll-pulse 2s ease-in-out infinite;
+}
+@keyframes scroll-pulse {
+    0%, 100% { opacity: .3; height: 40px; }
+    50% { opacity: 1; height: 50px; }
+}
+
+/* ---- Glassmorphism Card ---- */
+.glass-card {
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius);
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: transform .4s ease, box-shadow .4s ease;
+}
+.glass-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(0,0,0,.3);
+}
+/* Gradient border effect */
+.glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--indigo), #a855f7);
+    opacity: 0;
+    transition: opacity .4s ease;
+}
+.glass-card:hover::before { opacity: 1; }
+
+/* Animated gradient border on hover */
+.gradient-border {
+    position: relative;
+}
+.gradient-border::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: var(--radius);
+    padding: 1px;
+    background: linear-gradient(var(--rotation, 0deg), var(--accent), var(--indigo), #a855f7, var(--accent));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity .4s ease;
+    pointer-events: none;
+}
+.gradient-border:hover::after { opacity: 1; }
 
 /* ---- Wie Wij Zijn ---- */
 .about-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 48px;
+    gap: 56px;
     align-items: center;
 }
 @media (max-width: 768px) { .about-content { grid-template-columns: 1fr; } }
 .about-text p {
     color: var(--muted);
-    font-size: 15px;
-    line-height: 1.8;
-    margin-bottom: 16px;
+    font-size: 0.95rem;
+    line-height: 1.9;
+    margin-bottom: 18px;
 }
 .about-text strong { color: var(--white); }
 .data-sources-list {
@@ -372,118 +530,141 @@ section {
 .data-sources-list li {
     display: flex;
     align-items: center;
-    gap: 12px;
-    background: rgba(17, 24, 39, .5);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 14px 18px;
+    gap: 14px;
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 16px 20px;
     font-size: 14px;
     color: var(--text);
-    transition: border-color .3s, transform .2s;
+    transition: all .3s ease;
 }
 .data-sources-list li:hover {
-    border-color: var(--accent-dim);
-    transform: translateX(4px);
+    border-color: var(--accent);
+    transform: translateX(8px);
+    box-shadow: 0 0 20px rgba(57, 255, 20, .08);
 }
 .data-sources-list .material-icons-round {
     color: var(--accent);
-    font-size: 20px;
+    font-size: 22px;
 }
 
-/* ---- GeoInzicht ---- */
+/* ---- GeoInzicht Section ---- */
 #geoinzicht {
     max-width: 1100px;
-    padding-top: 100px;
-    padding-bottom: 100px;
+    padding-top: 120px;
+    padding-bottom: 120px;
 }
 .geo-intro {
     max-width: 800px;
-    margin-bottom: 64px;
+    margin-bottom: 72px;
 }
 .geo-intro p {
-    font-size: 16px;
+    font-size: 1rem;
     color: var(--muted);
-    line-height: 1.8;
-    margin-bottom: 16px;
+    line-height: 1.9;
+    margin-bottom: 18px;
 }
 .geo-intro p strong { color: var(--white); }
 
 /* Data sources grid */
 .geo-sources {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 16px;
-    margin-bottom: 72px;
+    margin-bottom: 80px;
 }
 .geo-source-card {
-    background: rgba(17, 24, 39, .7);
-    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.06);
     border-radius: var(--radius-sm);
-    padding: 24px;
+    padding: 28px 20px;
     text-align: center;
-    transition: border-color .3s, transform .3s, box-shadow .3s;
+    transition: all .4s ease;
+    position: relative;
+    overflow: hidden;
+}
+.geo-source-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--indigo));
+    opacity: 0;
+    transition: opacity .3s;
 }
 .geo-source-card:hover {
-    border-color: var(--accent-dim);
-    transform: translateY(-4px);
-    box-shadow: 0 8px 32px rgba(57, 255, 20, .08);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px rgba(57, 255, 20, .1);
+    border-color: rgba(57, 255, 20, .2);
 }
+.geo-source-card:hover::before { opacity: 1; }
 .geo-source-card .material-icons-round {
-    font-size: 32px;
+    font-size: 36px;
     color: var(--accent);
-    margin-bottom: 12px;
+    margin-bottom: 14px;
 }
 .geo-source-card h4 {
     font-size: 15px;
     font-weight: 700;
     color: var(--white);
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 .geo-source-card p {
     font-size: 12px;
     color: var(--muted);
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
 /* Wat willen we aantonen */
 .geo-mission {
-    margin-bottom: 72px;
+    margin-bottom: 80px;
 }
 .geo-mission h3 {
-    font-family: var(--mono);
-    font-size: 22px;
+    font-family: var(--font);
+    font-size: 1.5rem;
+    font-weight: 700;
     color: var(--white);
-    margin-bottom: 24px;
+    margin-bottom: 28px;
 }
 .mission-points {
     list-style: none;
     display: grid;
-    gap: 14px;
+    gap: 16px;
 }
 .mission-points li {
     display: flex;
-    gap: 14px;
+    gap: 16px;
     align-items: flex-start;
     font-size: 15px;
     color: var(--muted);
-    line-height: 1.6;
+    line-height: 1.7;
+    padding: 12px 16px;
+    border-radius: 8px;
+    transition: background .3s;
+}
+.mission-points li:hover {
+    background: rgba(255,255,255,0.02);
 }
 .mission-points li .material-icons-round {
     color: var(--accent);
-    font-size: 20px;
+    font-size: 22px;
     margin-top: 2px;
     flex-shrink: 0;
 }
 
-/* Architecture diagram */
+/* Architecture Diagram */
 .geo-architecture {
-    margin-bottom: 72px;
+    margin-bottom: 80px;
 }
 .geo-architecture h3 {
-    font-family: var(--mono);
-    font-size: 22px;
+    font-family: var(--font);
+    font-size: 1.5rem;
+    font-weight: 700;
     color: var(--white);
-    margin-bottom: 32px;
+    margin-bottom: 36px;
     text-align: center;
 }
 .arch-pipeline {
@@ -492,30 +673,49 @@ section {
     justify-content: center;
     gap: 0;
     flex-wrap: wrap;
-    padding: 32px 0;
+    padding: 40px 0;
+    position: relative;
 }
 .arch-stage {
-    background: rgba(17, 24, 39, .8);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px 16px;
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 24px 18px;
     text-align: center;
-    min-width: 120px;
+    min-width: 130px;
     max-width: 160px;
     position: relative;
-    transition: border-color .3s, box-shadow .3s;
+    transition: all .4s ease;
 }
 .arch-stage:hover {
     border-color: var(--accent);
-    box-shadow: 0 0 20px rgba(57, 255, 20, .1);
+    box-shadow: 0 0 30px rgba(57, 255, 20, .12);
+    transform: translateY(-4px);
+}
+/* Pulsing node indicator */
+.arch-stage::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse-node 2s ease-in-out infinite;
+}
+@keyframes pulse-node {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(57, 255, 20, .4); }
+    50% { box-shadow: 0 0 0 8px rgba(57, 255, 20, 0); }
 }
 .arch-stage .material-icons-round {
-    font-size: 28px;
+    font-size: 32px;
     color: var(--accent);
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 .arch-stage h4 {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
     color: var(--white);
     margin-bottom: 4px;
@@ -523,27 +723,28 @@ section {
 .arch-stage p {
     font-size: 10px;
     color: var(--dim);
-    font-family: var(--mono);
 }
+/* Animated arrows */
 .arch-arrow {
     color: var(--accent);
     font-size: 28px;
-    opacity: .5;
-    padding: 0 4px;
-    animation: pulse-arrow 2s ease-in-out infinite;
+    padding: 0 6px;
+    position: relative;
+    animation: flow-arrow 1.5s ease-in-out infinite;
 }
-.arch-arrow:nth-child(4) { animation-delay: .3s; }
-.arch-arrow:nth-child(6) { animation-delay: .6s; }
-.arch-arrow:nth-child(8) { animation-delay: .9s; }
-.arch-arrow:nth-child(10) { animation-delay: 1.2s; }
-@keyframes pulse-arrow {
-    0%, 100% { opacity: .3; }
-    50% { opacity: .8; }
+.arch-arrow:nth-child(4) { animation-delay: .2s; }
+.arch-arrow:nth-child(6) { animation-delay: .4s; }
+.arch-arrow:nth-child(8) { animation-delay: .6s; }
+.arch-arrow:nth-child(10) { animation-delay: .8s; }
+@keyframes flow-arrow {
+    0% { opacity: .2; transform: translateX(-3px); }
+    50% { opacity: 1; transform: translateX(3px); }
+    100% { opacity: .2; transform: translateX(-3px); }
 }
 @media (max-width: 900px) {
     .arch-pipeline { gap: 8px; }
-    .arch-stage { min-width: 90px; padding: 14px 10px; }
-    .arch-arrow { font-size: 20px; }
+    .arch-stage { min-width: 100px; padding: 18px 12px; }
+    .arch-arrow { font-size: 22px; }
 }
 @media (max-width: 600px) {
     .arch-pipeline { flex-direction: column; }
@@ -555,35 +756,41 @@ section {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
-    margin-bottom: 72px;
+    margin-bottom: 80px;
 }
 @media (max-width: 768px) { .geo-stats { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 500px) { .geo-stats { grid-template-columns: 1fr; } }
 .stat-card {
-    background: rgba(17, 24, 39, .5);
-    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.06);
     border-radius: var(--radius-sm);
-    padding: 28px 24px;
+    padding: 32px 24px;
     text-align: center;
-    transition: border-color .3s;
+    transition: all .3s ease;
 }
-.stat-card:hover { border-color: var(--accent-dim); }
+.stat-card:hover {
+    border-color: rgba(57, 255, 20, .2);
+    box-shadow: 0 0 20px rgba(57, 255, 20, .06);
+}
 .stat-number {
-    font-family: var(--mono);
-    font-size: 36px;
+    font-family: var(--font);
+    font-size: 2.5rem;
     font-weight: 700;
     color: var(--accent);
     line-height: 1;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 20px rgba(57, 255, 20, .2);
 }
 .stat-label {
-    font-size: 13px;
+    font-size: 12px;
     color: var(--muted);
     text-transform: uppercase;
-    letter-spacing: .5px;
+    letter-spacing: 1px;
+    font-weight: 700;
 }
 
-/* DWH vs App comparison */
+/* DWH vs App */
 .geo-comparison {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -592,33 +799,35 @@ section {
 }
 @media (max-width: 700px) { .geo-comparison { grid-template-columns: 1fr; } }
 .compare-card {
-    background: rgba(17, 24, 39, .7);
-    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.06);
     border-radius: var(--radius);
-    padding: 32px;
+    padding: 36px;
     position: relative;
     overflow: hidden;
-    transition: border-color .3s, transform .3s;
+    transition: all .4s ease;
 }
 .compare-card:hover {
-    border-color: var(--accent-dim);
-    transform: translateY(-4px);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(0,0,0,.3);
+    border-color: rgba(57, 255, 20, .15);
 }
 .compare-card::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 3px;
-    background: var(--accent);
+    background: linear-gradient(90deg, var(--accent), var(--indigo));
 }
 .compare-card h4 {
-    font-family: var(--mono);
-    font-size: 18px;
+    font-family: var(--font);
+    font-size: 1.2rem;
+    font-weight: 700;
     color: var(--white);
     margin-bottom: 4px;
 }
 .compare-card .repo-name {
-    font-family: var(--mono);
     font-size: 12px;
     color: var(--dim);
     margin-bottom: 16px;
@@ -626,8 +835,8 @@ section {
 .compare-card p {
     font-size: 14px;
     color: var(--muted);
-    line-height: 1.7;
-    margin-bottom: 16px;
+    line-height: 1.8;
+    margin-bottom: 18px;
 }
 .compare-tags {
     display: flex;
@@ -636,90 +845,133 @@ section {
 }
 .compare-tag {
     font-size: 10px;
-    font-family: var(--mono);
+    font-weight: 700;
     color: var(--dim);
-    background: rgba(30, 41, 59, .6);
-    padding: 4px 10px;
-    border-radius: 4px;
-    border: 1px solid rgba(30, 41, 59, .8);
+    background: rgba(255,255,255,0.05);
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.08);
 }
 
-/* ---- Projecten Grid ---- */
+/* ---- Projects Grid ---- */
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
 }
-@media (max-width: 1100px) { .projects-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 768px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 500px) { .projects-grid { grid-template-columns: 1fr; } }
+@media (max-width: 768px) { .projects-grid { grid-template-columns: 1fr; } }
 .project-card {
     position: relative;
-    background: var(--panel);
-    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.06);
     border-radius: var(--radius);
-    padding: 24px;
-    transition: transform .2s, border-color .3s, box-shadow .3s;
+    padding: 32px;
+    overflow: hidden;
+    transition: all .4s ease;
 }
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    transition: opacity .3s;
+}
+/* Unique gradient per card position */
+.project-card:nth-child(1)::before { background: linear-gradient(90deg, #39ff14, #00e676); }
+.project-card:nth-child(2)::before { background: linear-gradient(90deg, #4F46E5, #7c3aed); }
+.project-card:nth-child(3)::before { background: linear-gradient(90deg, #f59e0b, #ef4444); }
+.project-card:nth-child(4)::before { background: linear-gradient(90deg, #a855f7, #ec4899); }
+.project-card:nth-child(5)::before { background: linear-gradient(90deg, #06b6d4, #3b82f6); }
+.project-card:nth-child(6)::before { background: linear-gradient(90deg, #ef4444, #f97316); }
+.project-card:nth-child(7)::before { background: linear-gradient(90deg, #8b5cf6, #6366f1); }
+.project-card:nth-child(8)::before { background: linear-gradient(90deg, #14b8a6, #22c55e); }
+
 .project-card:hover {
-    transform: translateY(-3px);
-    border-color: var(--accent);
-    box-shadow: 0 8px 32px rgba(57, 255, 20, .08);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(0,0,0,.3);
+    border-color: rgba(255,255,255,0.1);
 }
-.project-icon {
-    width: 44px; height: 44px;
-    border-radius: 12px;
-    background: var(--accent-glow);
-    display: flex; align-items: center; justify-content: center;
+.project-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
     margin-bottom: 14px;
 }
-.project-icon .material-icons-round { color: var(--accent); font-size: 24px; }
-.project-status {
-    position: absolute; top: 16px; right: 16px;
-    font-size: 10px; font-weight: 600; text-transform: uppercase;
-    padding: 3px 8px; border-radius: 6px; letter-spacing: .5px;
+.project-icon {
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    background: rgba(57, 255, 20, .1);
+    display: flex; align-items: center; justify-content: center;
 }
-.project-status.dev { background: rgba(59, 130, 246, .15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, .3); }
-.project-status.poc { background: rgba(168, 85, 247, .15); color: #c084fc; border: 1px solid rgba(168, 85, 247, .3); }
-.project-status.beta { background: rgba(251, 191, 36, .15); color: #fbbf24; border: 1px solid rgba(251, 191, 36, .3); }
-.project-status.active { background: rgba(57, 255, 20, .15); color: var(--accent); border: 1px solid rgba(57, 255, 20, .3); }
-.project-card h3 { font-size: 17px; margin-bottom: 8px; color: var(--text); }
-.project-card p { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 14px; }
-.project-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+.project-icon .material-icons-round { color: var(--accent); font-size: 26px; }
+.project-status {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 20px; letter-spacing: .5px;
+}
+.project-status.active {
+    background: rgba(57, 255, 20, .1);
+    color: var(--accent);
+    border: 1px solid rgba(57, 255, 20, .2);
+    box-shadow: 0 0 12px rgba(57, 255, 20, .15);
+}
+.project-status.beta {
+    background: rgba(251, 191, 36, .1);
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, .2);
+    box-shadow: 0 0 12px rgba(251, 191, 36, .15);
+}
+.project-status.poc {
+    background: rgba(79, 70, 229, .1);
+    color: #818cf8;
+    border: 1px solid rgba(79, 70, 229, .2);
+    box-shadow: 0 0 12px rgba(79, 70, 229, .15);
+}
+.project-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; color: var(--white); }
+.project-card .desc { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 18px; }
+.project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
 .project-tags span {
-    font-size: 10px; padding: 2px 7px; border-radius: 4px;
-    background: rgba(30, 41, 59, .6); color: var(--dim); border: 1px solid var(--border);
+    font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px;
+    background: rgba(255,255,255,0.05); color: var(--dim); border: 1px solid rgba(255,255,255,0.08);
 }
 .project-github {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     font-size: 12px;
+    font-weight: 700;
     color: var(--muted);
-    transition: color .2s;
+    transition: all .3s ease;
+    text-transform: uppercase;
+    letter-spacing: .5px;
 }
-.project-github:hover { color: var(--accent); text-decoration: none; }
-.project-github svg { width: 14px; height: 14px; fill: currentColor; }
+.project-github:hover {
+    color: var(--accent);
+    text-decoration: none;
+    transform: translateX(4px);
+}
+.project-github svg { width: 16px; height: 16px; fill: currentColor; transition: fill .3s; }
 
 /* ---- Tech Stack ---- */
 .tech-categories {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 32px;
+    gap: 40px;
 }
 @media (max-width: 700px) { .tech-categories { grid-template-columns: 1fr; } }
 .tech-category h3 {
-    font-family: var(--mono);
-    font-size: 14px;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 700;
     color: var(--accent);
     text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 16px;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
-.tech-category h3 .material-icons-round { font-size: 18px; }
+.tech-category h3 .material-icons-round { font-size: 20px; }
 .tech-grid {
     display: flex;
     flex-wrap: wrap;
@@ -729,24 +981,24 @@ section {
     display: flex;
     align-items: center;
     gap: 10px;
-    background: rgba(17, 24, 39, .7);
-    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.06);
     border-radius: 50px;
     padding: 10px 20px 10px 14px;
-    backdrop-filter: blur(8px);
-    transition: border-color .3s, transform .3s, box-shadow .3s;
+    transition: all .3s ease;
     cursor: default;
 }
 .tech-badge:hover {
-    border-color: var(--accent-dim);
+    border-color: rgba(57, 255, 20, .3);
     transform: translateY(-3px);
-    box-shadow: 0 6px 24px rgba(57, 255, 20, .1);
+    box-shadow: 0 8px 30px rgba(57, 255, 20, .1);
 }
 .tech-badge-icon {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: var(--accent-glow);
+    background: rgba(57, 255, 20, .1);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -756,7 +1008,7 @@ section {
 .tech-badge-icon svg { width: 20px; height: 20px; }
 .tech-badge-name {
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--white);
     white-space: nowrap;
 }
@@ -770,207 +1022,112 @@ section {
 .visie-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 24px;
 }
 @media (max-width: 700px) { .visie-grid { grid-template-columns: 1fr; } }
 .visie-card {
-    background: rgba(17, 24, 39, .5);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 28px;
-    transition: border-color .3s, transform .3s;
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius);
+    padding: 36px;
+    transition: all .4s ease;
+    position: relative;
+    overflow: hidden;
+}
+.visie-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--indigo));
+    opacity: 0;
+    transition: opacity .3s;
 }
 .visie-card:hover {
-    border-color: var(--accent-dim);
-    transform: translateY(-3px);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(0,0,0,.3);
+    border-color: rgba(255,255,255,0.1);
 }
+.visie-card:hover::before { opacity: 1; }
 .visie-card .material-icons-round {
-    font-size: 28px;
+    font-size: 32px;
     color: var(--accent);
-    margin-bottom: 14px;
+    margin-bottom: 18px;
 }
 .visie-card h3 {
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 1.1rem;
+    font-weight: 700;
     color: var(--white);
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 .visie-card p {
     font-size: 13px;
     color: var(--muted);
-    line-height: 1.7;
+    line-height: 1.8;
 }
 
 /* ---- Contact ---- */
-#contact {
-    text-align: center;
-}
-.contact-content {
+#contact { text-align: center; }
+.contact-links {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 8px;
 }
-.contact-email {
+.contact-link {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    font-family: var(--mono);
-    font-size: 18px;
+    font-size: 1rem;
+    font-weight: 700;
     color: var(--accent);
-    background: rgba(17, 24, 39, .7);
-    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.06);
     border-radius: var(--radius-sm);
-    padding: 16px 32px;
-    transition: border-color .3s;
+    padding: 18px 36px;
+    transition: all .3s ease;
 }
-.contact-email:hover {
+.contact-link:hover {
     border-color: var(--accent);
+    box-shadow: 0 0 30px rgba(57, 255, 20, .15);
     text-decoration: none;
+    transform: translateY(-3px);
 }
-.github-links {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-.github-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--muted);
-    background: rgba(17, 24, 39, .5);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 20px;
-    transition: color .2s, border-color .2s;
-}
-.github-link:hover {
-    color: var(--accent);
-    border-color: var(--accent-dim);
-    text-decoration: none;
-}
-.github-link svg {
-    width: 18px;
-    height: 18px;
-    fill: currentColor;
-}
-
-/* ---- Contact Form ---- */
-.contact-wrapper {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 32px;
-    max-width: 900px;
-    margin: 0 auto;
-}
-.contact-form {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 32px;
-}
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-}
-.form-group {
-    margin-bottom: 16px;
-}
-.form-group label {
-    display: block;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--muted);
-    margin-bottom: 6px;
-}
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 10px 14px;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    color: var(--text);
-    font-family: var(--font);
-    font-size: 14px;
-    transition: border-color .2s, box-shadow .2s;
-}
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-glow);
-}
-.form-group select {
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%2394a3b8'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 32px;
-}
-.form-group textarea {
-    resize: vertical;
-    min-height: 100px;
-}
-.form-success {
-    margin-top: 16px;
-    padding: 14px;
-    background: rgba(57, 255, 20, .1);
-    border: 1px solid rgba(57, 255, 20, .3);
-    border-radius: var(--radius-sm);
-    color: var(--accent);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-}
-.contact-side {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-.contact-info-card {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 24px;
-}
-.contact-info-card > .material-icons-round {
-    color: var(--accent);
-    font-size: 28px;
-    margin-bottom: 8px;
-}
-.contact-info-card h4 {
-    color: var(--text);
-    margin-bottom: 6px;
-}
-.contact-info-card p {
-    color: var(--muted);
-    font-size: 14px;
-    margin-bottom: 12px;
-}
-@media (max-width: 768px) {
-    .contact-wrapper { grid-template-columns: 1fr; }
-    .form-row { grid-template-columns: 1fr; }
-}
+.contact-link svg { width: 22px; height: 22px; fill: currentColor; }
 
 /* ---- Footer ---- */
 footer {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     text-align: center;
-    padding: 32px 24px;
-    border-top: 1px solid var(--border);
+    padding: 40px 24px;
     color: var(--dim);
     font-size: 12px;
 }
+footer::before {
+    content: '';
+    display: block;
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), var(--indigo), transparent);
+    margin: 0 auto 32px;
+}
+.footer-links {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.footer-links a {
+    color: var(--dim);
+    font-size: 13px;
+    transition: color .3s;
+}
+.footer-links a:hover { color: var(--accent); text-decoration: none; }
+.footer-links a svg { width: 18px; height: 18px; fill: currentColor; vertical-align: middle; }
 
 /* ---- Scroll to top ---- */
 .scroll-top {
@@ -978,8 +1135,8 @@ footer {
     bottom: 24px;
     right: 24px;
     z-index: 99;
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     background: var(--accent);
     color: #0a0f1a;
@@ -988,17 +1145,18 @@ footer {
     display: none;
     align-items: center;
     justify-content: center;
-    font-size: 22px;
-    box-shadow: 0 4px 16px rgba(57, 255, 20, .3);
-    transition: transform .2s;
+    font-size: 24px;
+    box-shadow: 0 4px 20px rgba(57, 255, 20, .3);
+    transition: all .3s ease;
 }
-.scroll-top:hover { transform: translateY(-2px); }
+.scroll-top:hover { transform: translateY(-3px); box-shadow: 0 6px 30px rgba(57, 255, 20, .4); }
 .scroll-top.show { display: flex; }
     </style>
 </head>
 <body>
 
-<canvas id="particle-canvas"></canvas>
+<!-- Mouse Spotlight -->
+<div class="spotlight" id="spotlight"></div>
 
 <!-- Navigation -->
 <nav>
@@ -1013,15 +1171,12 @@ footer {
     <div class="nav-right">
         <ul class="nav-links" id="nav-links">
             <li><a href="#over-ons">Over Ons</a></li>
-            <li><a href="https://github.com/AnneVersion/geoinzicht-app" target="_blank">GeoInzicht <span class="material-icons-round" style="font-size:14px;vertical-align:middle">open_in_new</span></a></li>
+            <li><a href="#geoinzicht">GeoInzicht</a></li>
             <li><a href="#projecten">Projecten</a></li>
             <li><a href="#tech">Technologie</a></li>
             <li><a href="#visie">Visie</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
-        <button class="theme-toggle" id="theme-toggle" title="Wissel thema">
-            <span class="material-icons-round">dark_mode</span>
-        </button>
         <button class="hamburger" id="hamburger">
             <span class="material-icons-round">menu</span>
         </button>
@@ -1030,37 +1185,48 @@ footer {
 
 <!-- Hero -->
 <section id="hero">
-    <h1 class="hero-title anim-fade-in">Data <span style="color:var(--accent)">Consultants</span></h1>
-    <p class="hero-tagline anim-fade-in">Wij verzamelen, modelleren en verbinden open data &mdash; voor dashboards, analyses en dataprojecten die ertoe doen.</p>
-    <div class="typewriter-line anim-fade-in">
+    <!-- Floating geometric shapes -->
+    <div class="hero-shape"></div>
+    <div class="hero-shape"></div>
+    <div class="hero-shape"></div>
+    <div class="hero-shape"></div>
+    <div class="hero-shape"></div>
+    <div class="hero-shape"></div>
+    <canvas id="hero-canvas"></canvas>
+
+    <h1 class="hero-title anim">Data <span class="accent">Consultants</span></h1>
+    <p class="hero-tagline anim">Wij verzamelen, modelleren en verbinden open data &mdash; voor dashboards, analyses en dataprojecten die ertoe doen.</p>
+    <div class="typewriter-line anim">
         <span id="typewriter"></span><span class="typewriter-cursor"></span>
     </div>
-    <div class="hero-cta anim-fade-in">
+    <div class="hero-cta anim">
         <a href="#geoinzicht" class="btn-primary">
             <span class="material-icons-round" style="font-size:18px">explore</span>
             Bekijk GeoInzicht
         </a>
-        <a href="#contact" class="btn-outline">
+        <a href="#contact" class="btn-indigo">
             <span class="material-icons-round" style="font-size:18px">mail</span>
             Contact
         </a>
     </div>
     <div class="scroll-hint">
-        <span class="material-icons-round">expand_more</span>
+        <span class="label">Scroll</span>
+        <div class="scroll-line"></div>
     </div>
 </section>
 
 <!-- Wie Wij Zijn -->
 <section id="over-ons">
-    <h2 class="section-title anim-fade-in"><span>//</span> Wie Wij Zijn</h2>
-    <p class="section-subtitle anim-fade-in">Dataverzamelaars en modelleurs met een passie voor open data.</p>
+    <div class="section-label anim">Over Ons</div>
+    <h2 class="section-title anim">Wie Wij <span class="accent">Zijn</span></h2>
+    <p class="section-subtitle anim">Dataverzamelaars en modelleurs met een passie voor open data.</p>
     <div class="about-content">
-        <div class="about-text anim-slide-left">
+        <div class="about-text anim from-left">
             <p>Data Consultants is een team van <strong>dataverzamelaars en datamodelleurs</strong>. Wij zijn gespecialiseerd in het vinden, verzamelen en koppelen van open databronnen tot samenhangende datasets.</p>
             <p>Van CBS-statistieken tot BAG-adressen, van politiedata tot zorgkosten &mdash; wij <strong>verbinden</strong> wat los beschikbaar is tot bruikbare data voor dashboards, wetenschappelijke analyses, dataprojecten en beleidsondersteuning.</p>
             <p>Onze focus ligt op <strong>inzicht</strong>, niet op dienstverlening. Wij bouwen data-infrastructuur en delen kennis.</p>
         </div>
-        <ul class="data-sources-list anim-slide-right stagger-children">
+        <ul class="data-sources-list anim from-right stagger">
             <li>
                 <span class="material-icons-round">analytics</span>
                 <span><strong>CBS StatLine</strong> &mdash; Kerncijfers wijken, buurten, gemeenten</span>
@@ -1087,16 +1253,17 @@ footer {
 
 <!-- GeoInzicht -->
 <section id="geoinzicht">
-    <h2 class="section-title anim-fade-in"><span>//</span> GeoInzicht</h2>
-    <p class="section-subtitle anim-fade-in">Ons vlaggenschip: een open-source geo-data platform van Nederland.</p>
+    <div class="section-label anim">Vlaggenschip</div>
+    <h2 class="section-title anim">Geo<span class="accent">Inzicht</span></h2>
+    <p class="section-subtitle anim">Ons vlaggenschip: een open-source geo-data platform van Nederland.</p>
 
-    <div class="geo-intro anim-fade-in">
+    <div class="geo-intro anim">
         <p><strong>GeoInzicht</strong> is een open-source geo-data platform dat publieke databronnen combineert tot een interactief dashboard van Nederland. Van CBS buurtstatistieken tot BAG adressen, van politiecriminaliteit tot zorgkosten &mdash; alles op een kaart.</p>
         <p>Het platform stelt iedereen in staat om patronen te ontdekken in de Nederlandse samenleving: hoe hangen inkomen, criminaliteit, zorgkosten, woningwaarde en bevolkingssamenstelling samen? Welke buurten lijken op elkaar? Waar zit de ongelijkheid?</p>
     </div>
 
     <!-- Data Sources -->
-    <div class="geo-sources stagger-children anim-fade-in">
+    <div class="geo-sources stagger anim">
         <div class="geo-source-card">
             <span class="material-icons-round">analytics</span>
             <h4>CBS StatLine</h4>
@@ -1125,8 +1292,8 @@ footer {
     </div>
 
     <!-- Wat willen we aantonen -->
-    <div class="geo-mission anim-fade-in">
-        <h3><span style="color:var(--accent)">&gt;</span> Wat willen we aantonen?</h3>
+    <div class="geo-mission anim">
+        <h3><span style="color:var(--accent)">//</span> Wat willen we aantonen?</h3>
         <ul class="mission-points">
             <li>
                 <span class="material-icons-round">link</span>
@@ -1152,8 +1319,8 @@ footer {
     </div>
 
     <!-- Architecture -->
-    <div class="geo-architecture anim-fade-in">
-        <h3><span style="color:var(--accent)">&gt;</span> Architectuur</h3>
+    <div class="geo-architecture anim">
+        <h3><span style="color:var(--accent)">//</span> Architectuur</h3>
         <div class="arch-pipeline">
             <div class="arch-stage">
                 <span class="material-icons-round">cloud_download</span>
@@ -1194,7 +1361,7 @@ footer {
     </div>
 
     <!-- Stats -->
-    <div class="geo-stats stagger-children anim-fade-in">
+    <div class="geo-stats stagger anim">
         <div class="stat-card">
             <div class="stat-number" data-target="14700" data-suffix="+">0</div>
             <div class="stat-label">Buurten</div>
@@ -1222,8 +1389,8 @@ footer {
     </div>
 
     <!-- DWH vs App -->
-    <h3 class="section-title anim-fade-in" style="font-size:22px; margin-bottom:24px;"><span>&gt;</span> Twee varianten</h3>
-    <div class="geo-comparison anim-fade-in">
+    <h3 class="section-title anim" style="font-size:1.5rem; margin-bottom:28px;"><span class="accent">//</span> Twee varianten</h3>
+    <div class="geo-comparison anim">
         <div class="compare-card">
             <h4>GeoInzicht DWH</h4>
             <div class="repo-name">geoinzicht-dwh</div>
@@ -1254,14 +1421,17 @@ footer {
 
 <!-- Projecten in Ontwikkeling / POC's -->
 <section id="projecten">
-    <h2 class="section-title anim-fade-in"><span>//</span> Projecten in Ontwikkeling / POC's</h2>
-    <p class="section-subtitle anim-fade-in">Al onze data- en softwareprojecten in verschillende stadia van ontwikkeling.</p>
-    <div class="projects-grid stagger-children anim-fade-in">
+    <div class="section-label anim">Portfolio</div>
+    <h2 class="section-title anim">Projecten in <span class="accent">Ontwikkeling</span></h2>
+    <p class="section-subtitle anim">Al onze data- en softwareprojecten in verschillende stadia van ontwikkeling.</p>
+    <div class="projects-grid stagger anim">
         <div class="project-card">
-            <div class="project-icon"><span class="material-icons-round">public</span></div>
-            <div class="project-status active">Actief</div>
+            <div class="project-header">
+                <div class="project-icon"><span class="material-icons-round">public</span></div>
+                <div class="project-status active">Actief</div>
+            </div>
             <h3>GeoInzicht DWH</h3>
-            <p>Data warehouse voor CBS buurtdata met 16 domeinen. Geo-visualisatie op kaart met GeoServer. Koppelt CBS, BAG, PDOK en andere open data bronnen.</p>
+            <p class="desc">Data warehouse voor CBS buurtdata met 16 domeinen. Geo-visualisatie op kaart met GeoServer. Koppelt CBS, BAG, PDOK en andere open data bronnen.</p>
             <div class="project-tags">
                 <span>Python</span><span>Flask</span><span>PostgreSQL</span><span>PostGIS</span><span>GeoServer</span>
             </div>
@@ -1271,10 +1441,12 @@ footer {
             </a>
         </div>
         <div class="project-card">
-            <div class="project-icon"><span class="material-icons-round">map</span></div>
-            <div class="project-status active">Actief</div>
+            <div class="project-header">
+                <div class="project-icon"><span class="material-icons-round">map</span></div>
+                <div class="project-status active">Actief</div>
+            </div>
             <h3>GeoInzicht App</h3>
-            <p>Standalone dashboard app voor geo-analyse. Werkt met API's en lokale GeoJSON bestanden. Geen database nodig.</p>
+            <p class="desc">Standalone dashboard app voor geo-analyse. Werkt met API's en lokale GeoJSON bestanden. Geen database nodig.</p>
             <div class="project-tags">
                 <span>JavaScript</span><span>HTML/CSS</span><span>Leaflet</span><span>Chart.js</span>
             </div>
@@ -1284,10 +1456,12 @@ footer {
             </a>
         </div>
         <div class="project-card">
-            <div class="project-icon"><span class="material-icons-round">apartment</span></div>
-            <div class="project-status beta">Beta</div>
+            <div class="project-header">
+                <div class="project-icon"><span class="material-icons-round">apartment</span></div>
+                <div class="project-status beta">Beta</div>
+            </div>
             <h3>Serviced Apartments</h3>
-            <p>Booking engine voor short-stay appartementen. 5-stappen wizard, admin panel, iDEAL betalingen, PostgreSQL backend.</p>
+            <p class="desc">Booking engine voor short-stay appartementen. 5-stappen wizard, admin panel, iDEAL betalingen, PostgreSQL backend.</p>
             <div class="project-tags">
                 <span>Python</span><span>Flask</span><span>PostgreSQL</span><span>Leaflet</span><span>iDEAL</span>
             </div>
@@ -1297,10 +1471,12 @@ footer {
             </a>
         </div>
         <div class="project-card">
-            <div class="project-icon"><span class="material-icons-round">music_note</span></div>
-            <div class="project-status poc">POC</div>
+            <div class="project-header">
+                <div class="project-icon"><span class="material-icons-round">music_note</span></div>
+                <div class="project-status poc">POC</div>
+            </div>
             <h3>DAW Platform</h3>
-            <p>Browser-based muziekproductie platform. DAW, DJ app, audio editor, producer contests, live streaming.</p>
+            <p class="desc">Browser-based muziekproductie platform. DAW, DJ app, audio editor, producer contests, live streaming.</p>
             <div class="project-tags">
                 <span>Web Audio API</span><span>Canvas</span><span>Flask</span><span>PostgreSQL</span>
             </div>
@@ -1310,10 +1486,12 @@ footer {
             </a>
         </div>
         <div class="project-card">
-            <div class="project-icon"><span class="material-icons-round">email</span></div>
-            <div class="project-status beta">Beta</div>
+            <div class="project-header">
+                <div class="project-icon"><span class="material-icons-round">email</span></div>
+                <div class="project-status beta">Beta</div>
+            </div>
             <h3>Email Validator</h3>
-            <p>Email validatie tool met 14 checks en SCD Type 2 historie. Bulk upload, score 0-100.</p>
+            <p class="desc">Email validatie tool met 14 checks en SCD Type 2 historie. Bulk upload, score 0-100.</p>
             <div class="project-tags">
                 <span>Python</span><span>Flask</span><span>PostgreSQL</span><span>DNS</span><span>SMTP</span>
             </div>
@@ -1323,10 +1501,12 @@ footer {
             </a>
         </div>
         <div class="project-card">
-            <div class="project-icon"><span class="material-icons-round">report</span></div>
-            <div class="project-status poc">POC</div>
+            <div class="project-header">
+                <div class="project-icon"><span class="material-icons-round">report</span></div>
+                <div class="project-status poc">POC</div>
+            </div>
             <h3>Meldpunt Ambtenaren</h3>
-            <p>PWA voor het melden van misstanden door ambtenaren. Dossier-management, document anonimisering.</p>
+            <p class="desc">PWA voor het melden van misstanden door ambtenaren. Dossier-management, document anonimisering.</p>
             <div class="project-tags">
                 <span>PWA</span><span>Supabase</span><span>JavaScript</span>
             </div>
@@ -1336,10 +1516,12 @@ footer {
             </a>
         </div>
         <div class="project-card">
-            <div class="project-icon"><span class="material-icons-round">star</span></div>
-            <div class="project-status poc">POC</div>
+            <div class="project-header">
+                <div class="project-icon"><span class="material-icons-round">star</span></div>
+                <div class="project-status poc">POC</div>
+            </div>
             <h3>Astronomy</h3>
-            <p>Interactieve astronomie app. Zoombaar zonnestelsel, N-body simulator, NASA API's, equinox tracker.</p>
+            <p class="desc">Interactieve astronomie app. Zoombaar zonnestelsel, N-body simulator, NASA API's, equinox tracker.</p>
             <div class="project-tags">
                 <span>JavaScript</span><span>Canvas</span><span>NASA API's</span>
             </div>
@@ -1349,10 +1531,12 @@ footer {
             </a>
         </div>
         <div class="project-card">
-            <div class="project-icon"><span class="material-icons-round">auto_graph</span></div>
-            <div class="project-status poc">POC</div>
+            <div class="project-header">
+                <div class="project-icon"><span class="material-icons-round">auto_graph</span></div>
+                <div class="project-status poc">POC</div>
+            </div>
             <h3>KvK Enrichment</h3>
-            <p>Bedrijfsgegevens verrijking via KvK Open Data API. Jaarrekeningen, omzet, FTE.</p>
+            <p class="desc">Bedrijfsgegevens verrijking via KvK Open Data API. Jaarrekeningen, omzet, FTE.</p>
             <div class="project-tags">
                 <span>Python</span><span>openpyxl</span><span>KvK API</span>
             </div>
@@ -1362,12 +1546,13 @@ footer {
 
 <!-- Technologie Stack -->
 <section id="tech">
-    <h2 class="section-title anim-fade-in"><span>//</span> Technologie</h2>
-    <p class="section-subtitle anim-fade-in">De tools en technologieen waarmee we werken.</p>
-    <div class="tech-categories anim-fade-in">
+    <div class="section-label anim">Stack</div>
+    <h2 class="section-title anim"><span class="accent">Technologie</span></h2>
+    <p class="section-subtitle anim">De tools en technologieen waarmee we werken.</p>
+    <div class="tech-categories anim">
         <div class="tech-category">
             <h3><span class="material-icons-round">storage</span> Data</h3>
-            <div class="tech-grid stagger-children">
+            <div class="tech-grid stagger">
                 <div class="tech-badge">
                     <div class="tech-badge-icon">
                         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
@@ -1396,7 +1581,7 @@ footer {
         </div>
         <div class="tech-category">
             <h3><span class="material-icons-round">public</span> Geo</h3>
-            <div class="tech-grid stagger-children">
+            <div class="tech-grid stagger">
                 <div class="tech-badge">
                     <div class="tech-badge-icon">
                         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>
@@ -1425,7 +1610,7 @@ footer {
         </div>
         <div class="tech-category">
             <h3><span class="material-icons-round">code</span> Web</h3>
-            <div class="tech-grid stagger-children">
+            <div class="tech-grid stagger">
                 <div class="tech-badge">
                     <div class="tech-badge-icon">
                         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9l-9-7-9 7 1.63 1.27L12 16z"/></svg>
@@ -1454,7 +1639,7 @@ footer {
         </div>
         <div class="tech-category">
             <h3><span class="material-icons-round">build</span> Tools</h3>
-            <div class="tech-grid stagger-children">
+            <div class="tech-grid stagger">
                 <div class="tech-badge">
                     <div class="tech-badge-icon">
                         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v2h-2v-2zm0-2h2V7h-2v7z"/></svg>
@@ -1474,9 +1659,10 @@ footer {
 
 <!-- Open Data Visie -->
 <section id="visie">
-    <h2 class="section-title anim-fade-in"><span>//</span> Open Data Visie</h2>
-    <p class="section-subtitle anim-fade-in">Onze kijk op data, transparantie en publieke kennis.</p>
-    <div class="visie-grid stagger-children anim-fade-in">
+    <div class="section-label anim">Filosofie</div>
+    <h2 class="section-title anim">Open Data <span class="accent">Visie</span></h2>
+    <p class="section-subtitle anim">Onze kijk op data, transparantie en publieke kennis.</p>
+    <div class="visie-grid stagger anim">
         <div class="visie-card">
             <span class="material-icons-round">public</span>
             <h3>Publiek goed</h3>
@@ -1502,80 +1688,32 @@ footer {
 
 <!-- Contact -->
 <section id="contact">
-    <h2 class="section-title anim-fade-in"><span>//</span> Contact</h2>
-    <p class="section-subtitle anim-fade-in" style="margin-left:auto; margin-right:auto;">Interesse in een samenwerking of heb je een datavraag? Neem contact op.</p>
-    <div class="contact-wrapper anim-fade-in">
-        <form class="contact-form" id="contact-form">
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="contact-naam">Naam</label>
-                    <input type="text" id="contact-naam" name="naam" required placeholder="Je naam">
-                </div>
-                <div class="form-group">
-                    <label for="contact-organisatie">Organisatie</label>
-                    <input type="text" id="contact-organisatie" name="organisatie" placeholder="Bedrijf of instelling">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="contact-email">E-mail</label>
-                    <input type="email" id="contact-email" name="email" required placeholder="je@email.nl">
-                </div>
-                <div class="form-group">
-                    <label for="contact-telefoon">Telefoon <span style="color:var(--dim)">(optioneel)</span></label>
-                    <input type="tel" id="contact-telefoon" name="telefoon" placeholder="+31 6 ...">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="contact-onderwerp">Onderwerp</label>
-                <select id="contact-onderwerp" name="onderwerp">
-                    <option value="samenwerking">Samenwerking / Dataproject</option>
-                    <option value="geoinzicht">Vraag over GeoInzicht</option>
-                    <option value="data">Data-analyse aanvraag</option>
-                    <option value="overig">Overig</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="contact-bericht">Bericht</label>
-                <textarea id="contact-bericht" name="bericht" required rows="5" placeholder="Beschrijf je datavraag of projectidee..."></textarea>
-            </div>
-            <button type="submit" class="btn-primary" style="width:100%; justify-content:center;">
-                <span class="material-icons-round" style="font-size:18px">send</span>
-                Verstuur bericht
-            </button>
-            <div class="form-success" id="form-success" style="display:none;">
-                <span class="material-icons-round">check_circle</span>
-                Bedankt! We nemen zo snel mogelijk contact op.
-            </div>
-        </form>
-        <div class="contact-side">
-            <div class="contact-info-card">
-                <span class="material-icons-round">hub</span>
-                <h4>Open Source</h4>
-                <p>Bekijk onze code op GitHub</p>
-                <div class="github-links">
-                    <a href="https://github.com/AnneVersion/geoinzicht-dwh" target="_blank" class="github-link">
-                        <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                        geoinzicht-dwh
-                    </a>
-                    <a href="https://github.com/AnneVersion/geoinzicht-app" target="_blank" class="github-link">
-                        <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                        geoinzicht-app
-                    </a>
-                </div>
-            </div>
-            <div class="contact-info-card">
-                <span class="material-icons-round">location_on</span>
-                <h4>Locatie</h4>
-                <p>Nederland</p>
-            </div>
-        </div>
+    <div class="section-label anim">Bereik Ons</div>
+    <h2 class="section-title anim" style="text-align:center"><span class="accent">Contact</span></h2>
+    <p class="section-subtitle anim" style="margin-left:auto; margin-right:auto; text-align:center;">Interesse in een samenwerking of heb je een datavraag?</p>
+    <div class="contact-links anim">
+        <a href="mailto:info@dataconsultants.nl" class="contact-link">
+            <span class="material-icons-round">mail</span>
+            info@dataconsultants.nl
+        </a>
+        <a href="https://github.com/AnneVersion" target="_blank" class="contact-link">
+            <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            GitHub
+        </a>
     </div>
 </section>
 
 <!-- Footer -->
 <footer>
-    <p>&copy; 2025 Data Consultants &mdash; Dataverzamelaars &amp; Datamodelleurs</p>
+    <div class="footer-links">
+        <a href="https://github.com/AnneVersion" target="_blank">
+            <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        </a>
+        <a href="mailto:info@dataconsultants.nl">
+            <span class="material-icons-round" style="font-size:18px">mail</span>
+        </a>
+    </div>
+    <p>&copy; 2026 Data Consultants &mdash; Dataverzamelaars &amp; Datamodelleurs</p>
 </footer>
 
 <!-- Scroll to top -->
@@ -1584,15 +1722,16 @@ footer {
 </button>
 
 <script>
-/* ---- Particle Canvas ---- */
+/* ---- Hero Particle Canvas ---- */
 (function() {
-    const canvas = document.getElementById('particle-canvas');
+    const canvas = document.getElementById('hero-canvas');
     const ctx = canvas.getContext('2d');
-    let w, h, particles = [];
+    const hero = document.getElementById('hero');
+    let w, h, particles = [], mouseX = 0, mouseY = 0;
 
     function resize() {
-        w = canvas.width = window.innerWidth;
-        h = canvas.height = window.innerHeight;
+        w = canvas.width = hero.offsetWidth;
+        h = canvas.height = hero.offsetHeight;
     }
     resize();
     window.addEventListener('resize', resize);
@@ -1602,10 +1741,10 @@ footer {
         reset() {
             this.x = Math.random() * w;
             this.y = Math.random() * h;
-            this.vx = (Math.random() - .5) * .3;
-            this.vy = (Math.random() - .5) * .3;
-            this.r = Math.random() * 1.5 + .5;
-            this.alpha = Math.random() * .3 + .1;
+            this.vx = (Math.random() - .5) * .4;
+            this.vy = (Math.random() - .5) * .4;
+            this.r = Math.random() * 2 + .5;
+            this.alpha = Math.random() * .4 + .1;
         }
         update() {
             this.x += this.vx;
@@ -1620,7 +1759,7 @@ footer {
         }
     }
 
-    const count = Math.min(80, Math.floor(w * h / 15000));
+    const count = Math.min(100, Math.floor(w * h / 12000));
     for (let i = 0; i < count; i++) particles.push(new Particle());
 
     function drawLines() {
@@ -1629,11 +1768,12 @@ footer {
                 const dx = particles[i].x - particles[j].x;
                 const dy = particles[i].y - particles[j].y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 120) {
+                if (dist < 140) {
                     ctx.beginPath();
                     ctx.moveTo(particles[i].x, particles[i].y);
                     ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.strokeStyle = `rgba(57, 255, 20, ${.06 * (1 - dist / 120)})`;
+                    ctx.strokeStyle = `rgba(57, 255, 20, ${.08 * (1 - dist / 140)})`;
+                    ctx.lineWidth = .5;
                     ctx.stroke();
                 }
             }
@@ -1649,26 +1789,18 @@ footer {
     animate();
 })();
 
-/* ---- Theme Toggle ---- */
+/* ---- Mouse Spotlight ---- */
 (function() {
-    const toggle = document.getElementById('theme-toggle');
-    const icon = toggle.querySelector('.material-icons-round');
-    const stored = localStorage.getItem('dc-theme');
-    if (stored === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-        icon.textContent = 'light_mode';
-    }
-    toggle.addEventListener('click', () => {
-        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-        if (isLight) {
-            document.documentElement.removeAttribute('data-theme');
-            icon.textContent = 'dark_mode';
-            localStorage.setItem('dc-theme', 'dark');
-        } else {
-            document.documentElement.setAttribute('data-theme', 'light');
-            icon.textContent = 'light_mode';
-            localStorage.setItem('dc-theme', 'light');
-        }
+    const spotlight = document.getElementById('spotlight');
+    let active = false;
+    document.addEventListener('mousemove', (e) => {
+        if (!active) { spotlight.classList.add('active'); active = true; }
+        spotlight.style.left = e.clientX + 'px';
+        spotlight.style.top = e.clientY + 'px';
+    });
+    document.addEventListener('mouseleave', () => {
+        spotlight.classList.remove('active');
+        active = false;
     });
 })();
 
@@ -1685,7 +1817,7 @@ document.querySelectorAll('.nav-links a').forEach(link => {
 /* ---- Typewriter ---- */
 (function() {
     const el = document.getElementById('typewriter');
-    const words = ['Open Data', 'Geo-analyse', 'Data Modellering', 'Dashboards'];
+    const words = ['Open Data Verzamelen', 'Geo-analyse & Kaarten', 'Data Modellering', 'Dashboard Visualisatie', 'CBS & BAG Koppeling'];
     let wordIdx = 0, charIdx = 0, deleting = false;
 
     function type() {
@@ -1694,42 +1826,39 @@ document.querySelectorAll('.nav-links a').forEach(link => {
             el.textContent = current.substring(0, charIdx + 1);
             charIdx++;
             if (charIdx === current.length) {
-                setTimeout(() => { deleting = true; type(); }, 2000);
+                setTimeout(() => { deleting = true; type(); }, 2200);
                 return;
             }
-            setTimeout(type, 80);
+            setTimeout(type, 70);
         } else {
             el.textContent = current.substring(0, charIdx - 1);
             charIdx--;
             if (charIdx === 0) {
                 deleting = false;
                 wordIdx = (wordIdx + 1) % words.length;
-                setTimeout(type, 400);
+                setTimeout(type, 500);
                 return;
             }
-            setTimeout(type, 40);
+            setTimeout(type, 35);
         }
     }
     type();
 })();
 
-/* ---- Scroll Animations ---- */
+/* ---- Scroll Animations (Intersection Observer) ---- */
 (function() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                // animate child elements with stagger
-                entry.target.querySelectorAll('.anim-fade-in, .anim-slide-left, .anim-slide-right, .anim-scale').forEach(child => {
+                entry.target.querySelectorAll('.anim').forEach(child => {
                     child.classList.add('visible');
                 });
             }
         });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
 
-    document.querySelectorAll('.anim-fade-in, .anim-slide-left, .anim-slide-right, .anim-scale').forEach(el => {
-        observer.observe(el);
-    });
+    document.querySelectorAll('.anim').forEach(el => observer.observe(el));
 })();
 
 /* ---- Stats Counter Animation ---- */
@@ -1767,22 +1896,7 @@ document.querySelectorAll('.nav-links a').forEach(link => {
     counters.forEach(c => observer.observe(c));
 })();
 
-/* ---- Contact Form Submit ---- */
-document.getElementById('contact-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(this));
-    console.log('Contact formulier:', data);
-    // TODO: koppel aan backend API wanneer beschikbaar
-    this.querySelector('button[type="submit"]').style.display = 'none';
-    document.getElementById('form-success').style.display = 'flex';
-    setTimeout(() => {
-        this.reset();
-        this.querySelector('button[type="submit"]').style.display = '';
-        document.getElementById('form-success').style.display = 'none';
-    }, 4000);
-});
-
-/* ---- Active Nav ---- */
+/* ---- Active Nav Section Highlighting ---- */
 (function() {
     const sections = document.querySelectorAll('section[id]');
     const links = document.querySelectorAll('.nav-links a');
@@ -1790,7 +1904,7 @@ document.getElementById('contact-form').addEventListener('submit', function(e) {
     window.addEventListener('scroll', () => {
         let current = '';
         sections.forEach(section => {
-            const top = section.offsetTop - 100;
+            const top = section.offsetTop - 120;
             if (scrollY >= top) current = section.getAttribute('id');
         });
         links.forEach(link => {
@@ -1803,10 +1917,29 @@ document.getElementById('contact-form').addEventListener('submit', function(e) {
 (function() {
     const btn = document.getElementById('scroll-top');
     window.addEventListener('scroll', () => {
-        btn.classList.toggle('show', scrollY > 400);
+        btn.classList.toggle('show', scrollY > 500);
     });
     btn.addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+})();
+
+/* ---- Gradient border rotation on hover ---- */
+(function() {
+    document.querySelectorAll('.gradient-border').forEach(el => {
+        let rotation = 0;
+        let animating = false;
+        el.addEventListener('mouseenter', () => {
+            animating = true;
+            function rotate() {
+                if (!animating) return;
+                rotation += 2;
+                el.style.setProperty('--rotation', rotation + 'deg');
+                requestAnimationFrame(rotate);
+            }
+            rotate();
+        });
+        el.addEventListener('mouseleave', () => { animating = false; });
     });
 })();
 </script>
