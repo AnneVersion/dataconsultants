@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Darosa Fietsverhuur — Elektrische Bromfietsen | Data Consultants</title>
+    <meta name="description" content="Verhuurplatform voor 5 Fuell Flluid elektrische bromfietsen in Arnhem. Booking systeem met automatische prijsberekening.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='10.67' fill='%23AE1C28'/><rect y='10.67' width='32' height='10.67' fill='%23FFF'/><rect y='21.33' width='32' height='10.67' fill='%2321468B'/></svg>">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+:root {
+    --bg: #0a0f1a; --bg2: #0f1520; --bg3: #141c2b;
+    --panel: rgba(255,255,255,0.03); --border: #1e293b; --text: #e2e8f0; --muted: #94a3b8; --dim: #64748b;
+    --accent: #39ff14; --indigo: #4F46E5; --white: #ffffff;
+    --radius: 16px; --radius-sm: 10px; --font: Verdana, Geneva, Tahoma, sans-serif;
+}
+body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+body::before { content: ''; position: fixed; inset: 0; background-image: radial-gradient(rgba(57, 255, 20, .07) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: 0; }
+body::after { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at 20% 50%, rgba(57,255,20,.04) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(79,70,229,.04) 0%, transparent 50%); pointer-events: none; z-index: 0; }
+::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: var(--bg); } ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 15, 26, .7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(57, 255, 20, .08); padding: 0 32px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+.nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; color: var(--text); text-decoration: none; } .nav-logo:hover { text-decoration: none; } .nav-logo svg { width: 28px; height: 28px; }
+.nav-right { display: flex; align-items: center; gap: 20px; }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { color: var(--muted); font-size: 13px; font-weight: 700; text-decoration: none; padding: 4px 0; border-bottom: 2px solid transparent; transition: color .3s, border-color .3s; text-transform: uppercase; letter-spacing: .5px; }
+.nav-links a:hover { color: var(--accent); border-bottom-color: var(--accent); text-decoration: none; }
+.hamburger { display: none; background: none; border: none; color: var(--text); font-size: 28px; cursor: pointer; }
+@media (max-width: 768px) { .hamburger { display: block; } .nav-links { display: none; position: absolute; top: 64px; left: 0; right: 0; background: rgba(10, 15, 26, .95); backdrop-filter: blur(20px); flex-direction: column; padding: 20px 32px; gap: 16px; border-bottom: 1px solid rgba(57, 255, 20, .08); } .nav-links.open { display: flex; } }
+.page-content { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; padding: 100px 24px 60px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 40px; transition: color .3s; } .back-link:hover { color: var(--accent); text-decoration: none; }
+.project-hero { text-align: center; margin-bottom: 80px; padding: 60px 0; border-bottom: 1px solid var(--border); }
+.project-hero .icon-wrap { width: 80px; height: 80px; border-radius: 20px; background: rgba(20, 184, 166, .15); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
+.project-hero .icon-wrap .material-icons-round { color: #14b8a6; font-size: 40px; }
+.project-hero h1 { font-size: 2.8rem; font-weight: 700; color: var(--white); margin-bottom: 16px; line-height: 1.2; }
+.project-hero h1 .accent { color: var(--accent); }
+.project-hero .tagline { font-size: 1.1rem; color: var(--muted); max-width: 700px; margin: 0 auto 32px; line-height: 1.8; }
+.project-hero .status-badge { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 6px 16px; border-radius: 20px; background: rgba(245, 158, 11, .15); color: #f59e0b; }
+@media (max-width: 768px) { .project-hero h1 { font-size: 2rem; } }
+.detail-section { margin-bottom: 80px; }
+.detail-section h2 { font-size: 1.8rem; color: var(--white); margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
+.detail-section h2 .material-icons-round { color: var(--accent); font-size: 28px; }
+.detail-section .section-line { width: 60px; height: 3px; background: linear-gradient(90deg, var(--accent), var(--indigo)); border-radius: 2px; margin-bottom: 24px; }
+.detail-section p, .detail-section li { color: var(--muted); font-size: .95rem; line-height: 1.9; margin-bottom: 12px; }
+.detail-section ul { list-style: none; padding: 0; }
+.detail-section ul li { padding-left: 24px; position: relative; }
+.detail-section ul li::before { content: ''; position: absolute; left: 0; top: 11px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+/* Pricing */
+.pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 24px; }
+.price-card { background: var(--panel); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 24px; text-align: center; transition: all .3s; }
+.price-card:hover { border-color: rgba(20, 184, 166, .4); transform: translateY(-4px); }
+.price-card .period { color: var(--muted); font-size: .85rem; margin-bottom: 8px; }
+.price-card .amount { color: #14b8a6; font-size: 1.8rem; font-weight: 700; }
+.price-card .amount small { font-size: .7rem; color: var(--muted); font-weight: 400; }
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 24px; }
+.feature-card { background: var(--panel); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 28px; transition: all .3s; }
+.feature-card:hover { border-color: rgba(57, 255, 20, .3); transform: translateY(-4px); box-shadow: 0 10px 40px rgba(0,0,0,.2); }
+.feature-card .material-icons-round { color: var(--accent); font-size: 32px; margin-bottom: 14px; }
+.feature-card h3 { color: var(--white); font-size: 1rem; margin-bottom: 8px; }
+.feature-card p { margin-bottom: 0; }
+.screenshots-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 24px; }
+.screenshot-placeholder { aspect-ratio: 16/10; border-radius: var(--radius-sm); display: flex; align-items: flex-end; justify-content: center; padding: 20px; border: 1px solid rgba(255,255,255,0.06); }
+.screenshot-placeholder span { background: rgba(0,0,0,.6); backdrop-filter: blur(8px); padding: 8px 16px; border-radius: 8px; font-size: .85rem; color: var(--white); font-weight: 700; }
+.ss-1 { background: linear-gradient(135deg, #0a1a15, #0d3d2d, #0a1a15); }
+.ss-2 { background: linear-gradient(135deg, #0a151a, #0d2d3d, #0a151a); }
+.ss-3 { background: linear-gradient(135deg, #1a150a, #3d2d0d, #1a150a); }
+.tech-badges { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.tech-badge { display: flex; align-items: center; gap: 8px; background: var(--panel); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 10px 18px; font-size: .85rem; color: var(--text); transition: all .3s; }
+.tech-badge:hover { border-color: var(--accent); transform: translateY(-2px); }
+.tech-badge .material-icons-round { color: var(--accent); font-size: 20px; }
+.links-section { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 24px; }
+.link-btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 8px; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: .5px; transition: all .3s; text-decoration: none; }
+.link-btn:hover { text-decoration: none; transform: translateY(-2px); }
+.link-btn.primary { background: var(--accent); color: #0a0f1a; } .link-btn.primary:hover { box-shadow: 0 0 30px rgba(57, 255, 20, .4); }
+.link-btn.secondary { background: rgba(255,255,255,0.06); color: var(--text); border: 1px solid rgba(255,255,255,0.1); } .link-btn.secondary:hover { border-color: var(--accent); color: var(--accent); }
+.link-btn svg { width: 18px; height: 18px; fill: currentColor; }
+.callout-box { background: rgba(245, 158, 11, .08); border: 1px solid rgba(245, 158, 11, .2); border-radius: var(--radius-sm); padding: 24px; margin-top: 24px; }
+.callout-box h3 { color: #fbbf24; font-size: 1rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.callout-box p { color: var(--muted); font-size: .9rem; margin: 0; }
+footer { position: relative; z-index: 2; text-align: center; padding: 40px 24px; border-top: 1px solid var(--border); color: var(--dim); font-size: 13px; }
+footer a { color: var(--dim); transition: color .3s; } footer a:hover { color: var(--accent); text-decoration: none; }
+.footer-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 12px; }
+.footer-links a svg { width: 18px; height: 18px; fill: currentColor; vertical-align: middle; }
+.claude-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 6px 14px; border-radius: 6px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); font-size: 11px; color: var(--dim); }
+</style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="nav-logo">
+        <svg viewBox="0 0 32 32"><rect width="32" height="10.67" fill="#AE1C28"/><rect y="10.67" width="32" height="10.67" fill="#FFF"/><rect y="21.33" width="32" height="10.67" fill="#21468B"/></svg>
+        Data Consultants
+    </a>
+    <div class="nav-right">
+        <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')"><span class="material-icons-round">menu</span></button>
+        <ul class="nav-links">
+            <li><a href="index.html#about">Over Ons</a></li>
+            <li><a href="index.html#projecten">Projecten</a></li>
+            <li><a href="index.html#tech">Tech</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="page-content">
+
+    <a href="index.html#projecten" class="back-link">
+        <span class="material-icons-round" style="font-size:18px">arrow_back</span>
+        Terug naar projecten
+    </a>
+
+    <div class="project-hero">
+        <div class="icon-wrap">
+            <span class="material-icons-round">electric_moped</span>
+        </div>
+        <h1>Darosa <span class="accent">Fietsverhuur</span></h1>
+        <p class="tagline">Verhuurplatform voor 5 Fuell Flluid elektrische bromfietsen in Arnhem. Van booking tot fleet management.</p>
+        <span class="status-badge">POC</span>
+    </div>
+
+    <!-- Wat is het -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">info</span> Wat is het?</h2>
+        <div class="section-line"></div>
+        <p>Darosa Fietsverhuur is een verhuurplatform specifiek gebouwd voor een vloot van 5 Fuell Flluid elektrische bromfietsen in Arnhem. Het platform biedt een publieke website waar klanten direct kunnen boeken, en een admin dashboard voor vlootbeheer.</p>
+        <p>Het booking systeem berekent automatisch de prijs op basis van de gekozen periode en past staffelkortingen toe. Klanten hebben een AM of B rijbewijs nodig om te huren.</p>
+    </div>
+
+    <!-- Tarieven -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">euro</span> Tarieven</h2>
+        <div class="section-line"></div>
+        <div class="pricing-grid">
+            <div class="price-card">
+                <div class="period">Per dag</div>
+                <div class="amount">&euro; 45</div>
+            </div>
+            <div class="price-card">
+                <div class="period">Per week</div>
+                <div class="amount">&euro; 275</div>
+            </div>
+            <div class="price-card">
+                <div class="period">Per maand</div>
+                <div class="amount">&euro; 950</div>
+            </div>
+            <div class="price-card">
+                <div class="period">Borg</div>
+                <div class="amount">&euro; 250</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">star</span> Features</h2>
+        <div class="section-line"></div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="material-icons-round">calendar_month</span>
+                <h3>Booking Systeem</h3>
+                <p>Online reserveren met automatische prijsberekening. Selecteer datums, kies een fiets en boek direct.</p>
+            </div>
+            <div class="feature-card">
+                <span class="material-icons-round">admin_panel_settings</span>
+                <h3>Admin Dashboard</h3>
+                <p>Fleet management met overzicht van alle fietsen, reserveringen en beschikbaarheid.</p>
+            </div>
+            <div class="feature-card">
+                <span class="material-icons-round">calculate</span>
+                <h3>Automatische Prijsberekening</h3>
+                <p>Het systeem berekent automatisch de optimale prijs op basis van dag-, week- en maandtarieven.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- RDW Context -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">gavel</span> Context</h2>
+        <div class="section-line"></div>
+        <div class="callout-box">
+            <h3><span class="material-icons-round" style="font-size:20px">warning</span> RDW Rechtszaak</h3>
+            <p>De kentekens voor de Fuell Flluid bromfietsen zijn nog niet afgegeven door de RDW, ondanks een wachttijd van meer dan 15 maanden. Hiervoor loopt een beroepsprocedure bij de Rechtbank Gelderland.</p>
+        </div>
+    </div>
+
+    <!-- Screenshots -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">photo_library</span> Screenshots</h2>
+        <div class="section-line"></div>
+        <div class="screenshots-grid">
+            <div class="screenshot-placeholder ss-1"><span>Homepage met fietsen</span></div>
+            <div class="screenshot-placeholder ss-2"><span>Booking formulier</span></div>
+            <div class="screenshot-placeholder ss-3"><span>Admin fleet overzicht</span></div>
+        </div>
+    </div>
+
+    <!-- Technologie -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">code</span> Technologie</h2>
+        <div class="section-line"></div>
+        <div class="tech-badges">
+            <div class="tech-badge"><span class="material-icons-round">terminal</span> Python</div>
+            <div class="tech-badge"><span class="material-icons-round">layers</span> Flask</div>
+            <div class="tech-badge"><span class="material-icons-round">storage</span> PostgreSQL</div>
+        </div>
+    </div>
+
+    <!-- Links -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">link</span> Links</h2>
+        <div class="section-line"></div>
+        <div class="links-section">
+            <a href="http://localhost:8092" target="_blank" class="link-btn primary">
+                <span class="material-icons-round" style="font-size:18px">open_in_new</span>
+                Open Fietsverhuur
+            </a>
+            <a href="https://github.com/AnneVersion/darosa-fietsverhuur" target="_blank" class="link-btn secondary">
+                <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                GitHub
+            </a>
+            <a href="https://anneversion.github.io/darosa-fietsverhuur" target="_blank" class="link-btn secondary">
+                <span class="material-icons-round" style="font-size:18px">public</span>
+                GitHub Pages
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <div class="footer-links">
+        <a href="https://github.com/AnneVersion" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+        <a href="mailto:info@dataconsultants.nl"><span class="material-icons-round" style="font-size:18px">mail</span></a>
+    </div>
+    <p>&copy; 2026 Data Consultants &mdash; Dataverzamelaars &amp; Datamodelleurs</p>
+    <div class="claude-badge">Gebouwd met Claude</div>
+</footer>
+
+</body>
+</html>

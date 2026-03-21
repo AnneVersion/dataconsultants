@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Validator — 14 Validatie Checks | Data Consultants</title>
+    <meta name="description" content="Valideer emailadressen met 14 technische checks: DNS, MX, SMTP, SPF, DKIM, DMARC en meer. Score 0-100 met visuele breakdown.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='10.67' fill='%23AE1C28'/><rect y='10.67' width='32' height='10.67' fill='%23FFF'/><rect y='21.33' width='32' height='10.67' fill='%2321468B'/></svg>">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+:root {
+    --bg: #0a0f1a; --bg2: #0f1520; --bg3: #141c2b;
+    --panel: rgba(255,255,255,0.03); --border: #1e293b; --text: #e2e8f0; --muted: #94a3b8; --dim: #64748b;
+    --accent: #39ff14; --indigo: #4F46E5; --white: #ffffff;
+    --radius: 16px; --radius-sm: 10px; --font: Verdana, Geneva, Tahoma, sans-serif;
+}
+body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+body::before { content: ''; position: fixed; inset: 0; background-image: radial-gradient(rgba(57, 255, 20, .07) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: 0; }
+body::after { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at 20% 50%, rgba(57,255,20,.04) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(79,70,229,.04) 0%, transparent 50%); pointer-events: none; z-index: 0; }
+::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: var(--bg); } ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 15, 26, .7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(57, 255, 20, .08); padding: 0 32px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+.nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; color: var(--text); text-decoration: none; } .nav-logo:hover { text-decoration: none; } .nav-logo svg { width: 28px; height: 28px; }
+.nav-right { display: flex; align-items: center; gap: 20px; }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { color: var(--muted); font-size: 13px; font-weight: 700; text-decoration: none; padding: 4px 0; border-bottom: 2px solid transparent; transition: color .3s, border-color .3s; text-transform: uppercase; letter-spacing: .5px; }
+.nav-links a:hover { color: var(--accent); border-bottom-color: var(--accent); text-decoration: none; }
+.hamburger { display: none; background: none; border: none; color: var(--text); font-size: 28px; cursor: pointer; }
+@media (max-width: 768px) { .hamburger { display: block; } .nav-links { display: none; position: absolute; top: 64px; left: 0; right: 0; background: rgba(10, 15, 26, .95); backdrop-filter: blur(20px); flex-direction: column; padding: 20px 32px; gap: 16px; border-bottom: 1px solid rgba(57, 255, 20, .08); } .nav-links.open { display: flex; } }
+.page-content { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; padding: 100px 24px 60px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 40px; transition: color .3s; } .back-link:hover { color: var(--accent); text-decoration: none; }
+.project-hero { text-align: center; margin-bottom: 80px; padding: 60px 0; border-bottom: 1px solid var(--border); }
+.project-hero .icon-wrap { width: 80px; height: 80px; border-radius: 20px; background: rgba(6, 182, 212, .15); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
+.project-hero .icon-wrap .material-icons-round { color: #06b6d4; font-size: 40px; }
+.project-hero h1 { font-size: 2.8rem; font-weight: 700; color: var(--white); margin-bottom: 16px; line-height: 1.2; }
+.project-hero h1 .accent { color: var(--accent); }
+.project-hero .tagline { font-size: 1.1rem; color: var(--muted); max-width: 700px; margin: 0 auto 32px; line-height: 1.8; }
+.project-hero .status-badge { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 6px 16px; border-radius: 20px; background: rgba(79, 70, 229, .2); color: #818cf8; }
+@media (max-width: 768px) { .project-hero h1 { font-size: 2rem; } }
+.detail-section { margin-bottom: 80px; }
+.detail-section h2 { font-size: 1.8rem; color: var(--white); margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
+.detail-section h2 .material-icons-round { color: var(--accent); font-size: 28px; }
+.detail-section .section-line { width: 60px; height: 3px; background: linear-gradient(90deg, var(--accent), var(--indigo)); border-radius: 2px; margin-bottom: 24px; }
+.detail-section p, .detail-section li { color: var(--muted); font-size: .95rem; line-height: 1.9; margin-bottom: 12px; }
+.detail-section ul { list-style: none; padding: 0; }
+.detail-section ul li { padding-left: 24px; position: relative; }
+.detail-section ul li::before { content: ''; position: absolute; left: 0; top: 11px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+/* Checks grid */
+.checks-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 24px; }
+.check-item { background: var(--panel); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 18px 20px; display: flex; align-items: center; gap: 12px; transition: all .3s; }
+.check-item:hover { border-color: rgba(6, 182, 212, .4); transform: translateY(-2px); }
+.check-number { width: 28px; height: 28px; border-radius: 50%; background: rgba(6, 182, 212, .15); color: #06b6d4; font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.check-item span:last-child { color: var(--text); font-size: .85rem; }
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 24px; }
+.feature-card { background: var(--panel); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 28px; transition: all .3s; }
+.feature-card:hover { border-color: rgba(57, 255, 20, .3); transform: translateY(-4px); box-shadow: 0 10px 40px rgba(0,0,0,.2); }
+.feature-card .material-icons-round { color: var(--accent); font-size: 32px; margin-bottom: 14px; }
+.feature-card h3 { color: var(--white); font-size: 1rem; margin-bottom: 8px; }
+.feature-card p { margin-bottom: 0; }
+.screenshots-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 24px; }
+.screenshot-placeholder { aspect-ratio: 16/10; border-radius: var(--radius-sm); display: flex; align-items: flex-end; justify-content: center; padding: 20px; border: 1px solid rgba(255,255,255,0.06); }
+.screenshot-placeholder span { background: rgba(0,0,0,.6); backdrop-filter: blur(8px); padding: 8px 16px; border-radius: 8px; font-size: .85rem; color: var(--white); font-weight: 700; }
+.ss-1 { background: linear-gradient(135deg, #0a1a2e, #0d3d5f, #0a1a2e); }
+.ss-2 { background: linear-gradient(135deg, #0a2e1a, #1b694d, #0a2e1a); }
+.ss-3 { background: linear-gradient(135deg, #1a0a2e, #2d1b69, #1a0a2e); }
+.ss-4 { background: linear-gradient(135deg, #2e1a0a, #694d1b, #2e1a0a); }
+.tech-badges { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.tech-badge { display: flex; align-items: center; gap: 8px; background: var(--panel); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 10px 18px; font-size: .85rem; color: var(--text); transition: all .3s; }
+.tech-badge:hover { border-color: var(--accent); transform: translateY(-2px); }
+.tech-badge .material-icons-round { color: var(--accent); font-size: 20px; }
+.links-section { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 24px; }
+.link-btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 8px; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: .5px; transition: all .3s; text-decoration: none; }
+.link-btn:hover { text-decoration: none; transform: translateY(-2px); }
+.link-btn.primary { background: var(--accent); color: #0a0f1a; } .link-btn.primary:hover { box-shadow: 0 0 30px rgba(57, 255, 20, .4); }
+.link-btn.secondary { background: rgba(255,255,255,0.06); color: var(--text); border: 1px solid rgba(255,255,255,0.1); } .link-btn.secondary:hover { border-color: var(--accent); color: var(--accent); }
+.link-btn svg { width: 18px; height: 18px; fill: currentColor; }
+footer { position: relative; z-index: 2; text-align: center; padding: 40px 24px; border-top: 1px solid var(--border); color: var(--dim); font-size: 13px; }
+footer a { color: var(--dim); transition: color .3s; } footer a:hover { color: var(--accent); text-decoration: none; }
+.footer-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 12px; }
+.footer-links a svg { width: 18px; height: 18px; fill: currentColor; vertical-align: middle; }
+.claude-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 6px 14px; border-radius: 6px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); font-size: 11px; color: var(--dim); }
+</style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="nav-logo">
+        <svg viewBox="0 0 32 32"><rect width="32" height="10.67" fill="#AE1C28"/><rect y="10.67" width="32" height="10.67" fill="#FFF"/><rect y="21.33" width="32" height="10.67" fill="#21468B"/></svg>
+        Data Consultants
+    </a>
+    <div class="nav-right">
+        <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')"><span class="material-icons-round">menu</span></button>
+        <ul class="nav-links">
+            <li><a href="index.html#about">Over Ons</a></li>
+            <li><a href="index.html#projecten">Projecten</a></li>
+            <li><a href="index.html#tech">Tech</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="page-content">
+
+    <a href="index.html#projecten" class="back-link">
+        <span class="material-icons-round" style="font-size:18px">arrow_back</span>
+        Terug naar projecten
+    </a>
+
+    <div class="project-hero">
+        <div class="icon-wrap">
+            <span class="material-icons-round">email</span>
+        </div>
+        <h1>Email <span class="accent">Validator</span></h1>
+        <p class="tagline">Valideer emailadressen met 14 technische checks. Van syntax tot SMTP, van SPF tot Gravatar. Elke check uitklapbaar met gedetailleerde uitleg.</p>
+        <span class="status-badge">Beta</span>
+    </div>
+
+    <!-- Wat is het -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">info</span> Wat is het?</h2>
+        <div class="section-line"></div>
+        <p>De Email Validator controleert emailadressen op 14 verschillende technische aspecten. Van basale syntax-controle tot geavanceerde SMTP-verificatie en email authenticatie protocollen (SPF, DKIM, DMARC).</p>
+        <p>Elke validatie levert een score op van 0 tot 100, opgebouwd uit de resultaten van alle individuele checks. De tool detecteert automatisch de email provider via MX records (Microsoft, Google, Yahoo worden automatisch herkend) en waarschuwt voor wegwerp-emaildiensten en catch-all domeinen.</p>
+        <p>Alle resultaten worden opgeslagen met SCD Type 2 (Slowly Changing Dimensions): bij hervalidatie wordt het oude record afgesloten en een nieuw record aangemaakt met geldig_van en geldig_tot timestamps.</p>
+    </div>
+
+    <!-- 14 Checks -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">checklist</span> De 14 Checks</h2>
+        <div class="section-line"></div>
+        <div class="checks-grid">
+            <div class="check-item"><span class="check-number">1</span><span>Syntax validatie</span></div>
+            <div class="check-item"><span class="check-number">2</span><span>DNS lookup</span></div>
+            <div class="check-item"><span class="check-number">3</span><span>MX records</span></div>
+            <div class="check-item"><span class="check-number">4</span><span>SMTP verificatie</span></div>
+            <div class="check-item"><span class="check-number">5</span><span>Disposable detectie</span></div>
+            <div class="check-item"><span class="check-number">6</span><span>Role-based check</span></div>
+            <div class="check-item"><span class="check-number">7</span><span>Free provider</span></div>
+            <div class="check-item"><span class="check-number">8</span><span>Catch-all detectie</span></div>
+            <div class="check-item"><span class="check-number">9</span><span>SPF record</span></div>
+            <div class="check-item"><span class="check-number">10</span><span>DKIM verificatie</span></div>
+            <div class="check-item"><span class="check-number">11</span><span>DMARC beleid</span></div>
+            <div class="check-item"><span class="check-number">12</span><span>Gravatar check</span></div>
+            <div class="check-item"><span class="check-number">13</span><span>Typo suggestie</span></div>
+            <div class="check-item"><span class="check-number">14</span><span>Bounce test</span></div>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">star</span> Features</h2>
+        <div class="section-line"></div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="material-icons-round">speed</span>
+                <h3>Score 0-100</h3>
+                <p>Elke emailvalidatie levert een score op van 0 tot 100, met een visuele gauge en breakdown per check.</p>
+            </div>
+            <div class="feature-card">
+                <span class="material-icons-round">touch_app</span>
+                <h3>Klikbare Checks</h3>
+                <p>Elke check is uitklapbaar met een gedetailleerde uitleg van wat er gecontroleerd is en wat het resultaat betekent.</p>
+            </div>
+            <div class="feature-card">
+                <span class="material-icons-round">dns</span>
+                <h3>Provider Detectie</h3>
+                <p>Automatische herkenning van email providers via MX records. Microsoft (protection.outlook.com), Google, Yahoo en meer.</p>
+            </div>
+            <div class="feature-card">
+                <span class="material-icons-round">upload_file</span>
+                <h3>Bulk Upload</h3>
+                <p>Upload een CSV of Excel bestand met emailadressen voor batch processing. Valideer honderden adressen tegelijk.</p>
+            </div>
+            <div class="feature-card">
+                <span class="material-icons-round">history</span>
+                <h3>SCD Type 2 Historie</h3>
+                <p>Volledige historie van alle validaties met geldig_van en geldig_tot. Zie hoe de status van een emailadres verandert over tijd.</p>
+            </div>
+            <div class="feature-card">
+                <span class="material-icons-round">tab</span>
+                <h3>4 Tabs</h3>
+                <p>Enkele Validatie, Bulk Validatie, Dashboard en Geschiedenis. Alles overzichtelijk georganiseerd.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screenshots -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">photo_library</span> Screenshots</h2>
+        <div class="section-line"></div>
+        <div class="screenshots-grid">
+            <div class="screenshot-placeholder ss-1"><span>Validatie resultaat met score gauge</span></div>
+            <div class="screenshot-placeholder ss-2"><span>Klikbare check details</span></div>
+            <div class="screenshot-placeholder ss-3"><span>Score breakdown</span></div>
+            <div class="screenshot-placeholder ss-4"><span>Bulk upload</span></div>
+        </div>
+    </div>
+
+    <!-- Technologie -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">code</span> Technologie</h2>
+        <div class="section-line"></div>
+        <div class="tech-badges">
+            <div class="tech-badge"><span class="material-icons-round">terminal</span> Python</div>
+            <div class="tech-badge"><span class="material-icons-round">layers</span> Flask</div>
+            <div class="tech-badge"><span class="material-icons-round">storage</span> PostgreSQL</div>
+            <div class="tech-badge"><span class="material-icons-round">dns</span> dnspython</div>
+            <div class="tech-badge"><span class="material-icons-round">email</span> smtplib</div>
+        </div>
+    </div>
+
+    <!-- Links -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">link</span> Links</h2>
+        <div class="section-line"></div>
+        <div class="links-section">
+            <a href="http://localhost:8089" target="_blank" class="link-btn primary">
+                <span class="material-icons-round" style="font-size:18px">open_in_new</span>
+                Open Email Validator
+            </a>
+            <a href="https://github.com/AnneVersion/email-validator" target="_blank" class="link-btn secondary">
+                <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                GitHub
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <div class="footer-links">
+        <a href="https://github.com/AnneVersion" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
+        <a href="mailto:info@dataconsultants.nl"><span class="material-icons-round" style="font-size:18px">mail</span></a>
+    </div>
+    <p>&copy; 2026 Data Consultants &mdash; Dataverzamelaars &amp; Datamodelleurs</p>
+    <div class="claude-badge">Gebouwd met Claude</div>
+</footer>
+
+</body>
+</html>
