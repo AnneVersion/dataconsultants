@@ -136,9 +136,9 @@ nav {
 section {
     position: relative;
     z-index: 2;
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 80px 24px;
+    padding: 56px 24px;
 }
 .section-title {
     font-family: var(--font);
@@ -152,7 +152,7 @@ section {
 .section-subtitle {
     color: var(--muted);
     font-size: 0.95rem;
-    margin-bottom: 48px;
+    margin-bottom: 32px;
     max-width: 540px;
     line-height: 1.7;
 }
@@ -180,23 +180,23 @@ section {
 
 /* ---- Hero ---- */
 #hero {
-    min-height: 100vh;
+    min-height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding-top: 56px;
+    padding: 120px 24px 64px;
     position: relative;
     background: var(--bg);
 }
 .hero-title {
     font-family: var(--font);
-    font-size: 2.8rem;
+    font-size: 2.4rem;
     font-weight: 700;
     color: var(--white);
     letter-spacing: -0.3px;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     line-height: 1.2;
 }
 .hero-title .accent {
@@ -313,7 +313,7 @@ section {
 .about-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 48px;
+    gap: 32px;
     align-items: start;
 }
 @media (max-width: 768px) { .about-content { grid-template-columns: 1fr; gap: 32px; } }
@@ -353,13 +353,13 @@ section {
 
 /* ---- GeoInzicht Section ---- */
 #geoinzicht {
-    max-width: 1000px;
-    padding-top: 80px;
-    padding-bottom: 80px;
+    max-width: 1100px;
+    padding-top: 56px;
+    padding-bottom: 56px;
 }
 .geo-intro {
     max-width: 680px;
-    margin-bottom: 48px;
+    margin-bottom: 32px;
 }
 .geo-intro p {
     font-size: 0.95rem;
@@ -374,7 +374,7 @@ section {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 12px;
-    margin-bottom: 56px;
+    margin-bottom: 32px;
 }
 .geo-source-card {
     background: var(--panel);
@@ -406,7 +406,7 @@ section {
 
 /* Wat willen we aantonen */
 .geo-mission {
-    margin-bottom: 56px;
+    margin-bottom: 32px;
 }
 .geo-mission h3 {
     font-family: var(--font);
@@ -443,7 +443,7 @@ section {
 
 /* Architecture Diagram */
 .geo-architecture {
-    margin-bottom: 56px;
+    margin-bottom: 32px;
 }
 .geo-architecture h3 {
     font-family: var(--font);
@@ -509,7 +509,7 @@ section {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
-    margin-bottom: 56px;
+    margin-bottom: 32px;
 }
 @media (max-width: 768px) { .geo-stats { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 500px) { .geo-stats { grid-template-columns: 1fr; } }
@@ -596,17 +596,18 @@ section {
 /* ---- Projects Grid ---- */
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
 }
-@media (max-width: 768px) { .projects-grid { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .projects-grid { grid-template-columns: 1fr; } }
 .project-card {
     position: relative;
     background: var(--panel);
     border: 1px solid var(--border);
     border-left: 2px solid var(--accent);
     border-radius: var(--radius);
-    padding: 20px 20px 20px 22px;
+    padding: 16px 16px 16px 18px;
     transition: border-color .2s;
 }
 .project-card:hover {
@@ -645,8 +646,8 @@ section {
     color: var(--muted);
     border: 1px solid rgba(100, 116, 139, .2);
 }
-.project-card h3 { font-size: 1rem; font-weight: 500; margin-bottom: 6px; color: var(--white); }
-.project-card .desc { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
+.project-card h3 { font-size: 0.9rem; font-weight: 500; margin-bottom: 4px; color: var(--white); }
+.project-card .desc { font-size: 11px; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
 .project-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
 .project-tags span {
     font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 3px;
@@ -895,7 +896,7 @@ footer {
 
 <!-- Hero -->
 <section id="hero">
-    <img src="logo.svg" alt="Data Consultants" style="width:100px;height:100px;margin:0 auto 20px;display:block;opacity:.85">
+    <img src="logo.svg" alt="Data Consultants" style="width:72px;height:72px;margin:0 auto 16px;display:block;opacity:.85">
     <h1 class="hero-title anim">Data <span class="accent">Consultants</span></h1>
     <p class="hero-tagline anim">Wij verzamelen, modelleren en verbinden open data &mdash; voor dashboards, analyses en dataprojecten die ertoe doen.</p>
     <p class="hero-subtitle anim">Open Data &middot; Geo-analyse &middot; Data Modellering &middot; Dashboard Visualisatie</p>
@@ -905,10 +906,7 @@ footer {
             Open GeoInzicht App
         </a>
     </div>
-    <div class="scroll-hint">
-        <span class="label">Scroll</span>
-        <div class="scroll-line"></div>
-    </div>
+
 </section>
 
 <!-- Wie Wij Zijn -->
@@ -917,10 +915,8 @@ footer {
     <p class="section-subtitle anim">Dataverzamelaars en modelleurs met een passie voor open data.</p>
     <div class="about-content">
         <div class="about-text anim from-left">
-            <p>Data Consultants is een team van <strong>dataverzamelaars en datamodelleurs</strong>. Wij zijn gespecialiseerd in het vinden, verzamelen en koppelen van open databronnen tot samenhangende datasets.</p>
-            <p>Van CBS-statistieken tot BAG-adressen, van politiedata tot zorgkosten &mdash; wij <strong>verbinden</strong> wat los beschikbaar is tot bruikbare data voor dashboards, wetenschappelijke analyses, dataprojecten en beleidsondersteuning.</p>
-            <p>Daarnaast bedenken en werken wij <strong>nieuwe idee&euml;n</strong> uit. Dankzij AI kunnen wij nu idee&euml;n die voorheen onbetaalbaar of onhaalbaar waren, <strong>zelf uitvoeren</strong> &mdash; van concept tot werkend prototype, in een fractie van de tijd.</p>
-            <p>Onze focus ligt op <strong>inzicht en innovatie</strong>, niet op dienstverlening. Wij bouwen data-infrastructuur, experimenteren met nieuwe concepten en delen kennis.</p>
+            <p><strong>Dataverzamelaars en datamodelleurs</strong> gespecialiseerd in het vinden, koppelen en modelleren van open databronnen. Van CBS-statistieken tot BAG-adressen, van politiedata tot zorgkosten &mdash; wij <strong>verbinden</strong> wat los beschikbaar is tot bruikbare datasets.</p>
+            <p>Onze focus: <strong>inzicht en innovatie</strong>. Dankzij AI kunnen wij idee&euml;n die voorheen onhaalbaar waren <strong>zelf uitvoeren</strong> &mdash; van concept tot werkend prototype.</p>
         </div>
         <ul class="data-sources-list anim from-right stagger">
             <li>
@@ -953,64 +949,7 @@ footer {
     <p class="section-subtitle anim">Ons vlaggenschip: een open-source geo-data platform van Nederland.</p>
 
     <div class="geo-intro anim">
-        <p><strong>GeoInzicht</strong> is een open-source geo-data platform dat publieke databronnen combineert tot een interactief dashboard van Nederland. Van CBS buurtstatistieken tot BAG adressen, van politiecriminaliteit tot zorgkosten &mdash; alles op een kaart.</p>
-        <p>Het platform stelt iedereen in staat om patronen te ontdekken in de Nederlandse samenleving: hoe hangen inkomen, criminaliteit, zorgkosten, woningwaarde en bevolkingssamenstelling samen? Welke buurten lijken op elkaar? Waar zit de ongelijkheid?</p>
-    </div>
-
-    <!-- Data Sources -->
-    <div class="geo-sources stagger anim">
-        <div class="geo-source-card">
-            <span class="material-icons-round">analytics</span>
-            <h4>CBS StatLine</h4>
-            <p>Kerncijfers Wijken en Buurten, 2013&ndash;2025, 16 domeinen</p>
-        </div>
-        <div class="geo-source-card">
-            <span class="material-icons-round">home_work</span>
-            <h4>BAG / Kadaster</h4>
-            <p>9.7 miljoen adressen met bouwjaar, oppervlakte, status</p>
-        </div>
-        <div class="geo-source-card">
-            <span class="material-icons-round">local_police</span>
-            <h4>Politie</h4>
-            <p>Misdrijfcijfers per buurt, 14 indicatoren</p>
-        </div>
-        <div class="geo-source-card">
-            <span class="material-icons-round">health_and_safety</span>
-            <h4>Vektis</h4>
-            <p>Zorgkosten per gemeente, specialisaties</p>
-        </div>
-        <div class="geo-source-card">
-            <span class="material-icons-round">public</span>
-            <h4>PDOK</h4>
-            <p>Geo-grenzen: buurt, wijk, gemeente</p>
-        </div>
-    </div>
-
-    <!-- Wat willen we aantonen -->
-    <div class="geo-mission anim">
-        <h3>Wat willen we aantonen?</h3>
-        <ul class="mission-points">
-            <li>
-                <span class="material-icons-round">link</span>
-                <span>Dat open overheidsdata gecombineerd veel meer vertelt dan losse datasets</span>
-            </li>
-            <li>
-                <span class="material-icons-round">insights</span>
-                <span>Correlaties tussen buurteigenschappen: hoe hangen inkomen, criminaliteit, zorgkosten, woningwaarde en bevolkingssamenstelling samen?</span>
-            </li>
-            <li>
-                <span class="material-icons-round">visibility</span>
-                <span>Geografische patronen in ongelijkheid zichtbaar maken</span>
-            </li>
-            <li>
-                <span class="material-icons-round">lock_open</span>
-                <span>Een transparant alternatief bieden voor commerciele dataplatforms</span>
-            </li>
-            <li>
-                <span class="material-icons-round">balance</span>
-                <span>Data-gedreven beleidsondersteuning mogelijk maken voor iedereen</span>
-            </li>
-        </ul>
+        <p><strong>GeoInzicht</strong> is een open-source geo-data platform dat publieke databronnen combineert tot een interactief dashboard van Nederland. Ontdek correlaties tussen inkomen, criminaliteit, zorgkosten, woningwaarde en bevolkingssamenstelling &mdash; alles op de kaart.</p>
     </div>
 
     <!-- Architecture -->
