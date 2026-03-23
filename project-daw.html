@@ -3,8 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DAW Platform — Browser-based Muziekproductie | Data Consultants</title>
-    <meta name="description" content="Compleet muziekproductie platform in de browser. DAW, DJ app, audio editor, producer contests en live streaming.">
+    <title>DAW Platform — Gratis Muziekproductie voor Iedereen | Data Consultants</title>
+    <meta name="description" content="Gratis muziekproductie platform in de browser. Maak beats, mix tracks, improviseer met een band, stream live. Geen download, geen kosten. Voor iedereen.">
+    <meta name="keywords" content="gratis muziek maken, free music production, DAW browser, beat maker, DJ app, music education, creative tools">
+    <meta property="og:title" content="DAW Platform — Gratis Muziekproductie voor Iedereen">
+    <meta property="og:description" content="Een compleet muziekproductie platform dat gratis in je browser draait. 6 apps, 17 instrumenten, 12 muziekstijlen. Geen download nodig.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://anneversion.github.io/dataconsultants/project-daw.html">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='10.67' fill='%23AE1C28'/><rect y='10.67' width='32' height='10.67' fill='%23FFF'/><rect y='21.33' width='32' height='10.67' fill='%2321468B'/></svg>">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <style>
@@ -13,15 +18,14 @@ html { scroll-behavior: smooth; }
 :root {
     --bg: #0a0f1a; --bg2: #0f1520; --bg3: #141c2b;
     --panel: rgba(255,255,255,0.03); --border: #1e293b; --text: #e2e8f0; --muted: #94a3b8; --dim: #64748b;
-    --accent: #39ff14; --indigo: #4F46E5; --white: #ffffff;
+    --accent: #39ff14; --purple: #a855f7; --blue: #4a9eff; --gold: #f59e0b; --red: #ef4444; --white: #ffffff;
     --radius: 16px; --radius-sm: 10px; --font: Verdana, Geneva, Tahoma, sans-serif;
 }
 body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
 body::before { content: ''; position: fixed; inset: 0; background-image: radial-gradient(rgba(57, 255, 20, .07) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: 0; }
-body::after { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at 20% 50%, rgba(57,255,20,.04) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(79,70,229,.04) 0%, transparent 50%); pointer-events: none; z-index: 0; }
 ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: var(--bg); } ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 15, 26, .7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(57, 255, 20, .08); padding: 0 32px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 15, 26, .7); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(57, 255, 20, .08); padding: 0 32px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
 .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; color: var(--text); text-decoration: none; } .nav-logo:hover { text-decoration: none; } .nav-logo svg { width: 28px; height: 28px; }
 .nav-right { display: flex; align-items: center; gap: 20px; }
 .nav-links { display: flex; gap: 28px; list-style: none; }
@@ -31,53 +35,110 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 @media (max-width: 768px) { .hamburger { display: block; } .nav-links { display: none; position: absolute; top: 64px; left: 0; right: 0; background: rgba(10, 15, 26, .95); backdrop-filter: blur(20px); flex-direction: column; padding: 20px 32px; gap: 16px; border-bottom: 1px solid rgba(57, 255, 20, .08); } .nav-links.open { display: flex; } }
 .page-content { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; padding: 100px 24px 60px; }
 .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 40px; transition: color .3s; } .back-link:hover { color: var(--accent); text-decoration: none; }
-.project-hero { text-align: center; margin-bottom: 80px; padding: 60px 0; border-bottom: 1px solid var(--border); }
-.project-hero .icon-wrap { width: 80px; height: 80px; border-radius: 20px; background: rgba(168, 85, 247, .15); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
-.project-hero .icon-wrap .material-icons-round { color: #a855f7; font-size: 40px; }
-.project-hero h1 { font-size: 2.8rem; font-weight: 700; color: var(--white); margin-bottom: 16px; line-height: 1.2; }
+
+/* Hero */
+.project-hero { text-align: center; margin-bottom: 32px; padding: 40px 0 32px; border-bottom: 1px solid var(--border); }
+.project-hero .icon-wrap { width: 64px; height: 64px; border-radius: 16px; background: rgba(168, 85, 247, .15); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+.project-hero .icon-wrap .material-icons-round { color: #a855f7; font-size: 32px; }
+.project-hero h1 { font-size: 2.4rem; font-weight: 700; color: var(--white); margin-bottom: 10px; line-height: 1.2; }
 .project-hero h1 .accent { color: var(--accent); }
-.project-hero .tagline { font-size: 1.1rem; color: var(--muted); max-width: 700px; margin: 0 auto 32px; line-height: 1.8; }
-.project-hero .status-badge { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 6px 16px; border-radius: 20px; background: rgba(245, 158, 11, .15); color: #f59e0b; }
+.project-hero .tagline { font-size: 1rem; color: var(--muted); max-width: 700px; margin: 0 auto 16px; line-height: 1.6; }
+.project-hero .mission { font-size: 1rem; color: var(--text); max-width: 700px; margin: 0 auto 32px; line-height: 1.8; font-style: italic; border-left: 3px solid var(--accent); padding-left: 20px; text-align: left; }
 @media (max-width: 768px) { .project-hero h1 { font-size: 2rem; } }
-.detail-section { margin-bottom: 80px; }
-.detail-section h2 { font-size: 1.8rem; color: var(--white); margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
-.detail-section h2 .material-icons-round { color: var(--accent); font-size: 28px; }
-.detail-section .section-line { width: 60px; height: 3px; background: linear-gradient(90deg, var(--accent), var(--indigo)); border-radius: 2px; margin-bottom: 24px; }
-.detail-section p, .detail-section li { color: var(--muted); font-size: .95rem; line-height: 1.9; margin-bottom: 12px; }
+
+/* Sections */
+.detail-section { margin-bottom: 36px; }
+.detail-section h2 { font-size: 1.3rem; color: var(--white); margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+.detail-section h2 .material-icons-round { color: var(--accent); font-size: 24px; }
+.detail-section .section-line { width: 50px; height: 2px; background: linear-gradient(90deg, var(--accent), var(--purple)); border-radius: 2px; margin-bottom: 14px; }
+.detail-section p, .detail-section li { color: var(--muted); font-size: .9rem; line-height: 1.6; margin-bottom: 8px; }
 .detail-section ul { list-style: none; padding: 0; }
 .detail-section ul li { padding-left: 24px; position: relative; }
 .detail-section ul li::before { content: ''; position: absolute; left: 0; top: 11px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
-.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 24px; }
-.feature-card { background: var(--panel); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 28px; transition: all .3s; }
-.feature-card:hover { border-color: rgba(57, 255, 20, .3); transform: translateY(-4px); box-shadow: 0 10px 40px rgba(0,0,0,.2); }
-.feature-card .material-icons-round { color: var(--accent); font-size: 32px; margin-bottom: 14px; }
-.feature-card h3 { color: var(--white); font-size: 1rem; margin-bottom: 8px; }
-.feature-card p { margin-bottom: 0; }
+
 /* App cards */
-.apps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 24px; }
-.app-card { background: var(--panel); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 28px; transition: all .3s; }
-.app-card:hover { border-color: rgba(168, 85, 247, .4); transform: translateY(-4px); }
-.app-card .app-icon { width: 48px; height: 48px; border-radius: 14px; background: rgba(168, 85, 247, .15); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
-.app-card .app-icon .material-icons-round { color: #a855f7; font-size: 26px; }
-.app-card h3 { color: var(--white); font-size: 1.05rem; margin-bottom: 8px; }
-.app-card p { color: var(--muted); font-size: .9rem; line-height: 1.7; margin: 0; }
-.screenshots-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 24px; }
-.screenshot-placeholder { aspect-ratio: 16/10; border-radius: var(--radius-sm); display: flex; align-items: flex-end; justify-content: center; padding: 20px; border: 1px solid rgba(255,255,255,0.06); }
-.screenshot-placeholder span { background: rgba(0,0,0,.6); backdrop-filter: blur(8px); padding: 8px 16px; border-radius: 8px; font-size: .85rem; color: var(--white); font-weight: 700; }
-.ss-1 { background: linear-gradient(135deg, #1a0a2e, #2d1b69, #1a0a2e); }
-.ss-2 { background: linear-gradient(135deg, #0a1a2e, #1b3d69, #0a1a2e); }
-.ss-3 { background: linear-gradient(135deg, #2e0a1a, #691b3d, #2e0a1a); }
-.ss-4 { background: linear-gradient(135deg, #0a2e1a, #1b694d, #0a2e1a); }
+.apps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px; margin-top: 14px; }
+.app-card { background: var(--panel); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 16px; transition: all .3s; cursor: pointer; text-decoration: none; display: block; }
+.app-card:hover { border-color: rgba(168, 85, 247, .4); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,.3); text-decoration: none; }
+.app-card .app-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+.app-card .app-icon .material-icons-round { font-size: 26px; }
+.app-card h3 { color: var(--white); font-size: .95rem; margin-bottom: 6px; }
+.app-card p { color: var(--muted); font-size: .82rem; line-height: 1.5; margin: 0; }
+.app-card .app-features { list-style: none; padding: 0; margin: 0; }
+.app-card .app-features li { font-size: .82rem; color: var(--dim); padding: 2px 0 2px 16px; position: relative; }
+.app-card .app-features li::before { content: ''; position: absolute; left: 0; top: 9px; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); opacity: .6; }
+
+/* Visual mockups */
+.app-visual { height: 64px; border-radius: 6px; background: rgba(0,0,0,.3); margin-bottom: 10px; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; gap: 3px; padding: 6px; position: relative; }
+.app-card .app-try { display: inline-flex; align-items: center; gap: 4px; margin-top: 8px; font-size: .75rem; color: var(--accent); opacity: .7; }
+.app-card:hover .app-try { opacity: 1; }
+/* Equalizer bars */
+.eq-bar { width: 8px; border-radius: 2px 2px 0 0; animation: eqBounce 1.2s ease-in-out infinite alternate; }
+@keyframes eqBounce { 0% { height: 20%; } 100% { height: 90%; } }
+.eq-bar:nth-child(1) { background: #a855f7; animation-delay: 0s; } .eq-bar:nth-child(2) { background: #a855f7; animation-delay: .15s; }
+.eq-bar:nth-child(3) { background: #a855f7; animation-delay: .3s; } .eq-bar:nth-child(4) { background: #a855f7; animation-delay: .1s; }
+.eq-bar:nth-child(5) { background: #a855f7; animation-delay: .25s; } .eq-bar:nth-child(6) { background: #a855f7; animation-delay: .05s; }
+.eq-bar:nth-child(7) { background: #a855f7; animation-delay: .2s; } .eq-bar:nth-child(8) { background: #a855f7; animation-delay: .35s; }
+.eq-bar:nth-child(9) { background: #a855f7; animation-delay: .12s; } .eq-bar:nth-child(10) { background: #a855f7; animation-delay: .28s; }
+/* Turntable */
+.turntable { width: 56px; height: 56px; border-radius: 50%; border: 3px solid #4a9eff; position: relative; animation: spin 3s linear infinite; }
+.turntable::after { content: ''; position: absolute; inset: 22px; border-radius: 50%; background: #4a9eff; }
+@keyframes spin { to { transform: rotate(360deg); } }
+/* Waveform */
+.waveform-visual { width: 100%; height: 100%; display: flex; align-items: center; gap: 1px; padding: 0 12px; }
+.wv-line { width: 3px; background: #39ff14; border-radius: 1px; opacity: .7; }
+/* Pads grid */
+.pads-visual { display: grid; grid-template-columns: repeat(4,1fr); gap: 4px; width: 100%; height: 100%; padding: 8px; }
+.pad-v { border-radius: 4px; animation: padPulse 2s ease-in-out infinite; }
+@keyframes padPulse { 0%,100% { opacity:.3; } 50% { opacity:.8; } }
+/* Live pulse */
+.live-dot { width: 16px; height: 16px; border-radius: 50%; background: #4affd2; animation: livePulse 1.5s ease-in-out infinite; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+.live-dot::after { content: ''; position: absolute; inset: -8px; border-radius: 50%; border: 2px solid #4affd2; animation: livePulse 1.5s ease-in-out infinite .3s; opacity: .5; }
+@keyframes livePulse { 0%,100% { opacity:.4; transform:translate(-50%,-50%) scale(.8); } 50% { opacity:1; transform:translate(-50%,-50%) scale(1.2); } }
+
+/* Stats row */
+.stats-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 32px; margin: 28px 0; }
+.stat { text-align: center; }
+.stat .num { font-size: 1.8rem; font-weight: 700; color: var(--accent); display: block; line-height: 1.2; }
+.stat .lbl { font-size: .75rem; color: var(--dim); text-transform: uppercase; letter-spacing: .5px; }
+
+/* Feature grid */
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-top: 14px; }
+.feature-card { background: var(--panel); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 16px; transition: all .3s; }
+.feature-card:hover { border-color: rgba(57, 255, 20, .3); transform: translateY(-2px); }
+.feature-card .material-icons-round { color: var(--accent); font-size: 24px; margin-bottom: 8px; }
+.feature-card h3 { color: var(--white); font-size: .9rem; margin-bottom: 4px; }
+.feature-card p { margin-bottom: 0; font-size: .82rem; }
+
+/* Styles grid */
+.styles-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.style-tag { background: var(--panel); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 6px 14px; text-align: center; font-size: .8rem; color: var(--text); transition: all .3s; }
+.style-tag:hover { border-color: var(--accent); transform: translateY(-2px); }
+.style-tag .style-icon { font-size: 20px; display: block; margin-bottom: 4px; }
+
+/* Distribution */
+.dist-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; margin-top: 14px; }
+.dist-card { background: var(--panel); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 14px; }
+.dist-card h3 { color: var(--white); font-size: .95rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.dist-card h3 .material-icons-round { color: var(--accent); font-size: 22px; }
+.dist-card p { color: var(--muted); font-size: .85rem; line-height: 1.7; margin: 0; }
+.dist-card .dist-links { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+.dist-card .dist-links a { font-size: .8rem; padding: 4px 10px; background: rgba(57,255,20,.08); border: 1px solid rgba(57,255,20,.15); border-radius: 4px; color: var(--accent); }
+
+/* Tech badges */
 .tech-badges { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
 .tech-badge { display: flex; align-items: center; gap: 8px; background: var(--panel); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 10px 18px; font-size: .85rem; color: var(--text); transition: all .3s; }
 .tech-badge:hover { border-color: var(--accent); transform: translateY(-2px); }
 .tech-badge .material-icons-round { color: var(--accent); font-size: 20px; }
+
+/* Links */
 .links-section { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 24px; }
 .link-btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 8px; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: .5px; transition: all .3s; text-decoration: none; }
 .link-btn:hover { text-decoration: none; transform: translateY(-2px); }
 .link-btn.primary { background: var(--accent); color: #0a0f1a; } .link-btn.primary:hover { box-shadow: 0 0 30px rgba(57, 255, 20, .4); }
 .link-btn.secondary { background: rgba(255,255,255,0.06); color: var(--text); border: 1px solid rgba(255,255,255,0.1); } .link-btn.secondary:hover { border-color: var(--accent); color: var(--accent); }
 .link-btn svg { width: 18px; height: 18px; fill: currentColor; }
+
 footer { position: relative; z-index: 2; text-align: center; padding: 40px 24px; border-top: 1px solid var(--border); color: var(--dim); font-size: 13px; }
 footer a { color: var(--dim); transition: color .3s; } footer a:hover { color: var(--accent); text-decoration: none; }
 .footer-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 12px; }
@@ -89,7 +150,7 @@ footer a { color: var(--dim); transition: color .3s; } footer a:hover { color: v
 
 <nav>
     <a href="index.html" class="nav-logo">
-        <svg viewBox="0 0 32 32"><rect width="32" height="10.67" fill="#AE1C28"/><rect y="10.67" width="32" height="10.67" fill="#FFF"/><rect y="21.33" width="32" height="10.67" fill="#21468B"/></svg>
+        <img src="logo.svg" alt="DC" style="width:28px;height:28px">
         Data Consultants
     </a>
     <div class="nav-right">
@@ -97,7 +158,6 @@ footer a { color: var(--dim); transition: color .3s; } footer a:hover { color: v
         <ul class="nav-links">
             <li><a href="index.html#about">Over Ons</a></li>
             <li><a href="index.html#projecten">Projecten</a></li>
-            <li><a href="index.html#tech">Tech</a></li>
             <li><a href="index.html#contact">Contact</a></li>
         </ul>
     </div>
@@ -110,131 +170,179 @@ footer a { color: var(--dim); transition: color .3s; } footer a:hover { color: v
         Terug naar projecten
     </a>
 
+    <!-- HERO -->
     <div class="project-hero">
         <div class="icon-wrap">
             <span class="material-icons-round">music_note</span>
         </div>
-        <h1>DAW <span class="accent">Platform</span></h1>
-        <p class="tagline">Compleet muziekproductie platform in de browser. Van beats maken tot live streamen, van DJ-sets tot producer battles.</p>
-        <span class="status-badge">POC</span>
-    </div>
+        <h1>Maak Muziek. <span class="accent">Gratis.</span></h1>
+        <p class="tagline">6 apps in je browser. Beats, DJ, live streaming, samples, contests. Geen download, geen account.</p>
 
-    <!-- Wat is het -->
-    <div class="detail-section">
-        <h2><span class="material-icons-round">info</span> Wat is het?</h2>
-        <div class="section-line"></div>
-        <p>Het DAW Platform is een verzameling van vijf muziek-applicaties die volledig in de browser draaien. Geen installatie nodig, geen plugins downloaden. Alles werkt met de Web Audio API en Canvas.</p>
-        <p>Van een volledig uitgeruste Digital Audio Workstation met beats, timeline en mixer, tot een DJ-app met twee draaitafels en een crossfader. Van een professionele audio editor met 31 effecten tot een live streaming platform waar je je sessies kunt delen.</p>
-    </div>
-
-    <!-- 5 Apps -->
-    <div class="detail-section">
-        <h2><span class="material-icons-round">apps</span> De 5 Apps</h2>
-        <div class="section-line"></div>
-        <div class="apps-grid">
-            <div class="app-card">
-                <div class="app-icon"><span class="material-icons-round">piano</span></div>
-                <h3>DAW Studio</h3>
-                <p>Beats maken op een step sequencer, arrangementen bouwen op de timeline, en mixen met VU meters, rotary knobs, 3-band EQ en een master bus. Inclusief synthesizer en sound library.</p>
-            </div>
-            <div class="app-card">
-                <div class="app-icon"><span class="material-icons-round">album</span></div>
-                <h3>DJ App</h3>
-                <p>Twee decks met pitch control, een crossfader, effecten en directe muziek streaming via Jamendo, Freesound en het Internet Archive.</p>
-            </div>
-            <div class="app-card">
-                <div class="app-icon"><span class="material-icons-round">graphic_eq</span></div>
-                <h3>Audio Editor</h3>
-                <p>31 audio effecten, knippen, kopiëren en plakken van audio, spectrum analyzer, spectrogram weergave en WAV export.</p>
-            </div>
-            <div class="app-card">
-                <div class="app-icon"><span class="material-icons-round">emoji_events</span></div>
-                <h3>Producer Contests</h3>
-                <p>Producer battles met stemmogelijkheid en een leaderboard. Maak een beat, upload hem en laat de community stemmen.</p>
-            </div>
-            <div class="app-card">
-                <div class="app-icon"><span class="material-icons-round">live_tv</span></div>
-                <h3>Live Kanalen</h3>
-                <p>Stream je productiessessie live. Inclusief chat en een schema voor geplande streams.</p>
-            </div>
+        <div class="stats-row">
+            <div class="stat"><span class="num">6</span><span class="lbl">Apps</span></div>
+            <div class="stat"><span class="num">17</span><span class="lbl">Instrumenten</span></div>
+            <div class="stat"><span class="num">12</span><span class="lbl">Stijlen</span></div>
+            <div class="stat"><span class="num">31</span><span class="lbl">Effecten</span></div>
         </div>
-    </div>
 
-    <!-- Improvisatie Engine -->
-    <div class="detail-section">
-        <h2><span class="material-icons-round">auto_awesome</span> Improvisatie Engine</h2>
-        <div class="section-line"></div>
-        <p>De ingebouwde improvisatie engine maakt het mogelijk om muzikaal te improviseren met kunstmatige intelligentie als muziektheorie-assistent:</p>
-        <ul>
-            <li>18 toonladders (majeur, mineur, dorisch, frygisch, lydisch, mixolydisch en meer)</li>
-            <li>12 akkoordprogressies met voice leading</li>
-            <li>Motief ontwikkeling: het systeem neemt een melodisch idee en varieert het</li>
-            <li>Chord-scale theory: automatische toonladder suggesties bij elk akkoord</li>
-        </ul>
-    </div>
-
-    <!-- Ensemble -->
-    <div class="detail-section">
-        <h2><span class="material-icons-round">groups</span> Ensemble Modus</h2>
-        <div class="section-line"></div>
-        <p>In de ensemble modus spelen 7 instrumenten samen, elk met hun eigen karakter en rol in het arrangement:</p>
-        <div class="features-grid">
-            <div class="feature-card">
-                <span class="material-icons-round">drums</span>
-                <h3>Drums &amp; Bass</h3>
-                <p>Het ritmische fundament. Drums verzorgen het groove-patroon, de bass volgt de harmonische basis.</p>
-            </div>
-            <div class="feature-card">
-                <span class="material-icons-round">music_note</span>
-                <h3>Gitaar &amp; Piano</h3>
-                <p>Harmonische instrumenten die akkoorden en riffs spelen. Vullen het midden van het spectrum.</p>
-            </div>
-            <div class="feature-card">
-                <span class="material-icons-round">queue_music</span>
-                <h3>Lead, Strings &amp; Brass</h3>
-                <p>Melodische en arrangementen-instrumenten. De lead speelt de hoofdmelodie, strings en brass geven diepte.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Screenshots -->
-    <div class="detail-section">
-        <h2><span class="material-icons-round">photo_library</span> Screenshots</h2>
-        <div class="section-line"></div>
-        <div class="screenshots-grid">
-            <div class="screenshot-placeholder ss-1"><span>DAW Studio met mixer en timeline</span></div>
-            <div class="screenshot-placeholder ss-2"><span>DJ App met twee decks</span></div>
-            <div class="screenshot-placeholder ss-3"><span>Audio Editor met waveform</span></div>
-            <div class="screenshot-placeholder ss-4"><span>Ensemble improvisatie panel</span></div>
-        </div>
-    </div>
-
-    <!-- Technologie -->
-    <div class="detail-section">
-        <h2><span class="material-icons-round">code</span> Technologie</h2>
-        <div class="section-line"></div>
-        <div class="tech-badges">
-            <div class="tech-badge"><span class="material-icons-round">surround_sound</span> Web Audio API</div>
-            <div class="tech-badge"><span class="material-icons-round">draw</span> Canvas</div>
-            <div class="tech-badge"><span class="material-icons-round">terminal</span> Python / Flask</div>
-            <div class="tech-badge"><span class="material-icons-round">storage</span> PostgreSQL</div>
-            <div class="tech-badge"><span class="material-icons-round">cloud</span> Jamendo API</div>
-            <div class="tech-badge"><span class="material-icons-round">cloud</span> Freesound API</div>
-        </div>
-    </div>
-
-    <!-- Links -->
-    <div class="detail-section">
-        <h2><span class="material-icons-round">link</span> Links</h2>
-        <div class="section-line"></div>
-        <div class="links-section">
-            <a href="http://localhost:8086" target="_blank" class="link-btn primary">
-                <span class="material-icons-round" style="font-size:18px">open_in_new</span>
-                Open DAW
+        <div class="links-section" style="justify-content:center;margin-top:16px">
+            <a href="https://anneversion.github.io/daw/" target="_blank" class="link-btn primary">
+                <span class="material-icons-round" style="font-size:18px">play_arrow</span>
+                Start nu
             </a>
             <a href="https://github.com/AnneVersion/daw" target="_blank" class="link-btn secondary">
-                <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                 GitHub
+            </a>
+        </div>
+    </div>
+
+    <!-- 6 APPS met visuele mockups -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">apps</span> 6 Apps</h2>
+        <div class="section-line"></div>
+        <div class="apps-grid">
+            <a class="app-card" href="https://anneversion.github.io/daw/" target="_blank">
+                <div class="app-visual">
+                    <div class="eq-bar" style="width:6px"></div><div class="eq-bar" style="width:6px"></div><div class="eq-bar" style="width:6px"></div>
+                    <div class="eq-bar" style="width:6px"></div><div class="eq-bar" style="width:6px"></div><div class="eq-bar" style="width:6px"></div>
+                    <div class="eq-bar" style="width:6px"></div><div class="eq-bar" style="width:6px"></div><div class="eq-bar" style="width:6px"></div>
+                    <div class="eq-bar" style="width:6px"></div>
+                </div>
+                <h3>Studio</h3>
+                <p>Timeline, mixer, piano roll, EQ, MIDI. Improvisatie met 17 instrumenten.</p>
+                <span class="app-try"><span class="material-icons-round" style="font-size:14px">open_in_new</span> Probeer</span>
+            </a>
+            <a class="app-card" href="https://anneversion.github.io/daw/dj.html" target="_blank">
+                <div class="app-visual" style="justify-content:center;align-items:center;gap:20px">
+                    <div class="turntable" style="width:44px;height:44px"></div>
+                    <div style="width:2px;height:32px;background:linear-gradient(#4a9eff,transparent);border-radius:1px"></div>
+                    <div class="turntable" style="width:44px;height:44px;animation-direction:reverse"></div>
+                </div>
+                <h3>DJ App</h3>
+                <p>Twee decks, crossfader, 7 effecten, scratch, live broadcast.</p>
+                <span class="app-try"><span class="material-icons-round" style="font-size:14px">open_in_new</span> Probeer</span>
+            </a>
+            <a class="app-card" href="https://anneversion.github.io/daw/editor.html" target="_blank">
+                <div class="app-visual" style="align-items:center">
+                    <div class="waveform-visual"><script>document.currentScript.parentElement.innerHTML=[...Array(40)].map((_,i)=>`<div class="wv-line" style="height:${15+Math.sin(i*.4)*25+Math.random()*20}%"></div>`).join('')</script></div>
+                </div>
+                <h3>Audio Editor</h3>
+                <p>31 effecten, spectrum analyzer, cut/copy/paste, WAV export.</p>
+                <span class="app-try"><span class="material-icons-round" style="font-size:14px">open_in_new</span> Probeer</span>
+            </a>
+            <a class="app-card" href="https://anneversion.github.io/daw/sampler.html" target="_blank">
+                <div class="app-visual" style="align-items:stretch;padding:4px">
+                    <div class="pads-visual"><script>document.currentScript.parentElement.innerHTML=[...Array(16)].map((_,i)=>`<div class="pad-v" style="background:${['#ef4444','#f59e0b','#39ff14','#4a9eff','#a855f7','#4affd2','#ff8a4a','#ffd24a','#ef4444','#39ff14','#4a9eff','#a855f7','#f59e0b','#4affd2','#ff8a4a','#ffd24a'][i]};animation-delay:${i*.12}s"></div>`).join('')</script></div>
+                </div>
+                <h3>Sampler</h3>
+                <p>16 pads, step sequencer, 12 genre presets, chaos mode.</p>
+                <span class="app-try"><span class="material-icons-round" style="font-size:14px">open_in_new</span> Probeer</span>
+            </a>
+            <a class="app-card" href="https://anneversion.github.io/daw/contests.html" target="_blank" style="opacity:.6">
+                <div class="app-visual" style="align-items:center;justify-content:center">
+                    <span class="material-icons-round" style="font-size:36px;color:#f59e0b;opacity:.5">emoji_events</span>
+                </div>
+                <h3>Contests <span style="font-size:.7rem;color:var(--gold);font-weight:400">binnenkort</span></h3>
+                <p>Upload je beat, laat de community stemmen.</p>
+            </a>
+            <a class="app-card" href="https://anneversion.github.io/daw/live.html" target="_blank">
+                <div class="app-visual" style="align-items:center;justify-content:center">
+                    <div class="live-dot"></div>
+                </div>
+                <h3>Live <span style="font-size:.7rem;color:var(--gold);font-weight:400">beta</span></h3>
+                <p>Stream peer-to-peer met camera, mic en live chat.</p>
+                <span class="app-try"><span class="material-icons-round" style="font-size:14px">open_in_new</span> Probeer</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- IMPROVISATIE (compact) -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">auto_awesome</span> Band die meespeelt</h2>
+        <div class="section-line"></div>
+        <p>Kies een stijl, druk play &mdash; 17 instrumenten spelen samen. Drums, bass, gitaar, piano, blazers, strijkers, koor. Typ tekst en het koor zingt mee. Draai het Rad van Fortuin voor verrassingen.</p>
+
+        <div class="styles-grid" style="margin-top:16px">
+            <div class="style-tag">Jazz</div><div class="style-tag">Blues</div><div class="style-tag">Funk</div>
+            <div class="style-tag">Pop</div><div class="style-tag">Rock</div><div class="style-tag">Reggae</div>
+            <div class="style-tag">Dub</div><div class="style-tag">Neo-Soul</div><div class="style-tag">Gospel</div>
+            <div class="style-tag">Bossa Nova</div><div class="style-tag">Flamenco</div><div class="style-tag">Ballade</div>
+        </div>
+    </div>
+
+    <!-- VOOR WIE + VERSPREIDING (gecombineerd, compact) -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">favorite</span> Voor iedereen, overal</h2>
+        <div class="section-line"></div>
+        <p>Muziekproductie software kost honderden euro's. Dit kost niets. Je hebt alleen een browser nodig. Deel het met scholen, kinderen en community centers wereldwijd.</p>
+
+        <div class="dist-grid" style="margin-top:20px">
+            <div class="dist-card">
+                <h3><span class="material-icons-round">school</span> Onderwijs</h3>
+                <div class="dist-links">
+                    <a href="https://www.khanacademy.org" target="_blank">Khan Academy</a>
+                    <a href="https://teachforall.org" target="_blank">Teach For All</a>
+                    <a href="https://www.pratham.org" target="_blank">Pratham</a>
+                    <a href="https://camara.org" target="_blank">Camara Education</a>
+                </div>
+            </div>
+            <div class="dist-card">
+                <h3><span class="material-icons-round">diversity_3</span> Vrouwen &amp; meisjes</h3>
+                <div class="dist-links">
+                    <a href="https://girlswhocode.com" target="_blank">Girls Who Code</a>
+                    <a href="https://www.sheleadsafrica.org" target="_blank">She Leads Africa</a>
+                    <a href="https://technovation.org" target="_blank">Technovation</a>
+                </div>
+            </div>
+            <div class="dist-card">
+                <h3><span class="material-icons-round">child_care</span> Kinderen</h3>
+                <div class="dist-links">
+                    <a href="https://www.unicef.org/innovation" target="_blank">UNICEF Innovation</a>
+                    <a href="https://www.warchildholland.org" target="_blank">War Child</a>
+                    <a href="https://www.one.org" target="_blank">ONE Campaign</a>
+                </div>
+            </div>
+            <div class="dist-card">
+                <h3><span class="material-icons-round">wifi_off</span> Offline</h3>
+                <div class="dist-links">
+                    <a href="https://www.kiwix.org" target="_blank">Kiwix</a>
+                    <a href="https://kolibri.learningequality.org" target="_blank">Kolibri</a>
+                    <a href="https://rachel.worldpossible.org" target="_blank">RACHEL</a>
+                </div>
+            </div>
+            <div class="dist-card">
+                <h3><span class="material-icons-round">hub</span> Open source</h3>
+                <div class="dist-links">
+                    <a href="https://github.com/AnneVersion/daw" target="_blank">GitHub</a>
+                    <a href="https://www.producthunt.com" target="_blank">Product Hunt</a>
+                    <a href="https://news.ycombinator.com" target="_blank">Hacker News</a>
+                    <a href="https://www.reddit.com/r/WeAreTheMusicMakers" target="_blank">Reddit</a>
+                </div>
+            </div>
+            <div class="dist-card">
+                <h3><span class="material-icons-round">share</span> Social</h3>
+                <div class="dist-links">
+                    <a href="https://www.bandlab.com" target="_blank">BandLab</a>
+                    <a href="https://musiced.nafme.org" target="_blank">NAfME</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TECH + CTA (gecombineerd) -->
+    <div class="detail-section" style="text-align:center;padding-top:40px;border-top:1px solid var(--border)">
+        <div class="tech-badges" style="justify-content:center;margin-bottom:32px">
+            <div class="tech-badge"><span class="material-icons-round">surround_sound</span> Web Audio</div>
+            <div class="tech-badge"><span class="material-icons-round">draw</span> Canvas</div>
+            <div class="tech-badge"><span class="material-icons-round">connected_tv</span> WebRTC</div>
+            <div class="tech-badge"><span class="material-icons-round">cloud</span> Supabase</div>
+        </div>
+        <p style="max-width:500px;margin:0 auto 24px;color:var(--muted);font-size:.95rem">Open de link en maak je eerste beat. Het kost je niets.</p>
+        <div class="links-section" style="justify-content:center">
+            <a href="https://anneversion.github.io/daw/" target="_blank" class="link-btn primary">
+                <span class="material-icons-round" style="font-size:18px">play_arrow</span>
+                Open DAW
             </a>
         </div>
     </div>
@@ -246,7 +354,7 @@ footer a { color: var(--dim); transition: color .3s; } footer a:hover { color: v
         <a href="https://github.com/AnneVersion" target="_blank"><svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>
         <a href="mailto:info@dataconsultants.nl"><span class="material-icons-round" style="font-size:18px">mail</span></a>
     </div>
-    <p>&copy; 2026 Data Consultants &mdash; Dataverzamelaars &amp; Datamodelleurs</p>
+    <p>&copy; 2026 Data Consultants &mdash; Muziekproductie voor iedereen</p>
     <div class="claude-badge">Gebouwd met Claude</div>
 </footer>
 
