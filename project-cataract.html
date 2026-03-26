@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cataract — Wetenschappelijk Platform | Data Consultants</title>
+    <meta name="description" content="Wetenschappelijk informatieplatform over aangeboren staar (congenitaal cataract). IOL-illustraties, persoonlijk dashboard, evidence-based onderzoek.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='10.67' fill='%23AE1C28'/><rect y='10.67' width='32' height='10.67' fill='%23FFF'/><rect y='21.33' width='32' height='10.67' fill='%2321468B'/></svg>">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+:root {
+    --bg: #0a0f1a; --bg2: #0f1520; --bg3: #141c2b;
+    --panel: rgba(255,255,255,0.03); --border: #1e293b; --text: #e2e8f0; --muted: #94a3b8; --dim: #64748b;
+    --accent: #39ff14; --teal: #06b6d4; --white: #ffffff;
+    --radius: 16px; --radius-sm: 10px; --font: Verdana, Geneva, Tahoma, sans-serif;
+}
+body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+body::before { content: ''; position: fixed; inset: 0; background-image: radial-gradient(rgba(6, 182, 212, .06) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: 0; }
+body::after { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at 20% 50%, rgba(6,182,212,.04) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(57,255,20,.03) 0%, transparent 50%); pointer-events: none; z-index: 0; }
+::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: var(--bg); } ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 15, 26, .7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(6, 182, 212, .08); padding: 0 32px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+.nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; color: var(--text); text-decoration: none; } .nav-logo:hover { text-decoration: none; } .nav-logo svg { width: 28px; height: 28px; }
+.nav-right { display: flex; align-items: center; gap: 20px; }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { color: var(--muted); font-size: 13px; font-weight: 700; text-decoration: none; padding: 4px 0; border-bottom: 2px solid transparent; transition: color .3s, border-color .3s; text-transform: uppercase; letter-spacing: .5px; }
+.nav-links a:hover { color: var(--accent); border-bottom-color: var(--accent); text-decoration: none; }
+.hamburger { display: none; background: none; border: none; color: var(--text); font-size: 28px; cursor: pointer; }
+@media (max-width: 768px) { .hamburger { display: block; } .nav-links { display: none; position: absolute; top: 64px; left: 0; right: 0; background: rgba(10, 15, 26, .95); backdrop-filter: blur(20px); flex-direction: column; padding: 20px 32px; gap: 16px; border-bottom: 1px solid rgba(6, 182, 212, .08); } .nav-links.open { display: flex; } }
+.page-content { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; padding: 100px 24px 60px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 40px; transition: color .3s; } .back-link:hover { color: var(--accent); text-decoration: none; }
+.project-hero { text-align: center; margin-bottom: 80px; padding: 60px 0; border-bottom: 1px solid var(--border); }
+.project-hero .icon-wrap { width: 80px; height: 80px; border-radius: 20px; background: rgba(6, 182, 212, .15); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
+.project-hero .icon-wrap .material-icons-round { color: #06b6d4; font-size: 40px; }
+.project-hero h1 { font-size: 2.8rem; font-weight: 700; color: var(--white); margin-bottom: 16px; line-height: 1.2; }
+.project-hero h1 .accent { color: var(--teal); }
+.project-hero .tagline { font-size: 1.1rem; color: var(--muted); max-width: 700px; margin: 0 auto 32px; line-height: 1.8; }
+.project-hero .status-badge { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 6px 16px; border-radius: 20px; background: rgba(107, 114, 128, .15); color: #9ca3af; }
+@media (max-width: 768px) { .project-hero h1 { font-size: 2rem; } }
+.detail-section { margin-bottom: 80px; }
+.detail-section h2 { font-size: 1.8rem; color: var(--white); margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
+.detail-section h2 .material-icons-round { color: var(--teal); font-size: 28px; }
+.detail-section .section-line { width: 60px; height: 3px; background: linear-gradient(90deg, var(--teal), var(--accent)); border-radius: 2px; margin-bottom: 24px; }
+.detail-section p, .detail-section li { color: var(--muted); font-size: .95rem; line-height: 1.9; margin-bottom: 12px; }
+.detail-section ul { list-style: none; padding: 0; }
+.detail-section ul li { padding-left: 24px; position: relative; }
+.detail-section ul li::before { content: ''; position: absolute; left: 0; top: 11px; width: 8px; height: 8px; border-radius: 50%; background: var(--teal); }
+
+/* Eye anatomy illustration */
+.eye-hero { display: flex; justify-content: center; margin: 40px 0; }
+.eye-hero svg { max-width: 100%; height: auto; }
+
+/* Stats grid */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin: 32px 0; }
+@media (max-width: 768px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+.stat-card { background: var(--panel); border: 1px solid rgba(6,182,212,0.1); border-radius: var(--radius-sm); padding: 24px; text-align: center; transition: all .3s; }
+.stat-card:hover { border-color: rgba(6,182,212,0.4); transform: translateY(-4px); box-shadow: 0 10px 40px rgba(0,0,0,.2); }
+.stat-card .stat-num { font-size: 2rem; font-weight: 700; color: var(--teal); margin-bottom: 4px; }
+.stat-card .stat-label { font-size: .8rem; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+
+/* Pages grid */
+.pages-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 24px; }
+.page-card { background: var(--panel); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 24px; transition: all .3s; }
+.page-card:hover { border-color: rgba(6, 182, 212, .4); transform: translateY(-4px); }
+.page-card .page-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(6, 182, 212, .15); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+.page-card .page-icon .material-icons-round { color: #06b6d4; font-size: 24px; }
+.page-card h3 { color: var(--white); font-size: 1rem; margin-bottom: 8px; }
+.page-card p { color: var(--muted); font-size: .85rem; line-height: 1.7; margin: 0; }
+
+/* Features grid */
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 24px; }
+.feature-card { background: var(--panel); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 28px; transition: all .3s; }
+.feature-card:hover { border-color: rgba(6, 182, 212, .3); transform: translateY(-4px); box-shadow: 0 10px 40px rgba(0,0,0,.2); }
+.feature-card .material-icons-round { color: var(--teal); font-size: 32px; margin-bottom: 14px; }
+.feature-card h3 { color: var(--white); font-size: 1rem; margin-bottom: 8px; }
+.feature-card p { margin-bottom: 0; }
+
+/* Checklist */
+.checklist { margin-top: 24px; }
+.check-item { display: flex; align-items: flex-start; gap: 12px; padding: 14px 20px; background: var(--panel); border: 1px solid rgba(255,255,255,0.04); border-radius: 8px; margin-bottom: 8px; transition: all .3s; }
+.check-item:hover { border-color: rgba(6,182,212,0.2); }
+.check-item .material-icons-round { color: var(--teal); font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+.check-item .check-text { font-size: .9rem; color: var(--muted); }
+.check-item .check-text strong { color: var(--text); }
+
+/* IOL comparison */
+.iol-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
+@media (max-width: 768px) { .iol-compare { grid-template-columns: 1fr; } }
+.iol-card { background: var(--panel); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 28px; text-align: center; }
+.iol-card h3 { color: var(--white); margin-bottom: 12px; font-size: 1rem; }
+.iol-card p { color: var(--muted); font-size: .85rem; line-height: 1.7; }
+.iol-card svg { max-width: 240px; margin: 0 auto 16px; }
+
+/* Timeline */
+.timeline { margin-top: 24px; padding-left: 24px; border-left: 2px solid rgba(6,182,212,0.2); }
+.timeline-item { position: relative; padding: 0 0 32px 24px; }
+.timeline-item::before { content: ''; position: absolute; left: -29px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--teal); border: 3px solid var(--bg); }
+.timeline-item h3 { color: var(--white); font-size: .95rem; margin-bottom: 4px; }
+.timeline-item p { color: var(--muted); font-size: .85rem; line-height: 1.7; margin: 0; }
+.timeline-item .year { color: var(--teal); font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+
+/* Tech badges */
+.tech-badges { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.tech-badge { display: flex; align-items: center; gap: 8px; background: var(--panel); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 10px 18px; font-size: .85rem; color: var(--text); transition: all .3s; }
+.tech-badge:hover { border-color: var(--teal); transform: translateY(-2px); }
+.tech-badge .material-icons-round { color: var(--teal); font-size: 20px; }
+
+/* Links */
+.links-section { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 24px; }
+.link-btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 8px; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: .5px; transition: all .3s; text-decoration: none; }
+.link-btn:hover { text-decoration: none; transform: translateY(-2px); }
+.link-btn.primary { background: var(--teal); color: #0a0f1a; } .link-btn.primary:hover { box-shadow: 0 0 30px rgba(6, 182, 212, .4); }
+.link-btn.secondary { background: rgba(255,255,255,0.06); color: var(--text); border: 1px solid rgba(255,255,255,0.1); } .link-btn.secondary:hover { border-color: var(--teal); color: var(--teal); }
+.link-btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+/* Callout box */
+.callout-box { background: rgba(6, 182, 212, .08); border: 1px solid rgba(6, 182, 212, .2); border-radius: var(--radius-sm); padding: 24px; margin-top: 24px; }
+.callout-box h3 { color: #67e8f9; font-size: 1rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.callout-box p { color: var(--muted); font-size: .9rem; margin: 0; }
+
+footer { position: relative; z-index: 2; text-align: center; padding: 40px 24px; border-top: 1px solid var(--border); color: var(--dim); font-size: 13px; }
+footer a { color: var(--dim); transition: color .3s; } footer a:hover { color: var(--accent); text-decoration: none; }
+.footer-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 12px; }
+.footer-links a svg { width: 18px; height: 18px; fill: currentColor; vertical-align: middle; }
+.claude-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 6px 14px; border-radius: 6px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); font-size: 11px; color: var(--dim); }
+</style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="nav-logo">
+        <img src="logo.svg" alt="DC" style="width:28px;height:28px">
+        Data Consultants
+    </a>
+    <div class="nav-right">
+        <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')"><span class="material-icons-round">menu</span></button>
+        <ul class="nav-links">
+            <li><a href="index.html#about">Over Ons</a></li>
+            <li><a href="index.html#projecten">Prototypes</a></li>
+            <li><a href="index.html#tech">Tech</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="page-content">
+
+    <a href="index.html#projecten" class="back-link">
+        <span class="material-icons-round" style="font-size:18px">arrow_back</span>
+        Terug naar prototypes
+    </a>
+
+    <div class="project-hero">
+        <div class="icon-wrap">
+            <span class="material-icons-round">visibility</span>
+        </div>
+        <h1>Congenitaal <span class="accent">Cataract</span></h1>
+        <p class="tagline">Wetenschappelijk informatieplatform over aangeboren staar. Evidence-based informatie, interactieve IOL-illustraties, persoonlijk dashboard en gespecialiseerde centra in Nederland.</p>
+        <span class="status-badge">POC</span>
+    </div>
+
+    <!-- Animated eye illustration -->
+    <div class="eye-hero">
+        <svg viewBox="0 0 400 200" width="400" height="200">
+            <!-- Eye outer shape -->
+            <path d="M20,100 Q100,20 200,20 Q300,20 380,100 Q300,180 200,180 Q100,180 20,100 Z" fill="none" stroke="#06b6d4" stroke-width="1.5" opacity="0.3"/>
+            <!-- Sclera fill -->
+            <path d="M20,100 Q100,20 200,20 Q300,20 380,100 Q300,180 200,180 Q100,180 20,100 Z" fill="rgba(6,182,212,0.02)"/>
+            <!-- Iris outer -->
+            <circle cx="200" cy="100" r="55" fill="rgba(6,182,212,0.06)" stroke="#06b6d4" stroke-width="1.5"/>
+            <!-- Iris pattern -->
+            <circle cx="200" cy="100" r="45" fill="none" stroke="#06b6d4" stroke-width="0.5" opacity="0.3"/>
+            <circle cx="200" cy="100" r="35" fill="none" stroke="#06b6d4" stroke-width="0.5" opacity="0.2"/>
+            <!-- Iris fibers -->
+            <g opacity="0.15" stroke="#06b6d4" stroke-width="0.5">
+                <line x1="200" y1="45" x2="200" y2="70"/><line x1="200" y1="130" x2="200" y2="155"/>
+                <line x1="155" y1="60" x2="170" y2="78"/><line x1="245" y1="60" x2="230" y2="78"/>
+                <line x1="145" y1="100" x2="170" y2="100"/><line x1="255" y1="100" x2="230" y2="100"/>
+                <line x1="155" y1="140" x2="170" y2="122"/><line x1="245" y1="140" x2="230" y2="122"/>
+            </g>
+            <!-- Pupil -->
+            <circle cx="200" cy="100" r="22" fill="rgba(0,0,0,0.6)">
+                <animate attributeName="r" values="22;18;22" dur="4s" repeatCount="indefinite"/>
+            </circle>
+            <!-- IOL lens shimmer -->
+            <ellipse cx="200" cy="100" rx="30" ry="10" fill="none" stroke="#06b6d4" stroke-width="1" opacity="0.4">
+                <animate attributeName="opacity" values="0.2;0.6;0.2" dur="3s" repeatCount="indefinite"/>
+            </ellipse>
+            <!-- Light reflection -->
+            <circle cx="190" cy="88" r="6" fill="white" opacity="0.15">
+                <animate attributeName="opacity" values="0.1;0.25;0.1" dur="5s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="210" cy="92" r="3" fill="white" opacity="0.1"/>
+            <!-- Labels -->
+            <text x="60" y="55" fill="#06b6d4" font-size="10" font-family="Verdana" opacity="0.6">hoornvlies</text>
+            <line x1="55" y1="58" x2="42" y2="80" stroke="#06b6d4" stroke-width="0.5" opacity="0.3"/>
+            <text x="300" y="55" fill="#06b6d4" font-size="10" font-family="Verdana" opacity="0.6">netvlies</text>
+            <line x1="330" y1="58" x2="350" y2="80" stroke="#06b6d4" stroke-width="0.5" opacity="0.3"/>
+            <text x="175" y="40" fill="#06b6d4" font-size="10" font-family="Verdana" opacity="0.6">iris</text>
+            <line x1="185" y1="42" x2="185" y2="50" stroke="#06b6d4" stroke-width="0.5" opacity="0.3"/>
+            <text x="230" y="125" fill="#06b6d4" font-size="9" font-family="Verdana" opacity="0.5">IOL</text>
+        </svg>
+    </div>
+
+    <!-- Statistieken -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-num">3:10K</div>
+            <div class="stat-label">Prevalentie bij geboorte</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-num">115+</div>
+            <div class="stat-label">Genen geidentificeerd</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-num">90%</div>
+            <div class="stat-label">Genetisch detecteerbaar</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-num">92%</div>
+            <div class="stat-label">Visueel herstel na OK</div>
+        </div>
+    </div>
+
+    <!-- Wat is het -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">info</span> Wat is het?</h2>
+        <div class="section-line"></div>
+        <p>Cataract is een wetenschappelijk informatieplatform gericht op congenitaal cataract (aangeboren staar). Het biedt evidence-based informatie over oorzaken, behandelmethoden, lopend onderzoek en gespecialiseerde centra in Nederland.</p>
+        <p>Het platform combineert medische wetenschap met een persoonlijk dashboard voor het bijhouden van controles en aandachtspunten na een cataractoperatie op jonge leeftijd.</p>
+    </div>
+
+    <!-- IOL Vergelijking -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">compare</span> IOL Posities</h2>
+        <div class="section-line"></div>
+        <p>Het platform bevat gedetailleerde SVG-illustraties die het verschil uitleggen tussen de twee typen intraoculaire lenzen (IOL's).</p>
+        <div class="iol-compare">
+            <div class="iol-card">
+                <svg viewBox="0 0 200 160" width="200" height="160">
+                    <!-- Eye cross-section -->
+                    <ellipse cx="100" cy="80" rx="85" ry="65" fill="none" stroke="#06b6d4" stroke-width="1" opacity="0.3"/>
+                    <!-- Cornea -->
+                    <path d="M25,45 Q10,80 25,115" fill="none" stroke="#67e8f9" stroke-width="2"/>
+                    <!-- Iris -->
+                    <line x1="50" y1="45" x2="50" y2="62" stroke="#a78bfa" stroke-width="2.5"/>
+                    <line x1="50" y1="98" x2="50" y2="115" stroke="#a78bfa" stroke-width="2.5"/>
+                    <!-- IOL behind iris (posterior) -->
+                    <ellipse cx="62" cy="80" rx="3" ry="18" fill="none" stroke="#06b6d4" stroke-width="2">
+                        <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
+                    </ellipse>
+                    <!-- Retina -->
+                    <path d="M175,45 Q190,80 175,115" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.4"/>
+                    <!-- Labels -->
+                    <text x="100" y="25" text-anchor="middle" fill="#06b6d4" font-size="8" font-family="Verdana">achter de iris</text>
+                </svg>
+                <h3>Posterieure kamer IOL</h3>
+                <p>De standaard positie: de kunstlens zit achter de iris, op de plek van de oorspronkelijke lens.</p>
+            </div>
+            <div class="iol-card">
+                <svg viewBox="0 0 200 160" width="200" height="160">
+                    <!-- Eye cross-section -->
+                    <ellipse cx="100" cy="80" rx="85" ry="65" fill="none" stroke="#06b6d4" stroke-width="1" opacity="0.3"/>
+                    <!-- Cornea -->
+                    <path d="M25,45 Q10,80 25,115" fill="none" stroke="#67e8f9" stroke-width="2"/>
+                    <!-- Iris -->
+                    <line x1="50" y1="45" x2="50" y2="62" stroke="#a78bfa" stroke-width="2.5"/>
+                    <line x1="50" y1="98" x2="50" y2="115" stroke="#a78bfa" stroke-width="2.5"/>
+                    <!-- IOL in front of iris (anterior) -->
+                    <ellipse cx="38" cy="80" rx="3" ry="18" fill="none" stroke="#f59e0b" stroke-width="2">
+                        <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
+                    </ellipse>
+                    <!-- Retina -->
+                    <path d="M175,45 Q190,80 175,115" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.4"/>
+                    <!-- Labels -->
+                    <text x="100" y="25" text-anchor="middle" fill="#f59e0b" font-size="8" font-family="Verdana">voor de iris</text>
+                </svg>
+                <h3>Anterieure kamer IOL</h3>
+                <p>Alternatieve positie: de kunstlens zit voor de iris. Nodig wanneer het kapsel beschadigd is.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6 Pagina's -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">auto_stories</span> De 6 Pagina's</h2>
+        <div class="section-line"></div>
+        <div class="pages-grid">
+            <div class="page-card">
+                <div class="page-icon"><span class="material-icons-round">dashboard</span></div>
+                <h3>Overzicht</h3>
+                <p>Hoofdpagina met uitleg over cataract, persoonlijk dashboard met controle-checklist en IOL-illustraties.</p>
+            </div>
+            <div class="page-card">
+                <div class="page-icon"><span class="material-icons-round">medical_services</span></div>
+                <h3>Behandelingen</h3>
+                <p>Overzicht van chirurgische methoden, IOL-typen, complicaties en revalidatietrajecten na operatie.</p>
+            </div>
+            <div class="page-card">
+                <div class="page-icon"><span class="material-icons-round">science</span></div>
+                <h3>Onderzoek</h3>
+                <p>Lopend wetenschappelijk onderzoek naar genetica, stamceltherapie en nieuwe lenstechnologieen.</p>
+            </div>
+            <div class="page-card">
+                <div class="page-icon"><span class="material-icons-round">restaurant</span></div>
+                <h3>Voeding &amp; Preventie</h3>
+                <p>Evidence-based informatie over voedingsstoffen en supplementen die de ooggezondheid ondersteunen.</p>
+            </div>
+            <div class="page-card">
+                <div class="page-icon"><span class="material-icons-round">local_hospital</span></div>
+                <h3>Klinieken NL</h3>
+                <p>Gespecialiseerde oogcentra in Nederland met focus op congenitaal cataract en pediatrische oogheelkunde.</p>
+            </div>
+            <div class="page-card">
+                <div class="page-icon"><span class="material-icons-round">menu_book</span></div>
+                <h3>Bronnen</h3>
+                <p>Wetenschappelijke referenties, publicaties en externe bronnen voor verdere verdieping.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Persoonlijk dashboard -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">person</span> Persoonlijk Dashboard</h2>
+        <div class="section-line"></div>
+        <p>Het platform bevat een persoonlijk dashboard met medische controle-items. Dit helpt bij het bijhouden van belangrijke check-ups en aandachtspunten na een cataractoperatie op jonge leeftijd.</p>
+
+        <div class="callout-box">
+            <h3><span class="material-icons-round" style="font-size:20px">favorite</span> Gebouwd met zorg</h3>
+            <p>Dit platform is gebouwd rond de persoonlijke ervaring met bilateraal congenitaal cataract. Het combineert medische wetenschap met praktische informatie voor dagelijkse zorg.</p>
+        </div>
+
+        <div class="checklist">
+            <div class="check-item">
+                <span class="material-icons-round">check_circle</span>
+                <div class="check-text"><strong>Endotheelcellen</strong> &mdash; Regelmatige telling van cornea-endotheelcellen (speculair microscopie)</div>
+            </div>
+            <div class="check-item">
+                <span class="material-icons-round">check_circle</span>
+                <div class="check-text"><strong>Glaucoom</strong> &mdash; Oogdruk monitoring (verhoogd risico na cataractoperatie)</div>
+            </div>
+            <div class="check-item">
+                <span class="material-icons-round">check_circle</span>
+                <div class="check-text"><strong>Refractie</strong> &mdash; Bijstelling brilsterkte bij groeiend oog</div>
+            </div>
+            <div class="check-item">
+                <span class="material-icons-round">check_circle</span>
+                <div class="check-text"><strong>Netvlies</strong> &mdash; Fundoscopie: controle op netvliesloslating</div>
+            </div>
+            <div class="check-item">
+                <span class="material-icons-round">check_circle</span>
+                <div class="check-text"><strong>Nastaar</strong> &mdash; Posterior capsule opacificatie (PCO) screening</div>
+            </div>
+            <div class="check-item">
+                <span class="material-icons-round">check_circle</span>
+                <div class="check-text"><strong>UV-bescherming</strong> &mdash; Bescherming tegen UV-straling bij kunstlenzen</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kenmerken -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">star</span> Kenmerken</h2>
+        <div class="section-line"></div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="material-icons-round">draw</span>
+                <h3>SVG Illustraties</h3>
+                <p>Handgemaakte vectorillustraties van oogdoorsneden die anterieure en posterieure IOL-posities visueel uitleggen.</p>
+            </div>
+            <div class="feature-card">
+                <span class="material-icons-round">verified</span>
+                <h3>Evidence-based</h3>
+                <p>Alle medische claims onderbouwd met wetenschappelijke bronnen en referenties naar peer-reviewed publicaties.</p>
+            </div>
+            <div class="feature-card">
+                <span class="material-icons-round">accessibility_new</span>
+                <h3>Toegankelijk</h3>
+                <p>Medische informatie in begrijpelijke taal. Complexe begrippen worden stap voor stap uitgelegd.</p>
+            </div>
+            <div class="feature-card">
+                <span class="material-icons-round">timeline</span>
+                <h3>Persoonlijk Dashboard</h3>
+                <p>Controle-checklist voor medische follow-up na cataractoperatie op jonge leeftijd.</p>
+            </div>
+            <div class="feature-card">
+                <span class="material-icons-round">local_hospital</span>
+                <h3>NL Klinieken</h3>
+                <p>Overzicht van gespecialiseerde oogcentra in Nederland voor pediatrische cataractchirurgie.</p>
+            </div>
+            <div class="feature-card">
+                <span class="material-icons-round">devices</span>
+                <h3>Responsive Design</h3>
+                <p>Licht medisch thema met Merriweather en Inter lettertypen. Werkt op desktop, tablet en mobiel.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technologie -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">code</span> Technologie</h2>
+        <div class="section-line"></div>
+        <div class="tech-badges">
+            <div class="tech-badge"><span class="material-icons-round">language</span> HTML5</div>
+            <div class="tech-badge"><span class="material-icons-round">palette</span> CSS3</div>
+            <div class="tech-badge"><span class="material-icons-round">draw</span> SVG</div>
+            <div class="tech-badge"><span class="material-icons-round">text_fields</span> Merriweather</div>
+            <div class="tech-badge"><span class="material-icons-round">text_fields</span> Inter</div>
+            <div class="tech-badge"><span class="material-icons-round">dns</span> Python HTTP</div>
+        </div>
+    </div>
+
+    <!-- Links -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">link</span> Links</h2>
+        <div class="section-line"></div>
+        <div class="links-section">
+            <a href="https://anneversion.github.io/cataract/" target="_blank" class="link-btn primary">
+                <span class="material-icons-round" style="font-size:18px">open_in_new</span>
+                Bekijk Live
+            </a>
+            <a href="https://github.com/AnneVersion/cataract" target="_blank" class="link-btn secondary">
+                <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                GitHub
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <div class="footer-links">
+        <a href="index.html">Portfolio</a>
+        <a href="showcase.html">Showcase</a>
+        <a href="https://github.com/AnneVersion" target="_blank">GitHub</a>
+    </div>
+    &copy; 2026 Data Consultants
+    <div class="claude-badge">Gebouwd met Claude</div>
+</footer>
+
+</body>
+</html>

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeoInzicht — CBS Open Data Visualisatie | Data Consultants</title>
-    <meta name="description" content="GeoInzicht visualiseert CBS buurtdata, wijkdata en gemeentedata op een interactieve kaart. 89+ indicatoren over bevolking, inkomen, woningen en meer.">
+    <title>GeoInzicht DWH — Data Warehouse voor CBS Buurtdata | Data Consultants</title>
+    <meta name="description" content="GeoInzicht DWH is een data warehouse dat CBS buurtdata, BAG adressen, criminaliteit, zorgkosten en meer verzamelt in een PostgreSQL/PostGIS stermodel.">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='10.67' fill='%23AE1C28'/><rect y='10.67' width='32' height='10.67' fill='%23FFF'/><rect y='21.33' width='32' height='10.67' fill='%2321468B'/></svg>">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <style>
@@ -313,39 +313,6 @@ nav {
 }
 .feature-card p { margin-bottom: 0; }
 
-/* Screenshots */
-.screenshots-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
-    margin-top: 24px;
-}
-.screenshot-placeholder {
-    aspect-ratio: 16/10;
-    border-radius: var(--radius-sm);
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    padding: 20px;
-    position: relative;
-    overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.06);
-}
-.screenshot-placeholder span {
-    background: rgba(0,0,0,.6);
-    backdrop-filter: blur(8px);
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-size: .85rem;
-    color: var(--white);
-    font-weight: 700;
-    z-index: 1;
-}
-.ss-1 { background: linear-gradient(135deg, #0d2818, #1a4731, #0d3320); }
-.ss-2 { background: linear-gradient(135deg, #1a1040, #2d1b69, #1a1040); }
-.ss-3 { background: linear-gradient(135deg, #1a2332, #0d3d5f, #1a2332); }
-.ss-4 { background: linear-gradient(135deg, #2d1b0e, #4a2c0a, #2d1b0e); }
-
 /* Architecture */
 .architecture-box {
     background: var(--panel);
@@ -497,155 +464,84 @@ footer a:hover { color: var(--accent); text-decoration: none; }
 
     <div class="project-hero">
         <div class="icon-wrap">
-            <span class="material-icons-round">map</span>
+            <span class="material-icons-round">public</span>
         </div>
-        <h1>Geo<span class="accent">Inzicht</span></h1>
-        <p class="tagline">Platform dat CBS buurtdata, wijkdata en gemeentedata visualiseert op een interactieve kaart. Van woningwaarde tot inkomen, van energieverbruik tot bevolkingssamenstelling.</p>
+        <h1>GeoInzicht <span class="accent">DWH</span></h1>
+        <p class="tagline">Data warehouse voor CBS buurtdata. Verzamelt, modelleert en ontsluit open data uit 6+ bronnen via een gestandaardiseerd stermodel.</p>
         <span class="status-badge">Actief</span>
     </div>
 
-    <!-- Wat is het -->
+    <!-- Wat is GeoInzicht DWH? -->
     <div class="detail-section">
-        <h2><span class="material-icons-round">info</span> Wat is het?</h2>
+        <h2><span class="material-icons-round">info</span> Wat is GeoInzicht DWH?</h2>
         <div class="section-line"></div>
-        <p>GeoInzicht is een interactieve webapplicatie die openbare CBS-data zichtbaar maakt op de kaart. Het platform combineert de CBS Kerncijfers wijken en buurten met geografische grenzen (GeoJSON) en kleurt elk gebied in op basis van de gekozen indicator.</p>
-        <p>Door data op een kaart te tonen in plaats van in tabellen, worden patronen zichtbaar die anders verborgen blijven. Waar wonen de meeste mensen? Waar zijn de huizen het duurst? Waar is het gemiddeld inkomen het hoogst? GeoInzicht geeft antwoord op deze vragen in een oogopslag.</p>
-        <p>Het systeem werkt op drie niveaus: buurten (kleinste niveau), wijken en gemeenten. Zo kun je inzoomen van landelijk overzicht naar de details van je eigen buurt.</p>
-    </div>
-
-    <!-- Hoe werkt het -->
-    <div class="detail-section">
-        <h2><span class="material-icons-round">play_circle</span> Hoe werkt het?</h2>
-        <div class="section-line"></div>
-        <div class="steps-grid">
-            <div class="step-card">
-                <div class="step-number">1</div>
-                <h3>Kies een indicator</h3>
-                <p>Selecteer uit 89+ indicatoren verdeeld over 8 domeinen, zoals inwoners, inkomen, WOZ-waarde of energieverbruik.</p>
-            </div>
-            <div class="step-card">
-                <div class="step-number">2</div>
-                <h3>Kaart kleurt in</h3>
-                <p>De kaart kleurt automatisch in met het Viridis kleurenpalet (colorblind-friendly). Donker = lage waarde, geel = hoge waarde.</p>
-            </div>
-            <div class="step-card">
-                <div class="step-number">3</div>
-                <h3>Klik voor details</h3>
-                <p>Klik op een buurt, wijk of gemeente voor gedetailleerde informatie en de percentiel-positie ten opzichte van het landelijk gemiddelde.</p>
-            </div>
-            <div class="step-card">
-                <div class="step-number">4</div>
-                <h3>Vergelijk gebieden</h3>
-                <p>Vergelijk twee gebieden naast elkaar: buurt vs wijk vs gemeente vs landelijk gemiddelde in een overzichtelijke tabel.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Indicatoren & domeinen -->
-    <div class="detail-section">
-        <h2><span class="material-icons-round">category</span> Indicatoren &amp; Domeinen</h2>
-        <div class="section-line"></div>
-        <p>De data is verdeeld over 8 domeinen met in totaal meer dan 89 indicatoren (2024) en 83 indicatoren (2025), plus unieke nieuwe indicatoren.</p>
-        <div class="domains-grid">
-            <div class="domain-tag"><span class="material-icons-round">groups</span> Bevolking</div>
-            <div class="domain-tag"><span class="material-icons-round">euro</span> Inkomen</div>
-            <div class="domain-tag"><span class="material-icons-round">home</span> Woningen</div>
-            <div class="domain-tag"><span class="material-icons-round">bolt</span> Energie</div>
-            <div class="domain-tag"><span class="material-icons-round">school</span> Onderwijs</div>
-            <div class="domain-tag"><span class="material-icons-round">work</span> Arbeid</div>
-            <div class="domain-tag"><span class="material-icons-round">local_hospital</span> Zorg</div>
-            <div class="domain-tag"><span class="material-icons-round">shield</span> Veiligheid</div>
-        </div>
-    </div>
-
-    <!-- Nieuw in 2025 -->
-    <div class="detail-section">
-        <h2><span class="material-icons-round">new_releases</span> Nieuw in 2025</h2>
-        <div class="section-line"></div>
-        <p>Het CBS heeft in 2025 nieuwe indicatoren toegevoegd die aansluiten bij actuele maatschappelijke thema's:</p>
-        <ul>
-            <li>Aardgasvrije woningen - hoeveel woningen zijn van het gas af?</li>
-            <li>Zonnestroom - opgesteld vermogen zonnepanelen per gebied</li>
-            <li>Armoede - huishoudens onder de armoedegrens</li>
-            <li>Laadpalen - publieke oplaadpunten voor elektrische auto's</li>
-        </ul>
-    </div>
-
-    <!-- Features -->
-    <div class="detail-section">
-        <h2><span class="material-icons-round">star</span> Features</h2>
-        <div class="section-line"></div>
-        <div class="features-grid">
-            <div class="feature-card">
-                <span class="material-icons-round">palette</span>
-                <h3>Viridis Kleurenpalet</h3>
-                <p>Wetenschappelijk kleurenpalet dat ook voor kleurenblinden goed leesbaar is. Van donkerpaars (laag) naar geel (hoog).</p>
-            </div>
-            <div class="feature-card">
-                <span class="material-icons-round">compare</span>
-                <h3>Gebieden Vergelijken</h3>
-                <p>Open twee gebieden naast elkaar en vergelijk alle indicatoren. Buurt vs wijk vs gemeente vs Nederland.</p>
-            </div>
-            <div class="feature-card">
-                <span class="material-icons-round">touch_app</span>
-                <h3>Interactieve Tooltips</h3>
-                <p>Hover over een gebied voor direct inzicht: geformateerde waarden, percentiel-positie en context.</p>
-            </div>
-            <div class="feature-card">
-                <span class="material-icons-round">dashboard</span>
-                <h3>NL Dashboard</h3>
-                <p>Landelijk overzicht met KPI's en distributies per indicator. Zie de spreiding over heel Nederland.</p>
-            </div>
-            <div class="feature-card">
-                <span class="material-icons-round">table_chart</span>
-                <h3>Context Tabel</h3>
-                <p>Bij klik op een gebied: automatische vergelijking van buurt, wijk, gemeente en landelijk gemiddelde.</p>
-            </div>
-            <div class="feature-card">
-                <span class="material-icons-round">info</span>
-                <h3>Indicator Info</h3>
-                <p>Per indicator een popup met databron, analysemethode, landelijke statistieken en definitie.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Screenshots -->
-    <div class="detail-section">
-        <h2><span class="material-icons-round">photo_library</span> Screenshots</h2>
-        <div class="section-line"></div>
-        <div class="screenshots-grid">
-            <div class="screenshot-placeholder ss-1">
-                <span>Kaartweergave met Viridis kleuren</span>
-            </div>
-            <div class="screenshot-placeholder ss-2">
-                <span>Indicator panel met domeinen</span>
-            </div>
-            <div class="screenshot-placeholder ss-3">
-                <span>Vergelijken van twee buurten</span>
-            </div>
-            <div class="screenshot-placeholder ss-4">
-                <span>Tooltip met waarden</span>
-            </div>
-        </div>
+        <p>GeoInzicht DWH is het data warehouse achter het GeoInzicht platform. Het verzamelt CBS buurtdata, BAG adressen, criminaliteitsstatistieken, zorgkosten, flora- en faunagegevens en meer in een centraal PostgreSQL/PostGIS stermodel.</p>
+        <p>De data wordt opgehaald uit diverse open databronnen, getransformeerd via een staging-laag in SQL Server, en vervolgens geladen in een gemodelleerd data warehouse met feiten- en dimensietabellen. Dit maakt het mogelijk om data uit verschillende domeinen te combineren en te analyseren op buurt-, wijk- en gemeenteniveau.</p>
+        <p>Het DWH voedt de GeoInzicht App met schone, gemodelleerde data via een Flask REST API en GeoServer voor ruimtelijke services (WFS/WMS). Zo wordt ruwe open data omgezet in bruikbare inzichten.</p>
     </div>
 
     <!-- Architectuur -->
     <div class="detail-section">
         <h2><span class="material-icons-round">architecture</span> Architectuur</h2>
         <div class="section-line"></div>
-        <div class="architecture-box">
-+------------------+      +------------------+      +------------------+
-|   Browser (UI)   |      |   CBS Open Data  |      |    BAG API       |
-|   Leaflet.js     |&lt;----&gt;|   API (OData)    |      |   (Kadaster)     |
-|   Chart.js       |      |   2024 + 2025    |      +------------------+
-+--------+---------+      +------------------+               |
-         |                                                    |
-         v                                                    v
-+------------------+      +------------------+      +------------------+
-|   GeoJSON Files  |      |   Enrich Scripts |      |   /api/bag/*     |
-|   Buurt / Wijk / |&lt;----|   enrich_cbs_    |      |   /api/refresh   |
-|   Gemeente       |      |   2024 + 2025.py |      |   /api/status    |
-+------------------+      +------------------+      +------------------+</div>
+        <p>De data doorloopt een gestandaardiseerde ETL-pipeline van bron tot dashboard:</p>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Brondata</h3>
+                <p>CBS OData, BAG/Kadaster, Politie Open Data, Vektis Zorgkosten, GBIF Natuur, PDOK Geo</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Staging</h3>
+                <p>Ruwe data wordt opgehaald en opgeslagen in SQL Server staging tabellen voor validatie en deduplicatie.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>DWH</h3>
+                <p>Getransformeerde data wordt geladen in PostgreSQL/PostGIS met een stermodel (feiten + dimensies).</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <h3>Geo Services</h3>
+                <p>GeoServer publiceert ruimtelijke data als WFS/WMS services voor kaartvisualisaties.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">5</div>
+                <h3>Flask REST API</h3>
+                <p>Python Flask API ontsluit de DWH-data via gestandaardiseerde endpoints voor het dashboard.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">6</div>
+                <h3>Dashboard / Leaflet</h3>
+                <p>De GeoInzicht App visualiseert de data op een interactieve kaart met indicatoren en vergelijkingen.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Domeinen -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">category</span> Data Domeinen</h2>
+        <div class="section-line"></div>
+        <p>Het data warehouse bevat 16 domeinen die samen een compleet beeld geven van elke buurt, wijk en gemeente in Nederland.</p>
+        <div class="domains-grid">
+            <div class="domain-tag"><span class="material-icons-round">groups</span> Bevolking</div>
+            <div class="domain-tag"><span class="material-icons-round">cake</span> Leeftijd</div>
+            <div class="domain-tag"><span class="material-icons-round">language</span> Herkomst</div>
+            <div class="domain-tag"><span class="material-icons-round">family_restroom</span> Huishoudens</div>
+            <div class="domain-tag"><span class="material-icons-round">euro</span> Inkomen</div>
+            <div class="domain-tag"><span class="material-icons-round">home</span> Wonen</div>
+            <div class="domain-tag"><span class="material-icons-round">bolt</span> Energie</div>
+            <div class="domain-tag"><span class="material-icons-round">store</span> Economie</div>
+            <div class="domain-tag"><span class="material-icons-round">shield</span> Sociale Zekerheid</div>
+            <div class="domain-tag"><span class="material-icons-round">local_hospital</span> Voorzieningen</div>
+            <div class="domain-tag"><span class="material-icons-round">straighten</span> Oppervlakte</div>
+            <div class="domain-tag"><span class="material-icons-round">terrain</span> Bodemgebruik</div>
+            <div class="domain-tag"><span class="material-icons-round">park</span> Natuur</div>
+            <div class="domain-tag"><span class="material-icons-round">directions_car</span> Mobiliteit</div>
+            <div class="domain-tag"><span class="material-icons-round">medical_services</span> Zorgkosten</div>
+            <div class="domain-tag"><span class="material-icons-round">gavel</span> Criminaliteit</div>
+        </div>
     </div>
 
     <!-- Technologie -->
@@ -653,13 +549,14 @@ footer a:hover { color: var(--accent); text-decoration: none; }
         <h2><span class="material-icons-round">code</span> Technologie</h2>
         <div class="section-line"></div>
         <div class="tech-badges">
-            <div class="tech-badge"><span class="material-icons-round">language</span> HTML / CSS / JS</div>
-            <div class="tech-badge"><span class="material-icons-round">map</span> Leaflet.js</div>
-            <div class="tech-badge"><span class="material-icons-round">bar_chart</span> Chart.js</div>
-            <div class="tech-badge"><span class="material-icons-round">cloud</span> CBS Open Data API</div>
-            <div class="tech-badge"><span class="material-icons-round">apartment</span> BAG API</div>
-            <div class="tech-badge"><span class="material-icons-round">map</span> GeoJSON</div>
-            <div class="tech-badge"><span class="material-icons-round">terminal</span> Python (enrich scripts)</div>
+            <div class="tech-badge"><span class="material-icons-round">terminal</span> Python</div>
+            <div class="tech-badge"><span class="material-icons-round">api</span> Flask</div>
+            <div class="tech-badge"><span class="material-icons-round">storage</span> PostgreSQL</div>
+            <div class="tech-badge"><span class="material-icons-round">map</span> PostGIS</div>
+            <div class="tech-badge"><span class="material-icons-round">public</span> GeoServer</div>
+            <div class="tech-badge"><span class="material-icons-round">dns</span> SQL Server</div>
+            <div class="tech-badge"><span class="material-icons-round">layers</span> PDOK WFS/WMS</div>
+            <div class="tech-badge"><span class="material-icons-round">cloud</span> CBS OData API</div>
         </div>
     </div>
 
@@ -668,11 +565,7 @@ footer a:hover { color: var(--accent); text-decoration: none; }
         <h2><span class="material-icons-round">link</span> Links</h2>
         <div class="section-line"></div>
         <div class="links-section">
-            <a href="http://localhost:8091" target="_blank" class="link-btn primary">
-                <span class="material-icons-round" style="font-size:18px">open_in_new</span>
-                Open GeoInzicht
-            </a>
-            <a href="https://github.com/AnneVersion/geoinzicht-app" target="_blank" class="link-btn secondary">
+            <a href="https://github.com/AnneVersion/geoinzicht-dwh" target="_blank" class="link-btn secondary">
                 <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                 GitHub
             </a>

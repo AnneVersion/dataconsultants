@@ -51,6 +51,12 @@ Standaard werkbranch = `develop`. Alleen mergen naar `main` als het stabiel is.
 | `project-astronomy.html` | Detail pagina Astronomy |
 | `project-fietsverhuur.html` | Detail pagina Darosa Fietsverhuur |
 | `project-meldpunt.html` | Detail pagina Meldpunt Ambtenaren |
+| `project-cataract.html` | Detail pagina Cataract |
+| `project-dwh.html` | Detail pagina GeoInzicht DWH |
+| `project-juridisch.html` | Detail pagina Juridisch Assistent |
+| `project-datakwaliteit.html` | Detail pagina Datakwaliteit |
+| `sitemap.xml` | XML sitemap voor zoekmachines |
+| `robots.txt` | Robots.txt voor crawlers |
 | `logo.svg` | Geanimeerd SVG logo: 3D globe met continenten, data-netwerk, zwart gat kern, binaire orbit ring, neon groen (#39ff14) |
 | `serve.py` | Python HTTP server met CORS headers, port 8087 |
 | `start_server.vbs` | Windows VBScript voor onzichtbare autostart via `pythonw` |
@@ -69,7 +75,7 @@ Alle CSS en JavaScript staat inline in de HTML bestanden. Er zijn geen losse `.c
 
 **index.html** (verfijnd donker thema):
 - Achtergrond: `--bg: #0f1218`, `--bg2: #131820`, `--bg3: #161b24`
-- Accent: `--accent: #5BA4B5` (teal blauw), `--accent2: #C9A96E` (goud)
+- Accent: `--accent: #39ff14` (neon groen), `--accent2: #C9A96E` (goud)
 - Tekst: `--text: #b8b5b0`, `--white: #e8e6e3`
 - Font: Verdana, Geneva, Tahoma, sans-serif
 - Material Icons Round voor iconen
@@ -87,7 +93,7 @@ Nederlandse vlag als inline SVG data URI (rood #AE1C28, wit, blauw #21468B). Aan
 
 Fixed navbar met logo (logo.svg) + "Data Consultants" tekst. Hamburger menu op mobiel (< 768px).
 
-Links: Over Ons | GeoInzicht | Projecten | Technologie | Visie | Contact | Showcase
+Links: Over Ons | GeoInzicht | Prototypes | Technologie | Visie | Contact | Showcase
 
 Active state highlighting op scroll via IntersectionObserver.
 
@@ -99,27 +105,31 @@ Active state highlighting op scroll via IntersectionObserver.
    - Architectuur pipeline diagram (Brondata -> Staging -> DWH -> Geo Services -> API -> Dashboard)
    - Statistieken tellers met animatie: 14.700+ buurten, 3.475 wijken, 343 gemeenten, 9.7M BAG adressen, 12 jaar trenddata, 16 data domeinen
    - Vergelijking DWH vs App (twee kaarten)
-4. **Projecten in Ontwikkeling** (#projecten) - Grid met 9 projectkaarten
+4. **Open Data Prototypes** (#projecten) - Grid met 11 prototype-kaarten. Visietekst over open data voor de gemeenschap, inclusie, maatschappelijke impact, samenwerking met vrouwenorganisaties, geïnspireerd door Rutger Bregman. Alle projecten hebben status "Prototype".
 5. **Technologie** (#tech) - Tech stack in 4 categorieen: Data, Geo, Web, DevOps
 6. **Open Data Visie** (#visie) - 4 visie kaarten + artikel callout (De Correspondent)
 7. **Contact** (#contact) - Email + GitHub links
 8. **Footer** - "2026 Data Consultants -- Gebouwd met Claude"
 
-### 5.5 Projecten Grid (9 projecten)
+### 5.5 Prototypes Grid (11 prototypes)
 
-| # | Project | Status | Tags | Detail pagina | Live link | GitHub |
-|---|---------|--------|------|---------------|-----------|--------|
-| 1 | GeoInzicht DWH | Actief | Python, Flask, PostgreSQL, PostGIS, GeoServer | -- | -- | AnneVersion/geoinzicht-dwh |
-| 2 | GeoInzicht App | Actief | JavaScript, HTML/CSS, Leaflet, Chart.js | project-geoinzicht.html | anneversion.github.io/geoinzicht-app | AnneVersion/geoinzicht-app |
-| 3 | Serviced Apartments | Beta | Python, Flask, PostgreSQL, Leaflet, iDEAL | project-vastgoed.html | -- | AnneVersion/vastgoed |
-| 4 | DAW Platform | POC | Web Audio API, Canvas, Flask, PostgreSQL | project-daw.html | anneversion.github.io/daw | AnneVersion/daw |
-| 5 | Email Validator | Beta | Python, Flask, PostgreSQL, DNS, SMTP | project-email.html | -- | AnneVersion/email-validator |
-| 6 | Meldpunt Ambtenaren | POC | PWA, Supabase, JavaScript | project-meldpunt.html | anneversion.github.io/meldpunt-ambtenaren | AnneVersion/meldpunt-ambtenaren |
-| 7 | Astronomy | POC | JavaScript, Canvas, NASA API's | project-astronomy.html | anneversion.github.io/astronomy | AnneVersion/astronomy |
-| 8 | Darosa Fietsverhuur | POC | Python, Flask, PostgreSQL | project-fietsverhuur.html | anneversion.github.io/darosa-fietsverhuur | AnneVersion/darosa-fietsverhuur |
-| 9 | Juridisch Assistent | Beta | Python, Flask, AI, Rechtspraak.nl | -- | -- | AnneVersion/juridisch-assistent |
+Alle projecten zijn nu benoemd als **Prototypes**. Ze gebruiken open data ten behoeve van de gemeenschap, met focus op maatschappelijke impact en inclusie.
 
-Status badges: **Actief** (teal), **Beta** (goud), **POC** (grijs)
+| # | Prototype | Status | Tags | Detail pagina | Live link | GitHub |
+|---|-----------|--------|------|---------------|-----------|--------|
+| 1 | GeoInzicht DWH | Prototype | Python, Flask, PostgreSQL, PostGIS, GeoServer | project-dwh.html | -- | AnneVersion/geoinzicht-dwh |
+| 2 | GeoInzicht App | Prototype | JavaScript, HTML/CSS, Leaflet, Chart.js | project-geoinzicht.html | anneversion.github.io/geoinzicht-app | AnneVersion/geoinzicht-app |
+| 3 | Serviced Apartments | Prototype | Python, Flask, PostgreSQL, Leaflet, iDEAL | project-vastgoed.html | -- | AnneVersion/vastgoed |
+| 4 | DAW Platform | Prototype | Web Audio API, Canvas, Flask, PostgreSQL | project-daw.html | anneversion.github.io/daw | AnneVersion/daw |
+| 5 | Email Validator | Prototype | Python, Flask, PostgreSQL, DNS, SMTP | project-email.html | -- | AnneVersion/email-validator |
+| 6 | Meldpunt Ambtenaren | Prototype | PWA, Supabase, JavaScript | project-meldpunt.html | anneversion.github.io/meldpunt-ambtenaren | AnneVersion/meldpunt-ambtenaren |
+| 7 | Astronomy | Prototype | JavaScript, Canvas, NASA API's | project-astronomy.html | anneversion.github.io/astronomy | AnneVersion/astronomy |
+| 8 | Darosa Fietsverhuur | Prototype | Python, Flask, PostgreSQL | project-fietsverhuur.html | anneversion.github.io/darosa-fietsverhuur | AnneVersion/darosa-fietsverhuur |
+| 9 | Cataract | Prototype | HTML/CSS, SVG, Medisch | project-cataract.html | anneversion.github.io/cataract | AnneVersion/cataract |
+| 10 | Juridisch Assistent | Prototype | Python, Flask, AI, Rechtspraak.nl | project-juridisch.html | -- | AnneVersion/juridisch-assistent |
+| 11 | Datakwaliteit | Prototype | Python, PostgreSQL, Great Expectations, dbt | project-datakwaliteit.html | -- | AnneVersion/datakwaliteit |
+
+Status badge: **Prototype** (teal) - alle projecten hebben dezelfde status
 
 ### 5.6 Showcase Pagina (showcase.html)
 
@@ -218,9 +228,9 @@ IntersectionObserver-based animaties op index.html:
 - [ ] GeoInzicht sectie: architectuur pipeline diagram (6 stappen) zichtbaar
 - [ ] GeoInzicht sectie: 6 statistieken tellers animeren bij scroll (14.700+, 3.475, 343, 9.7M, 12, 16)
 - [ ] GeoInzicht sectie: DWH vs App vergelijking met twee kaarten
-- [ ] Projecten sectie: 9 projectkaarten in 3-kolom grid (2 kolom op tablet, 1 op mobiel)
-- [ ] Elk projectkaart heeft: icoon, status badge, titel, beschrijving, tags, GitHub link
-- [ ] Status badges correct: 2x Actief (teal), 3x Beta (goud), 4x POC (grijs)
+- [ ] Prototypes sectie: 11 prototype-kaarten in 3-kolom grid (2 kolom op tablet, 1 op mobiel)
+- [ ] Elke prototype-kaart heeft: icoon, status badge "Prototype", titel, beschrijving, tags, GitHub link
+- [ ] Alle status badges zijn "Prototype" (teal)
 - [ ] "Meer info" links aanwezig op 7 projecten (niet op GeoInzicht DWH en Juridisch Assistent)
 - [ ] "Bekijk Live" knoppen op: GeoInzicht App, DAW, Meldpunt, Astronomy, Darosa
 - [ ] Technologie sectie: 4 categorieen met tech badges
@@ -298,16 +308,16 @@ IntersectionObserver-based animaties op index.html:
 
 ## 7. TODO Lijst
 
-- [ ] Cataract project ontbreekt in projecten grid en showcase (is wel in MEMORY.md)
-- [ ] Darosa Fietsverhuur showcase slide link is `href="#"` in plaats van `localhost:8092`
+- [x] Cataract project toegevoegd aan projecten grid en showcase
+- [x] Darosa Fietsverhuur showcase slide link gefixt (localhost:8092)
 - [ ] Docker staat als "planned" in tech stack - niet geimplementeerd
 - [ ] Edak project ontbreekt (wacht op Excel input)
 - [ ] Showcase slide 1 GeoInzicht linkt naar localhost:8091 (werkt alleen lokaal, niet op GitHub Pages)
-- [ ] GeoInzicht DWH projectkaart heeft geen "Meer info" detail pagina
-- [ ] Juridisch Assistent projectkaart heeft geen "Meer info" detail pagina
+- [x] GeoInzicht DWH projectkaart heeft nu "Meer info" detail pagina (project-dwh.html)
+- [x] Juridisch Assistent projectkaart heeft nu "Meer info" detail pagina (project-juridisch.html)
 - [ ] index.html hero CTA linkt naar GitHub Pages maar showcase linkt naar localhost - inconsistent
 - [ ] OG image ontbreekt (og:image meta tag niet ingevuld)
-- [ ] Geen sitemap.xml of robots.txt
+- [x] sitemap.xml en robots.txt toegevoegd
 
 ---
 
@@ -317,7 +327,7 @@ IntersectionObserver-based animaties op index.html:
 - **Port**: 8087 (vast, niet wijzigen)
 - **Geen database**: Puur statische website
 - **Autostart**: start_server.vbs in Windows Startup folder start serve.py automatisch met Windows
-- **Twee thema varianten**: index.html gebruikt verfijnd teal/goud thema (#5BA4B5/#C9A96E), showcase en project-pagina's gebruiken origineel neon groen (#39ff14) op #0a0f1a
+- **Consistent thema**: Alle pagina's gebruiken neon groen (#39ff14) als accent kleur, met goud (#C9A96E) als secundaire accent
 - **Logo**: Geanimeerd SVG met globe + data netwerk + zwart gat + binaire orbits
 - **Inline CSS/JS**: Alle styling en scripts staan inline in de HTML bestanden, geen externe bestanden
 - **Material Icons Round**: Gebruikt voor alle iconen (geladen via Google Fonts CDN)
