@@ -10,7 +10,7 @@
     <meta property="og:description" content="Een compleet muziekproductie platform dat gratis in je browser draait. 6 apps, 17 instrumenten, 12 muziekstijlen. Geen download nodig.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://anneversion.github.io/dataconsultants/project-daw.html">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='10.67' fill='%23AE1C28'/><rect y='10.67' width='32' height='10.67' fill='%23FFF'/><rect y='21.33' width='32' height='10.67' fill='%2321468B'/></svg>">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -33,7 +33,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 .nav-links a:hover { color: var(--accent); border-bottom-color: var(--accent); text-decoration: none; }
 .hamburger { display: none; background: none; border: none; color: var(--text); font-size: 28px; cursor: pointer; }
 @media (max-width: 768px) { .hamburger { display: block; } .nav-links { display: none; position: absolute; top: 64px; left: 0; right: 0; background: rgba(10, 15, 26, .95); backdrop-filter: blur(20px); flex-direction: column; padding: 20px 32px; gap: 16px; border-bottom: 1px solid rgba(57, 255, 20, .08); } .nav-links.open { display: flex; } }
-.page-content { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; padding: 100px 24px 60px; }
+.page-content { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; padding: 80px 24px 36px; }
 .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 40px; transition: color .3s; } .back-link:hover { color: var(--accent); text-decoration: none; }
 
 /* Hero */
@@ -62,7 +62,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 .app-card:hover { border-color: rgba(168, 85, 247, .4); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,.3); text-decoration: none; }
 .app-card .app-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
 .app-card .app-icon .material-icons-round { font-size: 26px; }
-.app-card h3 { color: var(--white); font-size: .95rem; margin-bottom: 6px; }
+.app-card h3 { color: var(--white); font-size: .85rem; margin-bottom: 6px; }
 .app-card p { color: var(--muted); font-size: .82rem; line-height: 1.5; margin: 0; }
 .app-card .app-features { list-style: none; padding: 0; margin: 0; }
 .app-card .app-features li { font-size: .82rem; color: var(--dim); padding: 2px 0 2px 16px; position: relative; }
@@ -99,7 +99,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 /* Stats row */
 .stats-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 32px; margin: 28px 0; }
 .stat { text-align: center; }
-.stat .num { font-size: 1.8rem; font-weight: 700; color: var(--accent); display: block; line-height: 1.2; }
+.stat .num { font-size: 1.35rem; font-weight: 700; color: var(--accent); display: block; line-height: 1.2; }
 .stat .lbl { font-size: .75rem; color: var(--dim); text-transform: uppercase; letter-spacing: .5px; }
 
 /* Feature grid */
@@ -119,7 +119,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 /* Distribution */
 .dist-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; margin-top: 14px; }
 .dist-card { background: var(--panel); border: 1px solid rgba(255,255,255,0.06); border-radius: var(--radius-sm); padding: 14px; }
-.dist-card h3 { color: var(--white); font-size: .95rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.dist-card h3 { color: var(--white); font-size: .85rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
 .dist-card h3 .material-icons-round { color: var(--accent); font-size: 22px; }
 .dist-card p { color: var(--muted); font-size: .85rem; line-height: 1.7; margin: 0; }
 .dist-card .dist-links { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
@@ -340,6 +340,14 @@ footer a { color: var(--dim); transition: color .3s; } footer a:hover { color: v
     </div>
 
     <!-- TECH + CTA (gecombineerd) -->
+    <!-- Gedeelde architectuur -->
+    <div class="detail-section">
+        <h2><span class="material-icons-round">architecture</span> Gedeelde architectuur</h2>
+        <div class="section-line"></div>
+        <p>Alle prototypes op deze site draaien op dezelfde architectuur: bronnen &rarr; <strong>stg</strong> (ruwe data) &rarr; <strong>int</strong> (integratielaag per datadomein, Inmon 3NF) &rarr; <strong>mart</strong> (Kimball-stermodellen, per project) &rarr; sync naar Supabase. Het DWH draait lokaal; alleen de marts staan in de cloud. Frontends draaien op GitHub Pages.</p>
+        <p>Elk datadomein heeft een eigen kernobject; domeinen koppelen alleen op gedeelde sleutels waar die bestaan (adres, gebied, KvK-nummer, datum). Volledig ontwerp: <a href="project-dwh.html" style="color:var(--accent)">GeoInzicht DWH</a>.</p>
+    </div>
+
     <div class="detail-section" style="text-align:center;padding-top:40px;border-top:1px solid var(--border)">
         <div class="tech-badges" style="justify-content:center;margin-bottom:32px">
             <div class="tech-badge"><span class="material-icons-round">surround_sound</span> Web Audio</div>

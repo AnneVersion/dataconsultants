@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://anneversion.github.io/dataconsultants/sitemap.xml

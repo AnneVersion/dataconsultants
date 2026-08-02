@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GeoInzicht DWH — Data Warehouse voor CBS Buurtdata | Data Consultants</title>
     <meta name="description" content="GeoInzicht DWH is een data warehouse dat CBS buurtdata, BAG adressen, criminaliteit, zorgkosten en meer verzamelt in een PostgreSQL/PostGIS stermodel.">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='10.67' fill='%23AE1C28'/><rect y='10.67' width='32' height='10.67' fill='%23FFF'/><rect y='21.33' width='32' height='10.67' fill='%2321468B'/></svg>">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -136,7 +136,7 @@ nav {
     z-index: 2;
     max-width: 1100px;
     margin: 0 auto;
-    padding: 100px 24px 60px;
+    padding: 80px 24px 36px;
 }
 
 /* Back link */
@@ -158,7 +158,7 @@ nav {
 .project-hero {
     text-align: center;
     margin-bottom: 80px;
-    padding: 60px 0;
+    padding: 40px 0;
     border-bottom: 1px solid var(--border);
 }
 .project-hero .icon-wrap {
@@ -170,7 +170,7 @@ nav {
 }
 .project-hero .icon-wrap .material-icons-round { color: var(--accent); font-size: 40px; }
 .project-hero h1 {
-    font-size: 2.8rem;
+    font-size: 2.1rem;
     font-weight: 700;
     color: var(--white);
     margin-bottom: 16px;
@@ -178,7 +178,7 @@ nav {
 }
 .project-hero h1 .accent { color: var(--accent); }
 .project-hero .tagline {
-    font-size: 1.1rem;
+    font-size: .95rem;
     color: var(--muted);
     max-width: 700px;
     margin: 0 auto 32px;
@@ -202,14 +202,14 @@ nav {
     margin-bottom: 80px;
 }
 .detail-section h2 {
-    font-size: 1.8rem;
+    font-size: 1.35rem;
     color: var(--white);
     margin-bottom: 8px;
     display: flex;
     align-items: center;
     gap: 12px;
 }
-.detail-section h2 .material-icons-round { color: var(--accent); font-size: 28px; }
+.detail-section h2 .material-icons-round { color: var(--accent); font-size: 22px; }
 .detail-section .section-line {
     width: 60px;
     height: 3px;
@@ -219,7 +219,7 @@ nav {
 }
 .detail-section p, .detail-section li {
     color: var(--muted);
-    font-size: .95rem;
+    font-size: .85rem;
     line-height: 1.9;
     margin-bottom: 12px;
 }
@@ -253,7 +253,7 @@ nav {
     background: var(--panel);
     border: 1px solid rgba(255,255,255,0.06);
     border-radius: var(--radius-sm);
-    padding: 24px;
+    padding: 18px;
     text-align: center;
     transition: all .3s;
 }
@@ -274,7 +274,7 @@ nav {
 }
 .step-card h3 {
     color: var(--white);
-    font-size: .95rem;
+    font-size: .85rem;
     margin-bottom: 8px;
 }
 .step-card p {
@@ -293,7 +293,7 @@ nav {
     background: var(--panel);
     border: 1px solid rgba(255,255,255,0.06);
     border-radius: var(--radius-sm);
-    padding: 28px;
+    padding: 20px;
     transition: all .3s;
 }
 .feature-card:hover {
@@ -523,7 +523,9 @@ footer a:hover { color: var(--accent); text-decoration: none; }
     <div class="detail-section">
         <h2><span class="material-icons-round">category</span> Data Domeinen</h2>
         <div class="section-line"></div>
-        <p>Het data warehouse bevat 16 domeinen die samen een compleet beeld geven van elke buurt, wijk en gemeente in Nederland.</p>
+        <p>De integratielaag (int) is ingedeeld in datadomeinen. Elk domein heeft een eigen kernobject: geo koppelt op adres (BAG-nummeraanduiding) en gebied (CBS buurt/wijk/gemeente per indelingsjaar), bedrijf op KvK-nummer, audio en astronomie op hun eigen sleutels. Domeinen worden alleen gekoppeld op gedeelde business keys waar die bestaan (adres, gebied, KvK-nummer, datum) &mdash; nooit geforceerd via een kunstmatig universeel kernobject.</p>
+        <p>De presentatielaag (mart) is per project georganiseerd: elk prototype krijgt eigen Kimball-stermodellen (bijv. mart geoinzicht, mart daw), afgeleid uit de domeinen in int. Gedeelde dimensies (datum, adres, gebied, bedrijf) zijn conformed: identiek over alle sterren heen. Losse datasets worden eerst alleen in de catalogus geregistreerd (bron, peildatum, licentie) en pas naar int gemodelleerd zodra een project ze structureel gebruikt.</p>
+        <p>De 16 domeinen van het geo-anker samen geven een compleet beeld van elke buurt, wijk en gemeente in Nederland.</p>
         <div class="domains-grid">
             <div class="domain-tag"><span class="material-icons-round">groups</span> Bevolking</div>
             <div class="domain-tag"><span class="material-icons-round">cake</span> Leeftijd</div>

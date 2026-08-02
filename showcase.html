@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Showcase — Data Consultants</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='10.67' fill='%23AE1C28'/><rect y='10.67' width='32' height='10.67' fill='%23FFF'/><rect y='21.33' width='32' height='10.67' fill='%2321468B'/></svg>">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
@@ -457,7 +457,7 @@ html, body {
         </div>
         <div class="slide-stats">5 Fuell elektrische bromfietsen</div>
         <div class="slide-subtitle">Duurzame mobiliteit in Arnhem</div>
-        <a href="#" class="slide-link" style="border-color:rgba(0,102,255,0.3)">Bekijk Darosa &#8594;</a>
+        <a href="http://localhost:8092" target="_blank" class="slide-link" style="border-color:rgba(0,102,255,0.3)">Bekijk Darosa &#8594;</a>
     </div>
 
     <!-- SLIDE 7: Meldpunt Ambtenaren -->
@@ -478,7 +478,41 @@ html, body {
         <a href="http://localhost:8090" target="_blank" class="slide-link" style="border-color:rgba(239,68,68,0.3)">Bekijk Meldpunt &#8594;</a>
     </div>
 
-    <!-- SLIDE 8: OUTRO -->
+    <!-- SLIDE 8: Cataract -->
+    <div class="slide" data-accent="#06b6d4">
+        <div class="slide-title" style="color:#06b6d4">Cataract</div>
+        <div class="eye-container" style="display:flex;justify-content:center;margin:20px 0">
+            <svg viewBox="0 0 200 120" width="200" height="120">
+                <!-- Eye shape -->
+                <ellipse cx="100" cy="60" rx="90" ry="50" fill="none" stroke="#06b6d4" stroke-width="1.5" opacity="0.4"/>
+                <!-- Iris -->
+                <circle cx="100" cy="60" r="30" fill="none" stroke="#06b6d4" stroke-width="2">
+                    <animate attributeName="r" values="30;32;30" dur="3s" repeatCount="indefinite"/>
+                </circle>
+                <!-- Pupil -->
+                <circle cx="100" cy="60" r="14" fill="rgba(6,182,212,0.2)">
+                    <animate attributeName="r" values="14;12;14" dur="3s" repeatCount="indefinite"/>
+                </circle>
+                <!-- IOL lens -->
+                <ellipse cx="100" cy="60" rx="22" ry="8" fill="none" stroke="#06b6d4" stroke-width="1" opacity="0.6">
+                    <animate attributeName="opacity" values="0.3;0.8;0.3" dur="4s" repeatCount="indefinite"/>
+                </ellipse>
+                <!-- Light rays -->
+                <line x1="10" y1="30" x2="80" y2="58" stroke="#06b6d4" stroke-width="0.5" opacity="0.3"/>
+                <line x1="10" y1="60" x2="70" y2="60" stroke="#06b6d4" stroke-width="0.5" opacity="0.3"/>
+                <line x1="10" y1="90" x2="80" y2="62" stroke="#06b6d4" stroke-width="0.5" opacity="0.3"/>
+                <!-- Focus point -->
+                <circle cx="100" cy="60" r="3" fill="#06b6d4">
+                    <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+                </circle>
+            </svg>
+        </div>
+        <div class="slide-stats">6 pagina's &bull; IOL illustraties &bull; Evidence-based</div>
+        <div class="slide-subtitle">Wetenschappelijk platform over aangeboren staar</div>
+        <a href="http://localhost:8093" target="_blank" class="slide-link" style="border-color:rgba(6,182,212,0.3)">Bekijk Cataract &#8594;</a>
+    </div>
+
+    <!-- SLIDE 9: OUTRO -->
     <div class="slide" data-accent="#39ff14">
         <svg class="outro-logo" viewBox="0 0 60 60" fill="none">
             <circle cx="30" cy="30" r="28" stroke="#39ff14" stroke-width="1.5"/>

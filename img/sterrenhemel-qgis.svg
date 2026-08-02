@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" style="background:#06080f">
+  <defs>
+    <radialGradient id="milkyway" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#1a1a3e" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#0d0d2b" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#06080f" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="bigGlow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Milky Way band -->
+  <ellipse cx="400" cy="200" rx="500" ry="80" fill="url(#milkyway)" transform="rotate(-15 400 250)"/>
+
+  <!-- Grid lines (RA/Dec) -->
+  <g stroke="#1a2040" stroke-width="0.3" opacity="0.4">
+    <line x1="0" y1="125" x2="800" y2="125"/>
+    <line x1="0" y1="250" x2="800" y2="250"/>
+    <line x1="0" y1="375" x2="800" y2="375"/>
+    <line x1="200" y1="0" x2="200" y2="500"/>
+    <line x1="400" y1="0" x2="400" y2="500"/>
+    <line x1="600" y1="0" x2="600" y2="500"/>
+  </g>
+
+  <!-- Grid labels -->
+  <g fill="#2a3560" font-family="monospace" font-size="9" opacity="0.6">
+    <text x="5" y="122">+60</text>
+    <text x="5" y="247">+30</text>
+    <text x="5" y="372">0</text>
+    <text x="197" y="495" text-anchor="end">18h</text>
+    <text x="397" y="495" text-anchor="end">12h</text>
+    <text x="597" y="495" text-anchor="end">6h</text>
+  </g>
+
+  <!-- Background stars (dim) -->
+  <g fill="#ffffff" opacity="0.2">
+    <circle cx="45" cy="67" r="0.5"/><circle cx="112" cy="34" r="0.4"/><circle cx="178" cy="89" r="0.5"/>
+    <circle cx="234" cy="45" r="0.3"/><circle cx="289" cy="112" r="0.4"/><circle cx="356" cy="78" r="0.5"/>
+    <circle cx="423" cy="23" r="0.3"/><circle cx="489" cy="56" r="0.4"/><circle cx="534" cy="90" r="0.5"/>
+    <circle cx="612" cy="34" r="0.4"/><circle cx="678" cy="67" r="0.3"/><circle cx="745" cy="45" r="0.5"/>
+    <circle cx="67" cy="156" r="0.4"/><circle cx="134" cy="189" r="0.5"/><circle cx="201" cy="167" r="0.3"/>
+    <circle cx="267" cy="200" r="0.4"/><circle cx="334" cy="178" r="0.5"/><circle cx="401" cy="212" r="0.3"/>
+    <circle cx="467" cy="189" r="0.4"/><circle cx="534" cy="156" r="0.5"/><circle cx="601" cy="200" r="0.3"/>
+    <circle cx="667" cy="178" r="0.4"/><circle cx="734" cy="156" r="0.5"/><circle cx="78" cy="267" r="0.3"/>
+    <circle cx="145" cy="289" r="0.4"/><circle cx="212" cy="312" r="0.5"/><circle cx="278" cy="267" r="0.3"/>
+    <circle cx="345" cy="300" r="0.4"/><circle cx="412" cy="278" r="0.5"/><circle cx="478" cy="312" r="0.3"/>
+    <circle cx="545" cy="267" r="0.4"/><circle cx="612" cy="289" r="0.5"/><circle cx="678" cy="300" r="0.3"/>
+    <circle cx="745" cy="278" r="0.4"/><circle cx="56" cy="378" r="0.5"/><circle cx="123" cy="400" r="0.3"/>
+    <circle cx="189" cy="423" r="0.4"/><circle cx="256" cy="378" r="0.5"/><circle cx="323" cy="412" r="0.3"/>
+    <circle cx="389" cy="389" r="0.4"/><circle cx="456" cy="423" r="0.5"/><circle cx="523" cy="378" r="0.3"/>
+    <circle cx="589" cy="400" r="0.4"/><circle cx="656" cy="423" r="0.5"/><circle cx="723" cy="389" r="0.3"/>
+  </g>
+
+  <!-- Orion constellation -->
+  <g filter="url(#glow)">
+    <!-- Betelgeuse (red supergiant) -->
+    <circle cx="280" cy="180" r="3" fill="#ff6b4a" opacity="0.9"/>
+    <!-- Rigel (blue supergiant) -->
+    <circle cx="320" cy="310" r="2.8" fill="#a0c4ff" opacity="0.9"/>
+    <!-- Bellatrix -->
+    <circle cx="330" cy="185" r="2" fill="#c8d8ff" opacity="0.8"/>
+    <!-- Mintaka -->
+    <circle cx="295" cy="245" r="1.8" fill="#d0e0ff" opacity="0.8"/>
+    <!-- Alnilam -->
+    <circle cx="305" cy="250" r="2" fill="#d0e0ff" opacity="0.85"/>
+    <!-- Alnitak -->
+    <circle cx="315" cy="255" r="1.8" fill="#d0e0ff" opacity="0.8"/>
+    <!-- Saiph -->
+    <circle cx="275" cy="305" r="1.8" fill="#c8d8ff" opacity="0.75"/>
+  </g>
+  <!-- Orion lines -->
+  <g stroke="#4466aa" stroke-width="0.6" opacity="0.4">
+    <line x1="280" y1="180" x2="330" y2="185"/>
+    <line x1="280" y1="180" x2="275" y2="305"/>
+    <line x1="330" y1="185" x2="320" y2="310"/>
+    <line x1="295" y1="245" x2="305" y2="250"/>
+    <line x1="305" y1="250" x2="315" y2="255"/>
+    <line x1="275" y1="305" x2="320" y2="310"/>
+  </g>
+  <!-- Orion label -->
+  <text x="340" y="250" fill="#6688cc" font-family="monospace" font-size="10" opacity="0.7">ORION</text>
+
+  <!-- Ursa Major (Big Dipper) -->
+  <g filter="url(#glow)">
+    <circle cx="500" cy="80" r="2" fill="#ffe0a0" opacity="0.85"/>
+    <circle cx="520" cy="85" r="1.8" fill="#ffe0a0" opacity="0.8"/>
+    <circle cx="540" cy="78" r="1.8" fill="#ffe0a0" opacity="0.8"/>
+    <circle cx="560" cy="90" r="2" fill="#ffe0a0" opacity="0.85"/>
+    <circle cx="575" cy="110" r="1.8" fill="#ffe0a0" opacity="0.8"/>
+    <circle cx="590" cy="120" r="1.5" fill="#ffe0a0" opacity="0.75"/>
+    <circle cx="580" cy="135" r="1.5" fill="#ffe0a0" opacity="0.75"/>
+  </g>
+  <g stroke="#aa8844" stroke-width="0.5" opacity="0.4">
+    <line x1="500" y1="80" x2="520" y2="85"/>
+    <line x1="520" y1="85" x2="540" y2="78"/>
+    <line x1="540" y1="78" x2="560" y2="90"/>
+    <line x1="560" y1="90" x2="575" y2="110"/>
+    <line x1="575" y1="110" x2="590" y2="120"/>
+    <line x1="590" y1="120" x2="580" y2="135"/>
+    <line x1="580" y1="135" x2="560" y2="90"/>
+  </g>
+  <text x="530" y="65" fill="#aa9955" font-family="monospace" font-size="10" opacity="0.7">URSA MAJOR</text>
+
+  <!-- Polaris -->
+  <circle cx="440" cy="35" r="2.5" fill="#fffbe0" opacity="0.9" filter="url(#bigGlow)"/>
+  <text x="450" y="32" fill="#cccc88" font-family="monospace" font-size="8" opacity="0.6">Polaris</text>
+
+  <!-- Cassiopeia -->
+  <g filter="url(#glow)">
+    <circle cx="620" cy="55" r="1.8" fill="#d0e0ff" opacity="0.8"/>
+    <circle cx="640" cy="45" r="1.5" fill="#d0e0ff" opacity="0.75"/>
+    <circle cx="660" cy="55" r="1.8" fill="#d0e0ff" opacity="0.8"/>
+    <circle cx="675" cy="40" r="1.5" fill="#d0e0ff" opacity="0.75"/>
+    <circle cx="695" cy="50" r="1.8" fill="#d0e0ff" opacity="0.8"/>
+  </g>
+  <g stroke="#5566aa" stroke-width="0.5" opacity="0.4">
+    <line x1="620" y1="55" x2="640" y2="45"/>
+    <line x1="640" y1="45" x2="660" y2="55"/>
+    <line x1="660" y1="55" x2="675" y2="40"/>
+    <line x1="675" y1="40" x2="695" y2="50"/>
+  </g>
+  <text x="640" y="70" fill="#6688cc" font-family="monospace" font-size="9" opacity="0.6">CASSIOPEIA</text>
+
+  <!-- Sirius (brightest star) -->
+  <circle cx="200" cy="340" r="3.5" fill="#a8d4ff" opacity="0.95" filter="url(#bigGlow)"/>
+  <text x="210" y="338" fill="#88aadd" font-family="monospace" font-size="8" opacity="0.6">Sirius (mag -1.46)</text>
+
+  <!-- Pleiades cluster -->
+  <g filter="url(#glow)" opacity="0.7">
+    <circle cx="140" cy="140" r="1.2" fill="#c8d8ff"/>
+    <circle cx="148" cy="135" r="1" fill="#c8d8ff"/>
+    <circle cx="145" cy="145" r="1.3" fill="#c8d8ff"/>
+    <circle cx="152" cy="140" r="0.8" fill="#c8d8ff"/>
+    <circle cx="138" cy="148" r="0.9" fill="#c8d8ff"/>
+    <circle cx="155" cy="148" r="0.7" fill="#c8d8ff"/>
+    <circle cx="142" cy="132" r="0.8" fill="#c8d8ff"/>
+  </g>
+  <text x="130" y="165" fill="#6688cc" font-family="monospace" font-size="8" opacity="0.5">Pleiades (M45)</text>
+
+  <!-- QGIS-style legend box -->
+  <rect x="620" y="380" width="165" height="110" rx="4" fill="#0a0e1a" stroke="#2a3560" stroke-width="0.8" opacity="0.9"/>
+  <text x="635" y="398" fill="#6688cc" font-family="monospace" font-size="10" font-weight="bold">LEGENDA</text>
+  <line x1="635" y1="403" x2="770" y2="403" stroke="#2a3560" stroke-width="0.5"/>
+  <circle cx="645" cy="420" r="3" fill="#ff6b4a" opacity="0.8"/>
+  <text x="655" y="423" fill="#8899bb" font-family="monospace" font-size="8">Rode superreus</text>
+  <circle cx="645" cy="440" r="3" fill="#a0c4ff" opacity="0.8"/>
+  <text x="655" y="443" fill="#8899bb" font-family="monospace" font-size="8">Blauwe superreus</text>
+  <circle cx="645" cy="460" r="2" fill="#ffe0a0" opacity="0.8"/>
+  <text x="655" y="463" fill="#8899bb" font-family="monospace" font-size="8">Hoofdreeksster</text>
+  <line x1="638" y1="478" x2="652" y2="478" stroke="#4466aa" stroke-width="1" opacity="0.6"/>
+  <text x="655" y="481" fill="#8899bb" font-family="monospace" font-size="8">Sterrenbeeldlijn</text>
+
+  <!-- Title bar -->
+  <rect x="0" y="0" width="800" height="22" fill="#0a0e1a" opacity="0.8"/>
+  <text x="10" y="15" fill="#39ff14" font-family="monospace" font-size="10" font-weight="bold">STERRENHEMELKAART — Noordelijk halfrond — Equatoriale projectie</text>
+  <text x="790" y="15" fill="#4466aa" font-family="monospace" font-size="9" text-anchor="end">QGIS / Data Consultants</text>
+
+  <!-- Coordinate labels -->
+  <text x="790" y="122" fill="#2a3560" font-family="monospace" font-size="9" text-anchor="end" opacity="0.5">Dec +60</text>
+  <text x="790" y="247" fill="#2a3560" font-family="monospace" font-size="9" text-anchor="end" opacity="0.5">Dec +30</text>
+  <text x="790" y="372" fill="#2a3560" font-family="monospace" font-size="9" text-anchor="end" opacity="0.5">Dec 0</text>
+</svg>
