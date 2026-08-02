@@ -225,6 +225,35 @@ section {
     flex-wrap: wrap;
     justify-content: center;
 }
+/* sterrenhemelkaart (astronomy-prototype) vaag op de achtergrond van de hero */
+#hero::before {
+    content: ""; position: absolute; inset: 0;
+    background: url('img/sterrenhemel-qgis.svg') center top / cover no-repeat;
+    opacity: .13; pointer-events: none;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,.55) 72%, transparent 100%);
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,.55) 72%, transparent 100%);
+}
+#hero > :not(.hero-zwerm) { position: relative; }
+/* zwevende prototype-iconen in de hero (stijl van het logo: neon op donker) */
+.hero-zwerm { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.zweef {
+    position: absolute; left: var(--x); top: var(--y);
+    font-size: var(--s); color: var(--accent); opacity: .20;
+    pointer-events: auto; text-decoration: none; cursor: pointer;
+    transition: opacity .25s;
+}
+.zweef .zweefbin {
+    display: inline-block;
+    animation: zweven var(--d) ease-in-out var(--del) infinite alternate;
+    text-shadow: 0 0 14px rgba(57,255,20,.45);
+}
+.zweef:hover { opacity: 1; }
+.zweef .material-icons-round { font-size: inherit; }
+@keyframes zweven {
+    from { transform: translateY(-9px) rotate(-5deg); }
+    to   { transform: translateY(12px) rotate(6deg); }
+}
+@media (max-width: 768px) { .hero-zwerm { display: none; } }
 .btn-primary {
     display: inline-flex;
     align-items: center;
@@ -1073,6 +1102,20 @@ footer {
 
 <!-- Hero -->
 <section id="hero">
+    <div class="hero-zwerm" aria-hidden="true">
+        <a class="zweef" href="project-geoinzicht.html" title="GeoInzicht" style="--x:7%;--y:18%;--s:1.7rem;--d:5.5s;--del:0s"><span class="zweefbin"><span class="material-icons-round">map</span></span></a>
+        <a class="zweef" href="project-daw.html" title="DAW Studio" style="--x:14%;--y:52%;--s:1.4rem;--d:4.2s;--del:.8s"><span class="zweefbin"><span class="material-icons-round">music_note</span></span></a>
+        <a class="zweef" href="project-astronomy.html" title="Astronomie" style="--x:5%;--y:76%;--s:1.6rem;--d:6.3s;--del:1.6s"><span class="zweefbin"><span class="material-icons-round">nightlight</span></span></a>
+        <a class="zweef" href="project-dwh.html" title="GeoInzicht DWH" style="--x:21%;--y:30%;--s:1.2rem;--d:5s;--del:2.4s"><span class="zweefbin"><span class="material-icons-round">storage</span></span></a>
+        <a class="zweef" href="project-juridisch.html" title="Juridisch Assistent" style="--x:12%;--y:88%;--s:1.3rem;--d:4.6s;--del:.4s"><span class="zweefbin"><span class="material-icons-round">gavel</span></span></a>
+        <a class="zweef" href="project-cataract.html" title="Cataract Platform" style="--x:24%;--y:68%;--s:1.15rem;--d:5.8s;--del:1.2s"><span class="zweefbin"><span class="material-icons-round">visibility</span></span></a>
+        <a class="zweef" href="project-vastgoed.html" title="Vastgoed Booking" style="--x:78%;--y:22%;--s:1.35rem;--d:5.2s;--del:.6s"><span class="zweefbin"><span class="material-icons-round">villa</span></span></a>
+        <a class="zweef" href="project-fietsverhuur.html" title="Fietsverhuur" style="--x:90%;--y:44%;--s:1.5rem;--d:4.4s;--del:1.8s"><span class="zweefbin"><span class="material-icons-round">pedal_bike</span></span></a>
+        <a class="zweef" href="project-email.html" title="Email Validatie" style="--x:83%;--y:64%;--s:1.2rem;--d:6s;--del:.2s"><span class="zweefbin"><span class="material-icons-round">mail</span></span></a>
+        <a class="zweef" href="project-meldpunt.html" title="Meldpunt Ambtenaren" style="--x:93%;--y:80%;--s:1.3rem;--d:4.8s;--del:2s"><span class="zweefbin"><span class="material-icons-round">campaign</span></span></a>
+        <a class="zweef" href="project-datakwaliteit.html" title="Datakwaliteit" style="--x:76%;--y:87%;--s:1.15rem;--d:5.4s;--del:1s"><span class="zweefbin"><span class="material-icons-round">checklist</span></span></a>
+        <a class="zweef" href="project-astronomy.html" title="Astronomie" style="--x:88%;--y:10%;--s:1.1rem;--d:6.5s;--del:2.8s"><span class="zweefbin"><span class="material-icons-round">public</span></span></a>
+    </div>
     <img src="logo.svg" alt="Data Consultants" style="width:72px;height:72px;margin:0 auto 16px;display:block;opacity:.85">
     <h1 class="hero-title anim">Data <span class="accent">Consultants</span></h1>
     <p class="hero-tagline anim">Wij verzamelen, modelleren en verbinden open data, voor dashboards, analyses en dataprojecten for fun en die ertoe doen.</p>
