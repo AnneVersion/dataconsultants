@@ -54,12 +54,7 @@
           "stempel": "",
           "tekst": "Single source of truth, dataminimalisatie, eenmalig vastleggen en meervoudig gebruiken, kwaliteit aan de bron, herleidbaarheid, doelbinding, open standaarden, privacy by design. Met de conversietheorie worden het geen voornemens maar eigenschappen van de omgeving: elk gegeven heeft een eigenaar, een definitie, een bron en een reden om er te zijn. Wat die reden mist, bewaren wij niet.",
           "hand": "beginselen die je kunt aanwijzen in plaats van beloven",
-          "links": [
-            {
-              "tekst": "Over de conversietheorie",
-              "href": "#conversietheorie"
-            }
-          ]
+          "links": []
         },
         {
           "id": "analyseomgeving",
@@ -67,12 +62,7 @@
           "stempel": "",
           "tekst": "Een datawarehouse dat klopt en van de organisatie zelf is: een integratielaag per datadomein, stermodellen per vraag, dashboards die uit dezelfde bron putten. Open componenten, geen afhankelijkheid van een leverancier, en documentatie waarmee een nieuwe collega het over een jaar nog begrijpt.",
           "hand": "zoals GeoInzicht, maar dan met uw eigen gegevens",
-          "links": [
-            {
-              "tekst": "GeoInzicht als voorbeeld",
-              "href": "#geoinzicht"
-            }
-          ]
+          "links": []
         },
         {
           "id": "governance",
@@ -88,12 +78,7 @@
           "stempel": "",
           "tekst": "Analisten, modelleurs en data-engineers die meewerken in het team, voor een analyse, een dashboard of een langer traject. Zij brengen de werkwijze mee en laten haar achter, zodat de kennis in de organisatie blijft als wij weer weg zijn.",
           "hand": "meewerken, niet overnemen",
-          "links": [
-            {
-              "tekst": "Neem contact op",
-              "href": "#contact"
-            }
-          ]
+          "links": []
         }
       ]
     },
@@ -112,10 +97,6 @@
             {
               "tekst": "geoinzicht.eu",
               "href": "https://geoinzicht.eu"
-            },
-            {
-              "tekst": "Meer info",
-              "href": "project-geoinzicht.html"
             }
           ]
         },
@@ -133,12 +114,7 @@
           "stempel": "in aanbouw",
           "tekst": "Gemeubileerd wonen voor expats en zakelijke reizigers, van een week tot twee jaar. Boeken, huurovereenkomst, factuur en betaling in een wizard; beheer van panden en kalender erachter.",
           "hand": "Arnhem, Zandvoort, Amsterdam",
-          "links": [
-            {
-              "tekst": "Meer info",
-              "href": "project-vastgoed.html"
-            }
-          ]
+          "links": []
         },
         {
           "id": "conversietheorie",
@@ -154,16 +130,7 @@
           "stempel": "product",
           "tekst": "Veertien controles per adres, van syntaxis tot DNS en mailserver, met een score van 0 tot 100. Losse adressen of een bestand in bulk; elke uitkomst met historie bewaard.",
           "hand": "weet wat je verstuurt voordat je verstuurt",
-          "links": [
-            {
-              "tekst": "Meer info",
-              "href": "project-email.html"
-            },
-            {
-              "tekst": "GitHub",
-              "href": "https://github.com/AnneVersion/email-validator"
-            }
-          ]
+          "links": []
         }
       ],
       "nummeren": true,
