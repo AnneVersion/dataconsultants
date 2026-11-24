@@ -196,7 +196,9 @@ footer .hand { font-size: 1.1rem; margin-left: 8px; }
     // begin
     const begin = el("section", "vel"); begin.id = "begin";
     const kolom = el("div");
-    const h1 = el("h1", "tw"); const getypt = el("span"); getypt.id = "getypt"; getypt.textContent = T.begin.kopregel; h1.appendChild(getypt);
+    // een of meer kopregels: de eerste staat er meteen, meerdere worden na elkaar getypt (zie onder)
+    const kopregels = (T.begin.kopregels && T.begin.kopregels.length ? T.begin.kopregels : [T.begin.kopregel || ""]).map(s => String(s).trim()).filter(Boolean);
+    const h1 = el("h1", "tw"); const getypt = el("span"); getypt.id = "getypt"; getypt.textContent = kopregels[0] || ""; h1.appendChild(getypt);
     const cursor = el("span", "cursor"); cursor.setAttribute("aria-hidden", "true"); h1.appendChild(cursor);
     kolom.appendChild(h1);
     const regel = el("div", "regel"); regel.innerHTML = T.begin.intro_html || ""; kolom.appendChild(regel);
@@ -243,10 +245,17 @@ footer .hand { font-size: 1.1rem; margin-left: 8px; }
     voet.textContent = (T.voet && T.voet.tekst) || ""; if (T.voet && T.voet.hand) voet.appendChild(el("span", "hand", T.voet.hand));
 
     // De kopregel wordt getypt zoals op een typemachine; wie minder beweging wil, ziet hem meteen.
-    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        const tekst = getypt.textContent; getypt.textContent = ""; let i = 0;
-        const tik = () => { getypt.textContent = tekst.slice(0, ++i); if (i < tekst.length) setTimeout(tik, 42 + Math.random() * 60 + (tekst[i - 1] === " " ? 60 : 0)); };
-        setTimeout(tik, 350);
+    // Meerdere zinnen (Anne, 25-11-2026: "ik wil meerdere zinnen kunnen typen op de homepage"): typen, even laten staan,
+    // wissen, de volgende; na de laatste weer de eerste. Een zin blijft gewoon staan.
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches && kopregels.length) {
+        let z = 0;
+        const typ = (tekst, klaar) => { let i = 0; const tik = () => { getypt.textContent = tekst.slice(0, ++i); if (i < tekst.length) setTimeout(tik, 42 + Math.random() * 60 + (tekst[i - 1] === " " ? 60 : 0)); else klaar(); }; tik(); };
+        const wis = klaar => { const stap = () => { const t = getypt.textContent; if (t.length) { getypt.textContent = t.slice(0, -1); setTimeout(stap, 18); } else klaar(); }; stap(); };
+        const ronde = () => typ(kopregels[z], () => {
+            if (kopregels.length < 2) return;
+            setTimeout(() => wis(() => { z = (z + 1) % kopregels.length; setTimeout(ronde, 400); }), 3200 + Math.min(2000, kopregels[z].length * 40));
+        });
+        getypt.textContent = ""; setTimeout(ronde, 350);
     }
     // Actief menu-item bij scrollen.
     const links = Array.from(menu.querySelectorAll("a"));

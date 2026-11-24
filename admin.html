@@ -114,7 +114,11 @@ input:focus, textarea:focus, select:focus { outline: 1.5px solid var(--groen); b
         b.appendChild(el("p", "uitleg", "De naam staat linksboven; de kopregel wordt getypt. In de intro mag een beetje HTML: <strong> en <a href=\"#conversietheorie\">."));
         let g = el("div", "twee"); veld(g, "Naam", T.site, "naam"); veld(g, "Plaats (handschrift naast de naam)", T.site, "plaats"); b.appendChild(g);
         veld(b, "Beschrijving voor zoekmachines", T.site, "beschrijving", "tekst");
-        veld(b, "Kopregel", T.begin, "kopregel");
+        // kopregels: een zin per regel; meerdere zinnen worden op de pagina na elkaar getypt
+        b.appendChild(el("label", null, "Kopregels (een zin per regel; meerdere zinnen worden na elkaar getypt)"));
+        const kr = el("textarea"); kr.value = (T.begin.kopregels && T.begin.kopregels.length ? T.begin.kopregels : [T.begin.kopregel || ""]).join("\n");
+        kr.addEventListener("input", () => { T.begin.kopregels = kr.value.split("\n").map(s => s.trim()).filter(Boolean); T.begin.kopregel = T.begin.kopregels[0] || ""; markeer(); });
+        b.appendChild(kr);
         veld(b, "Intro (HTML toegestaan)", T.begin, "intro_html", "tekst");
         g = el("div", "twee"); veld(g, "Kanttekening (handschrift, regeleinde toegestaan)", T.begin, "kantlijn", "tekst"); veld(g, "Onderschrift kanttekening", T.begin, "kantlijn_sub"); b.appendChild(g);
         vorm.appendChild(b);

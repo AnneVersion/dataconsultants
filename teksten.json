@@ -22,7 +22,11 @@
     "kopregel": "Wij helpen organisaties datagedreven te werken.",
     "intro_html": "<p><strong>Dataverzamelaars en modelleurs met een passie voor open data.</strong> Gespecialiseerd in het vinden, koppelen en modelleren van open databronnen. Van CBS-statistieken tot BAG-adressen, van politiedata tot zorgkosten: wij verbinden wat los beschikbaar is tot bruikbare datasets.</p><p>Wij detacheren dataspecialisten voor analyses, dashboards en data-engineering. Daarnaast is er altijd ruimte voor leuke en interessante projecten, van interactieve sterrenhemelkaarten tot wetenschappelijke informatieplatformen.</p><p>Onze focus: inzicht en innovatie. Dankzij AI kunnen wij ideeën die voorheen onhaalbaar waren zelf uitvoeren, van concept tot werkend prototype.</p>",
     "kantlijn": "eerst het informatiemodel,\ndan pas de data",
-    "kantlijn_sub": "kanttekening bij alles hieronder"
+    "kantlijn_sub": "kanttekening bij alles hieronder",
+    "kopregels": [
+      "Wij helpen organisaties datagedreven te werken.",
+      "Van losse bronnen naar een bron van waarheid."
+    ]
   },
   "secties": [
     {
