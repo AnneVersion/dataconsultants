@@ -99,19 +99,15 @@
           "titel": "GeoInzicht",
           "stempel": "live",
           "tekst": "Geo-dataplatform van Nederland. CBS, BAG, PDOK, KvK en natuurwaarnemingen in een datawarehouse, per thema ontsloten als app op de telefoon, ook zonder verbinding.",
-          "hand": "eerste thema-apps: wildplukken en herkennen",
+          "hand": "de thema-apps staan op geoinzicht.eu",
           "links": [
+            {
+              "tekst": "geoinzicht.eu",
+              "href": "https://geoinzicht.eu"
+            },
             {
               "tekst": "Meer info",
               "href": "project-geoinzicht.html"
-            },
-            {
-              "tekst": "wildplukken.geoinzicht.eu",
-              "href": "https://wildplukken.geoinzicht.eu"
-            },
-            {
-              "tekst": "herkennen.geoinzicht.eu",
-              "href": "https://herkennen.geoinzicht.eu"
             }
           ]
         },
