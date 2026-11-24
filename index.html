@@ -127,6 +127,21 @@ main { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; paddin
 #contact .links a { color: var(--inkt); border-bottom: 1px dashed var(--potlood); }
 #contact .links a:hover { color: var(--groen); border-bottom-color: var(--groen); }
 
+/* contactformulier: een briefje op het papier (25-11-2026, Anne: "een formulier om mij te kunnen mailen") */
+.brief { margin-top: 28px; max-width: 620px; background: var(--papier-diep); border: 1px solid var(--lijn); padding: 20px 22px 18px; box-shadow: 0 10px 24px -14px var(--schaduw); transform: rotate(-0.3deg); }
+.brief h3 { font-size: 1.15rem; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid color-mix(in srgb, var(--stempel) 35%, transparent); }
+.brief label { display: block; font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: var(--potlood); margin: 10px 0 3px; }
+.brief input, .brief textarea { width: 100%; font: inherit; font-size: .95rem; color: var(--inkt); background: transparent; border: 0; border-bottom: 1px dashed var(--potlood); padding: 6px 2px; border-radius: 0; }
+.brief textarea { min-height: 110px; resize: vertical; }
+.brief input:focus, .brief textarea:focus { outline: 0; border-bottom: 1px solid var(--inkt); }
+.brief .honing { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.brief .onder { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 16px; }
+.brief button { font-family: "Special Elite", monospace; font-size: .9rem; letter-spacing: .06em; padding: 8px 18px; border: 1.5px solid var(--inkt); background: transparent; color: var(--inkt); cursor: pointer; border-radius: 3px; }
+.brief button:hover { background: var(--inkt); color: var(--papier); }
+.brief button:disabled { opacity: .5; cursor: default; }
+.brief .uitkomst { font-size: .95rem; color: var(--inkt-licht); }
+.brief .uitkomst.goed { color: var(--groen); }
+.brief .uitkomst.fout { color: var(--stempel); }
 footer { position: relative; z-index: 1; border-top: 1px solid var(--lijn); padding: 22px 20px 40px; text-align: center; font-size: .82rem; color: var(--potlood); }
 footer .hand { font-size: 1.1rem; margin-left: 8px; }
 .melding { padding: 40px 20px; text-align: center; color: var(--inkt-licht); }
@@ -237,7 +252,39 @@ footer .hand { font-size: 1.1rem; margin-left: 8px; }
         const c = el("section", "vel"); c.id = "contact";
         const kop = el("div", "kop"); kop.appendChild(el("h2", "tw", T.contact.titel || "Contact")); if (T.contact.hand) kop.appendChild(el("span", "hand", T.contact.hand)); c.appendChild(kop);
         const p = el("p"); p.innerHTML = T.contact.tekst_html || ""; c.appendChild(p);
-        c.appendChild(linkLijst(T.contact.links)); main.appendChild(c);
+        c.appendChild(linkLijst(T.contact.links));
+        // formulier: POST /api/contact (contactdienst op de server; lokaal bestaat die route niet en toont het formulier de foutmelding)
+        const F = T.contact.formulier;
+        if (F) {
+            const brief = el("form", "brief tw"); brief.noValidate = true; brief.setAttribute("aria-label", F.kop || "Contactformulier");
+            brief.appendChild(el("h3", "tw", F.kop || "Of schrijf het hier"));
+            const veld = (naam, label, tag, type) => { brief.appendChild(el("label", null, label)); const i = el(tag); i.name = naam; if (type) i.type = type; i.required = true; i.autocomplete = naam === "email" ? "email" : (naam === "naam" ? "name" : "off"); brief.appendChild(i); return i; };
+            const iNaam = veld("naam", F.naam || "Uw naam", "input", "text");
+            const iMail = veld("email", F.email || "Uw e-mailadres", "input", "email");
+            const iTekst = veld("bericht", F.bericht || "Uw bericht", "textarea");
+            const honing = el("input", "honing"); honing.name = "website"; honing.tabIndex = -1; honing.autocomplete = "off"; honing.setAttribute("aria-hidden", "true"); brief.appendChild(honing);
+            const onder = el("div", "onder"); const knop = el("button", null, F.knop || "Verstuur"); knop.type = "submit"; const uitkomst = el("span", "uitkomst"); onder.append(knop, uitkomst); brief.appendChild(onder);
+            const start = Date.now();
+            brief.addEventListener("submit", async e => {
+                e.preventDefault(); uitkomst.className = "uitkomst"; uitkomst.textContent = "";
+                if (iNaam.value.trim().length < 2 || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(iMail.value.trim()) || iTekst.value.trim().length < 10) {
+                    uitkomst.className = "uitkomst fout"; uitkomst.textContent = "Vul uw naam, een geldig e-mailadres en een bericht van minstens tien tekens in."; return;
+                }
+                knop.disabled = true;
+                try {
+                    const r = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ naam: iNaam.value.trim(), email: iMail.value.trim(), bericht: iTekst.value.trim(), website: honing.value, t: Date.now() - start }) });
+                    const a = await r.json().catch(() => ({}));
+                    // 400 en 429 zijn meldingen van de contactdienst voor de invuller; al het andere is "lukt nu niet"
+                    if (!r.ok || !a.ok) throw new Error((r.status === 400 || r.status === 429) && a.fout ? a.fout : "");
+                    uitkomst.className = "uitkomst goed"; uitkomst.textContent = F.dank || "Dank u, uw bericht is aangekomen."; brief.reset();
+                } catch (err) {
+                    uitkomst.className = "uitkomst fout"; uitkomst.textContent = err.message || F.fout || "Versturen lukt nu niet. Mail ons dan rechtstreeks.";
+                } finally { knop.disabled = false; }
+            });
+            c.appendChild(brief);
+        }
+        main.appendChild(c);
     }
 
     // voet

@@ -173,6 +173,14 @@ input:focus, textarea:focus, select:focus { outline: 1.5px solid var(--groen); b
         g = el("div", "twee"); veld(g, "Titel", T.contact, "titel"); veld(g, "Handschrift naast de titel", T.contact, "hand"); b.appendChild(g);
         veld(b, "Tekst (HTML toegestaan)", T.contact, "tekst_html", "tekst");
         linksVeld(b, T.contact);
+        // contactformulier (25-11-2026): teksten van het briefje; het versturen gaat via /api/contact op de server
+        T.contact.formulier = T.contact.formulier || { kop: "Of schrijf het hier", naam: "Uw naam", email: "Uw e-mailadres", bericht: "Uw bericht", knop: "Verstuur", dank: "", fout: "" };
+        const fm = T.contact.formulier;
+        b.appendChild(el("p", "uitleg", "Formulier: de teksten van het briefje onder de contactlinks. Berichten komen binnen bij de contactdienst op de server (en per mail zodra SMTP is ingesteld)."));
+        g = el("div", "twee"); veld(g, "Kop van het formulier", fm, "kop"); veld(g, "Tekst op de knop", fm, "knop"); b.appendChild(g);
+        g = el("div", "twee"); veld(g, "Label naam", fm, "naam"); veld(g, "Label e-mail", fm, "email"); b.appendChild(g);
+        veld(b, "Label bericht", fm, "bericht");
+        g = el("div", "twee"); veld(g, "Melding na versturen", fm, "dank"); veld(g, "Melding als versturen mislukt", fm, "fout"); b.appendChild(g);
         g = el("div", "twee"); veld(g, "Voettekst", T.voet, "tekst"); veld(g, "Voettekst, handschrift", T.voet, "hand"); b.appendChild(g);
         vorm.appendChild(b);
 

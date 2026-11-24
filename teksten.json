@@ -272,7 +272,16 @@
         "tekst": "github.com/AnneVersion",
         "href": "https://github.com/AnneVersion"
       }
-    ]
+    ],
+    "formulier": {
+      "kop": "Of schrijf het hier",
+      "naam": "Uw naam",
+      "email": "Uw e-mailadres",
+      "bericht": "Uw bericht",
+      "knop": "Verstuur",
+      "dank": "Dank u. Uw bericht is aangekomen; u hoort van ons.",
+      "fout": "Versturen lukt nu niet. Mail ons dan rechtstreeks."
+    }
   },
   "voet": {
     "tekst": "© 2026 Data Consultants, Arnhem",
