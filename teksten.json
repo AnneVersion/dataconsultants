@@ -1,0 +1,209 @@
+{
+  "site": {
+    "naam": "Data Consultants",
+    "plaats": "Arnhem",
+    "beschrijving": "Data Consultants, Arnhem. Wij helpen organisaties datagedreven te werken: analyseomgeving, single source of truth, dataminimalisatie, via onze conversietheorie. Producten: GeoInzicht, SWT, worknomads, Conversietheorie, Emailvalidator. Prototypes: Astronomy, Cataract, EDAK, Juridisch Assistent, Meldpunt Ambtenaren."
+  },
+  "menu": [
+    {
+      "tekst": "Producten",
+      "href": "#producten"
+    },
+    {
+      "tekst": "Prototypes",
+      "href": "#prototypes"
+    }
+  ],
+  "begin": {
+    "kopregel": "Wij helpen organisaties datagedreven te werken.",
+    "intro_html": "Met een analyseomgeving die er gewoon is, en met data die klopt. <strong>Single source of truth</strong>, dataminimalisatie, eenmalig vastleggen en meervoudig gebruiken, kwaliteit aan de bron, herleidbaarheid: die beginselen bereiken wij met onze <a href=\"#conversietheorie\"><strong>conversietheorie</strong></a>. Hieronder vijf producten en vijf prototypes waarin dat zichtbaar is.",
+    "kantlijn": "eerst het informatiemodel,\ndan pas de data",
+    "kantlijn_sub": "kanttekening bij alles hieronder"
+  },
+  "secties": [
+    {
+      "id": "producten",
+      "titel": "Producten",
+      "hand": "wat af is en draait, of bijna",
+      "kaarten": [
+        {
+          "id": "geoinzicht",
+          "titel": "GeoInzicht",
+          "stempel": "live",
+          "tekst": "Geo-dataplatform van Nederland. CBS, BAG, PDOK, KvK en natuurwaarnemingen in een datawarehouse, per thema ontsloten als app op de telefoon, ook zonder verbinding.",
+          "hand": "eerste thema-apps: wildplukken en herkennen",
+          "links": [
+            {
+              "tekst": "Meer info",
+              "href": "project-geoinzicht.html"
+            },
+            {
+              "tekst": "wildplukken.geoinzicht.eu",
+              "href": "https://wildplukken.geoinzicht.eu"
+            },
+            {
+              "tekst": "herkennen.geoinzicht.eu",
+              "href": "https://herkennen.geoinzicht.eu"
+            }
+          ]
+        },
+        {
+          "id": "swt",
+          "titel": "SWT",
+          "stempel": "in aanbouw",
+          "tekst": "Sisters with Transistors: een muziekstudio in de browser. Instrumenten en effecten als losse plugins, een theremin aan de usb-poort, opnemen en mixen zonder installatie.",
+          "hand": "genoemd naar de pioniers van de elektronische muziek",
+          "links": []
+        },
+        {
+          "id": "worknomads",
+          "titel": "worknomads",
+          "stempel": "in aanbouw",
+          "tekst": "Gemeubileerd wonen voor expats en zakelijke reizigers, van een week tot twee jaar. Boeken, huurovereenkomst, factuur en betaling in een wizard; beheer van panden en kalender erachter.",
+          "hand": "Arnhem, Zandvoort, Amsterdam",
+          "links": [
+            {
+              "tekst": "Meer info",
+              "href": "project-vastgoed.html"
+            }
+          ]
+        },
+        {
+          "id": "conversietheorie",
+          "titel": "Conversietheorie",
+          "stempel": "methode",
+          "tekst": "Onze methode om de databeginselen te halen: conversiestrategie met het informatiemodel als kern. Eerst het model, dan de mapping van elke bron, dan poorten die een overtreding tegenhouden. Zo ontstaat een bron van waarheid waar analyses en apps op bouwen, met niet meer gegevens dan nodig. Elf stukken, eigen werk.",
+          "hand": "de methode achter GeoInzicht en elke analyseomgeving die wij inrichten",
+          "links": []
+        },
+        {
+          "id": "emailvalidator",
+          "titel": "Emailvalidator",
+          "stempel": "product",
+          "tekst": "Veertien controles per adres, van syntaxis tot DNS en mailserver, met een score van 0 tot 100. Losse adressen of een bestand in bulk; elke uitkomst met historie bewaard.",
+          "hand": "weet wat je verstuurt voordat je verstuurt",
+          "links": [
+            {
+              "tekst": "Meer info",
+              "href": "project-email.html"
+            },
+            {
+              "tekst": "GitHub",
+              "href": "https://github.com/AnneVersion/email-validator"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prototypes",
+      "titel": "Prototypes",
+      "hand": "waar we aan werken, voor de aardigheid en omdat het ertoe doet",
+      "kaarten": [
+        {
+          "id": "astronomy",
+          "titel": "Astronomy",
+          "stempel": "live",
+          "tekst": "Interactieve sterrenhemel: zoombaar zonnestelsel, N-body-simulatie, equinox- en meteorenkalender, gevoed door de API's van NASA.",
+          "hand": "de Eta Aquariden vallen rond 5 mei",
+          "links": [
+            {
+              "tekst": "Meer info",
+              "href": "project-astronomy.html"
+            },
+            {
+              "tekst": "Bekijk live",
+              "href": "https://anneversion.github.io/astronomy/"
+            },
+            {
+              "tekst": "GitHub",
+              "href": "https://github.com/AnneVersion/astronomy"
+            }
+          ]
+        },
+        {
+          "id": "cataract",
+          "titel": "Cataract",
+          "stempel": "live",
+          "tekst": "Informatieplatform over aangeboren staar: wat de aandoening is, welke lenzen er zijn, wat het onderzoek zegt. Met illustraties en een persoonlijk dashboard.",
+          "hand": "geschreven vanuit eigen ervaring",
+          "links": [
+            {
+              "tekst": "Meer info",
+              "href": "project-cataract.html"
+            },
+            {
+              "tekst": "Bekijk live",
+              "href": "https://anneversion.github.io/cataract/"
+            },
+            {
+              "tekst": "GitHub",
+              "href": "https://github.com/AnneVersion/cataract"
+            }
+          ]
+        },
+        {
+          "id": "edak",
+          "titel": "EDAK",
+          "stempel": "binnenkort",
+          "tekst": "Elektrische schuifdaken voor vastgoed: een configurator die maat en uitvoering vertaalt naar prijs, stuklijst en bestelformulier.",
+          "hand": "wacht op de productgegevens",
+          "links": []
+        },
+        {
+          "id": "juridisch-assistent",
+          "titel": "Juridisch Assistent",
+          "stempel": "in aanbouw",
+          "tekst": "Dossierbeheer voor wie zelf procedeert: stukken ordenen, anonimiseren, termijnen bewaken en uitspraken van rechtspraak.nl erbij halen.",
+          "hand": "voor wie de weg naar het recht zelf moet vinden",
+          "links": [
+            {
+              "tekst": "Meer info",
+              "href": "project-juridisch.html"
+            }
+          ]
+        },
+        {
+          "id": "meldpunt-ambtenaren",
+          "titel": "Meldpunt Ambtenaren",
+          "stempel": "live",
+          "tekst": "Webapp voor het melden van misstanden door ambtenaren: dossiers aanleggen, documenten uploaden en anonimiseren, met een wegwijzer naar het EHRM.",
+          "hand": "werkt ook als app op de telefoon",
+          "links": [
+            {
+              "tekst": "Meer info",
+              "href": "project-meldpunt.html"
+            },
+            {
+              "tekst": "Bekijk live",
+              "href": "https://anneversion.github.io/meldpunt-ambtenaren/"
+            },
+            {
+              "tekst": "GitHub",
+              "href": "https://github.com/AnneVersion/meldpunt-ambtenaren"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "contact": {
+    "titel": "Contact",
+    "hand": "een datavraag, een idee, een samenwerking",
+    "tekst_html": "Data Consultants helpt organisaties datagedreven te werken: een analyseomgeving inrichten, bronnen samenbrengen tot een bron van waarheid, en dataspecialisten detacheren voor analyses, dashboards en data-engineering. Een bericht is genoeg.",
+    "links": [
+      {
+        "tekst": "info@dataconsultants.nl",
+        "href": "mailto:info@dataconsultants.nl"
+      },
+      {
+        "tekst": "github.com/AnneVersion",
+        "href": "https://github.com/AnneVersion"
+      }
+    ]
+  },
+  "voet": {
+    "tekst": "© 2026 Data Consultants, Arnhem",
+    "hand": "gezet in Special Elite, Courier Prime en Caveat"
+  }
+}

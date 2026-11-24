@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Data Consultants</title>
-<meta name="description" content="Data Consultants, Arnhem. Open data verzamelen, modelleren en verbinden. Producten: GeoInzicht, SWT, worknomads, Conversietheorie, Emailvalidator. Prototypes: Astronomy, Cataract, EDAK, Juridisch Assistent, Meldpunt Ambtenaren.">
+<meta name="description" content="Data Consultants, Arnhem. Wij helpen organisaties datagedreven te werken: analyseomgeving, single source of truth, dataminimalisatie, via onze conversietheorie.">
 <link rel="icon" href="favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,7 +12,8 @@
 <style>
 /* Beginpagina 24-11-2026 (Anne: "alleen producten en prototypes, geen rondvliegende pictogrammen, typemachine en handschrift,
    niet schreeuwerig maar wel mooi"). Papier en inkt: Special Elite voor koppen, Courier Prime voor lopende tekst,
-   Caveat voor kanttekeningen in de kantlijn. Een accentkleur (stempelrood), verder inkt op papier. */
+   Caveat voor kanttekeningen in de kantlijn. Een accentkleur (stempelrood), verder inkt op papier.
+   Alle teksten komen uit teksten.json (te bewerken in admin.html); dit bestand bevat alleen vorm en opbouw. */
 :root {
     --papier: #f3eee4;
     --papier-diep: #eae3d5;
@@ -79,9 +80,10 @@ main { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; paddin
 @keyframes knipper { 50% { opacity: 0; } }
 #begin .regel { margin-top: 22px; font-size: 1.05rem; color: var(--inkt-licht); max-width: 620px; }
 #begin .regel strong { color: var(--inkt); font-weight: 700; }
-.kantlijn { font-size: 1.45rem; line-height: 1.25; color: var(--inkt-licht); transform: rotate(-2.5deg); padding: 14px 18px; border-left: 2px solid var(--lijn); }
+#begin .regel a { border-bottom: 1px dashed var(--potlood); }
+#begin .regel a:hover { color: var(--groen); border-bottom-color: var(--groen); }
+.kantlijn { font-size: 1.45rem; line-height: 1.25; color: var(--inkt-licht); transform: rotate(-2.5deg); padding: 14px 18px; border-left: 2px solid var(--lijn); white-space: pre-line; }
 .kantlijn span { display: block; font-size: 1rem; color: var(--potlood); margin-top: 6px; }
-.kantlijn .pijl { font-family: "Caveat", cursive; }
 
 /* koppen van de secties */
 .kop { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; margin-bottom: 30px; }
@@ -122,6 +124,7 @@ main { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; paddin
 
 footer { position: relative; z-index: 1; border-top: 1px solid var(--lijn); padding: 22px 20px 40px; text-align: center; font-size: .82rem; color: var(--potlood); }
 footer .hand { font-size: 1.1rem; margin-left: 8px; }
+.melding { padding: 40px 20px; text-align: center; color: var(--inkt-licht); }
 
 @media (max-width: 760px) {
     body { font-size: 16px; }
@@ -143,174 +146,103 @@ footer .hand { font-size: 1.1rem; margin-left: 8px; }
 
 <header>
     <div class="balk">
-        <a href="#begin" class="woordmerk tw">Data Consultants <small>Arnhem</small></a>
-        <nav aria-label="Hoofdmenu">
-            <ul>
-                <li><a href="#producten">Producten</a></li>
-                <li><a href="#prototypes">Prototypes</a></li>
-            </ul>
-        </nav>
+        <a href="#begin" class="woordmerk tw" id="woordmerk">Data Consultants</a>
+        <nav aria-label="Hoofdmenu"><ul id="menu"></ul></nav>
     </div>
 </header>
 
-<main>
-
-<section id="begin" class="vel">
-    <div>
-        <h1 class="tw"><span id="getypt">Wij verzamelen, modelleren en verbinden open data.</span><span class="cursor" aria-hidden="true"></span></h1>
-        <p class="regel">Van CBS-buurten en BAG-adressen tot natuurwaarnemingen: wat los beschikbaar is, maken wij tot <strong>een datawarehouse dat klopt</strong>, en tot apps die ermee werken. Vijf producten, vijf prototypes.</p>
-    </div>
-    <aside class="kantlijn hand" aria-label="Kanttekening">
-        eerst goed modelleren,<br>dan onbeperkt hergebruiken
-        <span>kanttekening bij alles hieronder</span>
-    </aside>
-</section>
-
-<section id="producten" class="vel">
-    <div class="kop">
-        <h2 class="tw">Producten</h2>
-        <span class="hand">wat af is en draait, of bijna</span>
-    </div>
-    <div class="fiches">
-
-        <article class="fiche" style="--hoek:-0.7deg">
-            <div class="fiche-kop"><span class="nr">01</span><h3 class="tw">GeoInzicht</h3><span class="stempel groen">live</span></div>
-            <p>Geo-dataplatform van Nederland. CBS, BAG, PDOK, KvK en natuurwaarnemingen in een datawarehouse, per thema ontsloten als app op de telefoon, ook zonder verbinding.</p>
-            <p class="hand">eerste thema-apps: wildplukken en herkennen</p>
-            <div class="links">
-                <a href="project-geoinzicht.html">Meer info</a>
-                <a href="https://wildplukken.geoinzicht.eu" target="_blank" rel="noopener">wildplukken.geoinzicht.eu</a>
-                <a href="https://herkennen.geoinzicht.eu" target="_blank" rel="noopener">herkennen.geoinzicht.eu</a>
-            </div>
-        </article>
-
-        <article class="fiche" style="--hoek:0.6deg">
-            <div class="fiche-kop"><span class="nr">02</span><h3 class="tw">SWT</h3><span class="stempel">in aanbouw</span></div>
-            <p>Sisters with Transistors: een muziekstudio in de browser. Instrumenten en effecten als losse plugins, een theremin aan de usb-poort, opnemen en mixen zonder installatie.</p>
-            <p class="hand">genoemd naar de pioniers van de elektronische muziek</p>
-        </article>
-
-        <article class="fiche" style="--hoek:-0.4deg">
-            <div class="fiche-kop"><span class="nr">03</span><h3 class="tw">worknomads</h3><span class="stempel">in aanbouw</span></div>
-            <p>Gemeubileerd wonen voor expats en zakelijke reizigers, van een week tot twee jaar. Boeken, huurovereenkomst, factuur en betaling in een wizard; beheer van panden en kalender erachter.</p>
-            <p class="hand">Arnhem, Zandvoort, Amsterdam</p>
-            <div class="links">
-                <a href="project-vastgoed.html">Meer info</a>
-            </div>
-        </article>
-
-        <article class="fiche" style="--hoek:0.8deg">
-            <div class="fiche-kop"><span class="nr">04</span><h3 class="tw">Conversietheorie</h3><span class="stempel">methode</span></div>
-            <p>Conversiestrategie met het informatiemodel als kern. Een werkwijze voor datamigratie en -integratie: eerst het model, dan de mapping, dan de poorten die een overtreding tegenhouden. Elf stukken, eigen werk.</p>
-            <p class="hand">de methode achter het datawarehouse van GeoInzicht</p>
-        </article>
-
-        <article class="fiche" style="--hoek:-0.5deg">
-            <div class="fiche-kop"><span class="nr">05</span><h3 class="tw">Emailvalidator</h3><span class="stempel groen">product</span></div>
-            <p>Veertien controles per adres, van syntaxis tot DNS en mailserver, met een score van 0 tot 100. Losse adressen of een bestand in bulk; elke uitkomst met historie bewaard.</p>
-            <p class="hand">weet wat je verstuurt voordat je verstuurt</p>
-            <div class="links">
-                <a href="project-email.html">Meer info</a>
-                <a href="https://github.com/AnneVersion/email-validator" target="_blank" rel="noopener">GitHub</a>
-            </div>
-        </article>
-
-    </div>
-</section>
-
-<section id="prototypes" class="vel">
-    <div class="kop">
-        <h2 class="tw">Prototypes</h2>
-        <span class="hand">waar we aan werken, voor de aardigheid en omdat het ertoe doet</span>
-    </div>
-    <div class="fiches">
-
-        <article class="fiche" style="--hoek:0.5deg">
-            <div class="fiche-kop"><span class="nr">06</span><h3 class="tw">Astronomy</h3><span class="stempel groen">live</span></div>
-            <p>Interactieve sterrenhemel: zoombaar zonnestelsel, N-body-simulatie, equinox- en meteorenkalender, gevoed door de API's van NASA.</p>
-            <p class="hand">de Eta Aquariden vallen rond 5 mei</p>
-            <div class="links">
-                <a href="project-astronomy.html">Meer info</a>
-                <a href="https://anneversion.github.io/astronomy/" target="_blank" rel="noopener">Bekijk live</a>
-                <a href="https://github.com/AnneVersion/astronomy" target="_blank" rel="noopener">GitHub</a>
-            </div>
-        </article>
-
-        <article class="fiche" style="--hoek:-0.6deg">
-            <div class="fiche-kop"><span class="nr">07</span><h3 class="tw">Cataract</h3><span class="stempel groen">live</span></div>
-            <p>Informatieplatform over aangeboren staar: wat de aandoening is, welke lenzen er zijn, wat het onderzoek zegt. Met illustraties en een persoonlijk dashboard.</p>
-            <p class="hand">geschreven vanuit eigen ervaring</p>
-            <div class="links">
-                <a href="project-cataract.html">Meer info</a>
-                <a href="https://anneversion.github.io/cataract/" target="_blank" rel="noopener">Bekijk live</a>
-                <a href="https://github.com/AnneVersion/cataract" target="_blank" rel="noopener">GitHub</a>
-            </div>
-        </article>
-
-        <article class="fiche" style="--hoek:0.7deg">
-            <div class="fiche-kop"><span class="nr">08</span><h3 class="tw">EDAK</h3><span class="stempel">binnenkort</span></div>
-            <p>Elektrische schuifdaken voor vastgoed: een configurator die maat en uitvoering vertaalt naar prijs, stuklijst en bestelformulier.</p>
-            <p class="hand">wacht op de productgegevens</p>
-        </article>
-
-        <article class="fiche" style="--hoek:-0.8deg">
-            <div class="fiche-kop"><span class="nr">09</span><h3 class="tw">Juridisch Assistent</h3><span class="stempel">in aanbouw</span></div>
-            <p>Dossierbeheer voor wie zelf procedeert: stukken ordenen, anonimiseren, termijnen bewaken en uitspraken van rechtspraak.nl erbij halen.</p>
-            <p class="hand">voor wie de weg naar het recht zelf moet vinden</p>
-            <div class="links">
-                <a href="project-juridisch.html">Meer info</a>
-            </div>
-        </article>
-
-        <article class="fiche" style="--hoek:0.4deg">
-            <div class="fiche-kop"><span class="nr">10</span><h3 class="tw">Meldpunt Ambtenaren</h3><span class="stempel groen">live</span></div>
-            <p>Webapp voor het melden van misstanden door ambtenaren: dossiers aanleggen, documenten uploaden en anonimiseren, met een wegwijzer naar het EHRM.</p>
-            <p class="hand">werkt ook als app op de telefoon</p>
-            <div class="links">
-                <a href="project-meldpunt.html">Meer info</a>
-                <a href="https://anneversion.github.io/meldpunt-ambtenaren/" target="_blank" rel="noopener">Bekijk live</a>
-                <a href="https://github.com/AnneVersion/meldpunt-ambtenaren" target="_blank" rel="noopener">GitHub</a>
-            </div>
-        </article>
-
-    </div>
-</section>
-
-<section id="contact" class="vel">
-    <div class="kop">
-        <h2 class="tw">Contact</h2>
-        <span class="hand">een datavraag, een idee, een samenwerking</span>
-    </div>
-    <p>Data Consultants verzamelt, modelleert en verbindt open data, en detacheert dataspecialisten voor analyses, dashboards en data-engineering. Een bericht is genoeg.</p>
-    <div class="links">
-        <a href="mailto:info@dataconsultants.nl">info@dataconsultants.nl</a>
-        <a href="https://github.com/AnneVersion" target="_blank" rel="noopener">github.com/AnneVersion</a>
-    </div>
-</section>
-
+<main id="inhoud">
+    <noscript><p class="melding">Deze pagina heeft JavaScript nodig om de teksten uit teksten.json te tonen.</p></noscript>
 </main>
 
-<footer>
-    &copy; 2026 Data Consultants, Arnhem <span class="hand">gezet in Special Elite, Courier Prime en Caveat</span>
-</footer>
+<footer id="voet"></footer>
 
 <script>
-// De kopregel wordt getypt zoals op een typemachine; wie minder beweging wil, ziet hem meteen.
-(function () {
-    const el = document.getElementById("getypt");
-    const tekst = el.textContent;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    el.textContent = "";
-    let i = 0;
-    function tik() {
-        el.textContent = tekst.slice(0, ++i);
-        if (i < tekst.length) setTimeout(tik, 42 + Math.random() * 60 + (tekst[i - 1] === " " ? 60 : 0));
+// De teksten staan in teksten.json (bewerken: admin.html). Hier alleen de opbouw.
+(async function () {
+    const main = document.getElementById("inhoud");
+    let T;
+    try {
+        const r = await fetch("teksten.json", { cache: "no-store" });
+        if (!r.ok) throw new Error(r.status);
+        T = await r.json();
+    } catch (e) {
+        main.innerHTML = '<p class="melding">De teksten (teksten.json) konden niet worden geladen.</p>';
+        return;
     }
-    setTimeout(tik, 350);
-})();
-// Actief menu-item bij scrollen.
-(function () {
-    const links = Array.from(document.querySelectorAll("nav a"));
+    const el = (tag, klasse, tekst) => { const n = document.createElement(tag); if (klasse) n.className = klasse; if (tekst != null) n.textContent = tekst; return n; };
+    const extern = href => /^https?:\/\//.test(href);
+    const linkLijst = (links, klasse) => {
+        const d = el("div", klasse || "links");
+        (links || []).forEach(l => { const a = el("a", null, l.tekst); a.href = l.href; if (extern(l.href)) { a.target = "_blank"; a.rel = "noopener"; } d.appendChild(a); });
+        return d;
+    };
+    const HOEKEN = [-0.7, 0.6, -0.4, 0.8, -0.5, 0.5, -0.6, 0.7, -0.8, 0.4];
+    const GROEN = new Set(["live", "product", "af"]);
+
+    // kop
+    document.title = T.site.naam;
+    document.querySelector('meta[name="description"]').content = T.site.beschrijving || "";
+    const wm = document.getElementById("woordmerk"); wm.textContent = T.site.naam + " ";
+    if (T.site.plaats) { const s = el("small", null, T.site.plaats); wm.appendChild(s); }
+    const menu = document.getElementById("menu");
+    (T.menu || []).forEach(m => { const li = el("li"); const a = el("a", null, m.tekst); a.href = m.href; li.appendChild(a); menu.appendChild(li); });
+
+    // begin
+    const begin = el("section", "vel"); begin.id = "begin";
+    const kolom = el("div");
+    const h1 = el("h1", "tw"); const getypt = el("span"); getypt.id = "getypt"; getypt.textContent = T.begin.kopregel; h1.appendChild(getypt);
+    const cursor = el("span", "cursor"); cursor.setAttribute("aria-hidden", "true"); h1.appendChild(cursor);
+    kolom.appendChild(h1);
+    const regel = el("p", "regel"); regel.innerHTML = T.begin.intro_html || ""; kolom.appendChild(regel);
+    begin.appendChild(kolom);
+    const kant = el("aside", "kantlijn hand", T.begin.kantlijn || ""); kant.setAttribute("aria-label", "Kanttekening");
+    if (T.begin.kantlijn_sub) kant.appendChild(el("span", null, T.begin.kantlijn_sub));
+    begin.appendChild(kant);
+    main.appendChild(begin);
+
+    // secties met fiches
+    let nr = 0;
+    (T.secties || []).forEach(sec => {
+        const s = el("section", "vel"); s.id = sec.id;
+        const kop = el("div", "kop"); kop.appendChild(el("h2", "tw", sec.titel)); if (sec.hand) kop.appendChild(el("span", "hand", sec.hand)); s.appendChild(kop);
+        const grid = el("div", "fiches");
+        (sec.kaarten || []).forEach(k => {
+            nr += 1;
+            const f = el("article", "fiche"); if (k.id) f.id = k.id; f.style.setProperty("--hoek", HOEKEN[(nr - 1) % HOEKEN.length] + "deg");
+            const fk = el("div", "fiche-kop");
+            fk.appendChild(el("span", "nr", String(nr).padStart(2, "0")));
+            fk.appendChild(el("h3", "tw", k.titel));
+            if (k.stempel) fk.appendChild(el("span", "stempel" + (GROEN.has(k.stempel.toLowerCase()) ? " groen" : ""), k.stempel));
+            f.appendChild(fk);
+            if (k.tekst) f.appendChild(el("p", null, k.tekst));
+            if (k.hand) f.appendChild(el("p", "hand", k.hand));
+            if (k.links && k.links.length) f.appendChild(linkLijst(k.links));
+            grid.appendChild(f);
+        });
+        s.appendChild(grid); main.appendChild(s);
+    });
+
+    // contact
+    if (T.contact) {
+        const c = el("section", "vel"); c.id = "contact";
+        const kop = el("div", "kop"); kop.appendChild(el("h2", "tw", T.contact.titel || "Contact")); if (T.contact.hand) kop.appendChild(el("span", "hand", T.contact.hand)); c.appendChild(kop);
+        const p = el("p"); p.innerHTML = T.contact.tekst_html || ""; c.appendChild(p);
+        c.appendChild(linkLijst(T.contact.links)); main.appendChild(c);
+    }
+
+    // voet
+    const voet = document.getElementById("voet");
+    voet.textContent = (T.voet && T.voet.tekst) || ""; if (T.voet && T.voet.hand) voet.appendChild(el("span", "hand", T.voet.hand));
+
+    // De kopregel wordt getypt zoals op een typemachine; wie minder beweging wil, ziet hem meteen.
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        const tekst = getypt.textContent; getypt.textContent = ""; let i = 0;
+        const tik = () => { getypt.textContent = tekst.slice(0, ++i); if (i < tekst.length) setTimeout(tik, 42 + Math.random() * 60 + (tekst[i - 1] === " " ? 60 : 0)); };
+        setTimeout(tik, 350);
+    }
+    // Actief menu-item bij scrollen.
+    const links = Array.from(menu.querySelectorAll("a"));
     const secties = links.map(a => document.querySelector(a.getAttribute("href"))).filter(Boolean);
     const kijker = new IntersectionObserver(ingangen => {
         ingangen.forEach(e => { if (e.isIntersecting) links.forEach(a => a.classList.toggle("actief", a.getAttribute("href") === "#" + e.target.id)); });

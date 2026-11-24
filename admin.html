@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beheer teksten</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Beheer van de teksten op de beginpagina (24-11-2026, Anne: "maak een admingedeelte waar ik de teksten kan aanpassen").
+   Leest teksten.json, toont elk veld als invoerveld, bewaart via POST /api/teksten op de lokale server (serve.py).
+   Op GitHub Pages of de server is bewaren niet mogelijk: dan "Download" en het bestand in de repository zetten. */
+:root { --papier:#f3eee4; --papier-diep:#eae3d5; --lijn:#d8cfbd; --inkt:#26231f; --inkt-licht:#5f5a51; --potlood:#8a8378; --stempel:#9b2f24; --groen:#3f6b3a; --veld:#fbf8f2; }
+@media (prefers-color-scheme: dark) { :root { --papier:#1c1b18; --papier-diep:#22201c; --lijn:#3a362f; --inkt:#e9e3d6; --inkt-licht:#b5ad9e; --potlood:#8c8578; --stempel:#d26a5c; --groen:#8fbf86; --veld:#16150f; } }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "Courier Prime", monospace; font-size: 15px; line-height: 1.5; color: var(--inkt); background: var(--papier); }
+.tw { font-family: "Special Elite", monospace; font-weight: 400; }
+.hand { font-family: "Caveat", cursive; color: var(--inkt-licht); }
+header { position: sticky; top: 0; z-index: 5; background: var(--papier); border-bottom: 1px solid var(--lijn); }
+.balk { max-width: 980px; margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.balk h1 { font-size: 1.1rem; flex: 1; }
+.balk h1 small { font-family: "Caveat", cursive; font-size: 1rem; color: var(--potlood); margin-left: 8px; }
+button, .knop { font: inherit; font-size: .85rem; padding: 7px 14px; border: 1px solid var(--inkt); background: transparent; color: var(--inkt); cursor: pointer; border-radius: 3px; }
+button.primair { background: var(--inkt); color: var(--papier); }
+button.klein { font-size: .75rem; padding: 3px 9px; border-color: var(--potlood); color: var(--inkt-licht); }
+button:disabled { opacity: .5; cursor: default; }
+#status { font-size: .85rem; color: var(--inkt-licht); min-width: 160px; }
+#status.goed { color: var(--groen); } #status.fout { color: var(--stempel); }
+main { max-width: 980px; margin: 0 auto; padding: 20px 20px 80px; }
+.blok { background: var(--papier-diep); border: 1px solid var(--lijn); padding: 18px 20px; margin-bottom: 22px; }
+.blok h2 { font-size: 1.2rem; margin-bottom: 4px; }
+.blok h2::before { content: "// "; color: var(--potlood); }
+.blok .uitleg { font-size: .85rem; color: var(--potlood); margin-bottom: 12px; }
+label { display: block; font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: var(--potlood); margin: 10px 0 3px; }
+input[type=text], textarea, select { width: 100%; font: inherit; font-size: .95rem; padding: 7px 9px; border: 1px solid var(--lijn); background: var(--veld); color: var(--inkt); border-radius: 2px; }
+textarea { min-height: 72px; resize: vertical; }
+input:focus, textarea:focus, select:focus { outline: 1.5px solid var(--groen); border-color: var(--groen); }
+.kaart { border: 1px dashed var(--potlood); padding: 12px 14px 14px; margin-top: 14px; background: var(--papier); }
+.kaart-kop { display: flex; align-items: center; gap: 8px; }
+.kaart-kop .nr { font-family: "Special Elite", monospace; color: var(--potlood); }
+.kaart-kop strong { flex: 1; font-weight: 400; font-family: "Special Elite", monospace; font-size: 1.05rem; }
+.twee { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+@media (max-width: 700px) { .twee { grid-template-columns: 1fr; } }
+.links-uitleg { font-size: .78rem; color: var(--potlood); margin-top: 2px; }
+.voet-knoppen { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+#wachtwoord { max-width: 420px; margin: 80px auto; text-align: center; }
+#wachtwoord input { max-width: 260px; margin: 10px auto; display: block; text-align: center; }
+.verborgen { display: none !important; }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="balk">
+        <h1 class="tw">Beheer teksten <small>beginpagina dataconsultants.eu</small></h1>
+        <span id="status"></span>
+        <a class="knop" href="index.html" target="_blank" rel="noopener">Bekijk pagina</a>
+        <button id="download" type="button">Download</button>
+        <button id="opslaan" type="button" class="primair" disabled>Opslaan</button>
+    </div>
+</header>
+
+<main>
+    <div id="wachtwoord" class="blok">
+        <h2 class="tw">Wachtwoord</h2>
+        <p class="uitleg">Alleen een drempel tegen vergissingen; echte beveiliging is dat opslaan uitsluitend op deze computer werkt.</p>
+        <input type="password" id="ww" placeholder="wachtwoord" autocomplete="current-password">
+        <button type="button" id="ww-knop" class="primair">Verder</button>
+    </div>
+    <div id="formulier" class="verborgen"></div>
+</main>
+
+<script>
+(function () {
+    const WACHTWOORD = "admin";
+    const status = document.getElementById("status");
+    const vorm = document.getElementById("formulier");
+    const knopOpslaan = document.getElementById("opslaan");
+    let T = null, gewijzigd = false;
+
+    const zeg = (tekst, soort) => { status.textContent = tekst; status.className = soort || ""; };
+    const markeer = () => { gewijzigd = true; knopOpslaan.disabled = false; zeg("niet opgeslagen"); };
+    const el = (tag, klasse, tekst) => { const n = document.createElement(tag); if (klasse) n.className = klasse; if (tekst != null) n.textContent = tekst; return n; };
+
+    // invoerveld dat rechtstreeks in het model schrijft
+    function veld(ouder, naam, obj, sleutel, soort, uitleg) {
+        ouder.appendChild(el("label", null, naam));
+        let inv;
+        if (soort === "tekst") { inv = el("textarea"); inv.value = obj[sleutel] || ""; }
+        else if (soort === "stempel") {
+            inv = el("input"); inv.type = "text"; inv.value = obj[sleutel] || ""; inv.setAttribute("list", "stempels");
+        } else { inv = el("input"); inv.type = "text"; inv.value = obj[sleutel] || ""; }
+        inv.addEventListener("input", () => { obj[sleutel] = inv.value; markeer(); });
+        ouder.appendChild(inv);
+        if (uitleg) ouder.appendChild(el("div", "links-uitleg", uitleg));
+        return inv;
+    }
+    // links als regels "tekst | adres"
+    function linksVeld(ouder, obj) {
+        ouder.appendChild(el("label", null, "Links (een per regel: tekst | adres)"));
+        const ta = el("textarea"); ta.value = (obj.links || []).map(l => `${l.tekst} | ${l.href}`).join("\n");
+        ta.addEventListener("input", () => {
+            obj.links = ta.value.split("\n").map(r => r.trim()).filter(Boolean).map(r => { const [tekst, href] = r.split("|").map(s => s.trim()); return { tekst: tekst || href || "", href: href || "#" }; });
+            markeer();
+        });
+        ouder.appendChild(ta);
+    }
+
+    function bouw() {
+        vorm.innerHTML = "";
+        // site en begin
+        let b = el("div", "blok"); b.appendChild(el("h2", "tw", "Kop en begin"));
+        b.appendChild(el("p", "uitleg", "De naam staat linksboven; de kopregel wordt getypt. In de intro mag een beetje HTML: <strong> en <a href=\"#conversietheorie\">."));
+        let g = el("div", "twee"); veld(g, "Naam", T.site, "naam"); veld(g, "Plaats (handschrift naast de naam)", T.site, "plaats"); b.appendChild(g);
+        veld(b, "Beschrijving voor zoekmachines", T.site, "beschrijving", "tekst");
+        veld(b, "Kopregel", T.begin, "kopregel");
+        veld(b, "Intro (HTML toegestaan)", T.begin, "intro_html", "tekst");
+        g = el("div", "twee"); veld(g, "Kanttekening (handschrift, regeleinde toegestaan)", T.begin, "kantlijn", "tekst"); veld(g, "Onderschrift kanttekening", T.begin, "kantlijn_sub"); b.appendChild(g);
+        vorm.appendChild(b);
+
+        // menu
+        b = el("div", "blok"); b.appendChild(el("h2", "tw", "Menu"));
+        b.appendChild(el("p", "uitleg", "Een regel per menu-item: tekst | anker of adres. De ankers zijn #producten, #prototypes, #contact."));
+        linksVeld(b, { get links() { return T.menu; }, set links(v) { T.menu = v; } });
+        vorm.appendChild(b);
+
+        // secties met kaarten
+        T.secties.forEach((sec, si) => {
+            const s = el("div", "blok");
+            s.appendChild(el("h2", "tw", sec.titel || `Sectie ${si + 1}`));
+            s.appendChild(el("p", "uitleg", `Anker #${sec.id}. Kaarten worden doorgenummerd over alle secties. Stempel groen bij "live" of "product", anders rood.`));
+            g = el("div", "twee"); veld(g, "Titel van de sectie", sec, "titel"); veld(g, "Handschrift naast de titel", sec, "hand"); s.appendChild(g);
+            sec.kaarten.forEach((k, ki) => {
+                const kd = el("div", "kaart");
+                const kop = el("div", "kaart-kop");
+                kop.appendChild(el("span", "nr", String(nummer(si, ki)).padStart(2, "0")));
+                kop.appendChild(el("strong", null, k.titel || "(zonder titel)"));
+                const omhoog = el("button", "klein", "omhoog"); omhoog.type = "button"; omhoog.disabled = ki === 0;
+                omhoog.onclick = () => { sec.kaarten.splice(ki - 1, 0, sec.kaarten.splice(ki, 1)[0]); markeer(); bouw(); };
+                const omlaag = el("button", "klein", "omlaag"); omlaag.type = "button"; omlaag.disabled = ki === sec.kaarten.length - 1;
+                omlaag.onclick = () => { sec.kaarten.splice(ki + 1, 0, sec.kaarten.splice(ki, 1)[0]); markeer(); bouw(); };
+                const weg = el("button", "klein", "verwijderen"); weg.type = "button";
+                weg.onclick = () => { if (confirm(`Kaart "${k.titel}" verwijderen?`)) { sec.kaarten.splice(ki, 1); markeer(); bouw(); } };
+                kop.append(omhoog, omlaag, weg); kd.appendChild(kop);
+                g = el("div", "twee");
+                const t = veld(g, "Titel", k, "titel"); t.addEventListener("input", () => { kop.querySelector("strong").textContent = k.titel || "(zonder titel)"; });
+                veld(g, "Stempel", k, "stempel", "stempel"); kd.appendChild(g);
+                veld(kd, "Tekst", k, "tekst", "tekst");
+                veld(kd, "Kanttekening (handschrift)", k, "hand");
+                veld(kd, "Id (voor een anker, zonder spaties)", k, "id");
+                linksVeld(kd, k);
+                s.appendChild(kd);
+            });
+            const nieuw = el("button", "klein", "kaart toevoegen"); nieuw.type = "button"; nieuw.style.marginTop = "12px";
+            nieuw.onclick = () => { sec.kaarten.push({ id: "", titel: "Nieuw", stempel: "in aanbouw", tekst: "", hand: "", links: [] }); markeer(); bouw(); };
+            s.appendChild(nieuw);
+            vorm.appendChild(s);
+        });
+
+        // contact en voet
+        b = el("div", "blok"); b.appendChild(el("h2", "tw", "Contact en voettekst"));
+        g = el("div", "twee"); veld(g, "Titel", T.contact, "titel"); veld(g, "Handschrift naast de titel", T.contact, "hand"); b.appendChild(g);
+        veld(b, "Tekst (HTML toegestaan)", T.contact, "tekst_html", "tekst");
+        linksVeld(b, T.contact);
+        g = el("div", "twee"); veld(g, "Voettekst", T.voet, "tekst"); veld(g, "Voettekst, handschrift", T.voet, "hand"); b.appendChild(g);
+        vorm.appendChild(b);
+
+        // keuzelijst voor stempels
+        if (!document.getElementById("stempels")) {
+            const dl = el("datalist"); dl.id = "stempels";
+            ["live", "product", "in aanbouw", "binnenkort", "methode"].forEach(v => { const o = el("option"); o.value = v; dl.appendChild(o); });
+            document.body.appendChild(dl);
+        }
+    }
+    function nummer(si, ki) { let n = 0; for (let i = 0; i < si; i++) n += T.secties[i].kaarten.length; return n + ki + 1; }
+
+    async function laad() {
+        try {
+            const r = await fetch("teksten.json", { cache: "no-store" });
+            if (!r.ok) throw new Error(r.status);
+            T = await r.json(); bouw(); zeg("geladen");
+        } catch (e) { zeg("teksten.json niet te laden: " + e.message, "fout"); }
+    }
+    async function opslaan() {
+        knopOpslaan.disabled = true; zeg("bezig met opslaan");
+        try {
+            const r = await fetch("/api/teksten", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(T) });
+            const a = await r.json().catch(() => ({}));
+            if (!r.ok || !a.ok) throw new Error(a.fout || ("fout " + r.status));
+            gewijzigd = false; zeg(`opgeslagen (${a.bytes} bytes)`, "goed");
+        } catch (e) {
+            knopOpslaan.disabled = false;
+            zeg("opslaan kan hier niet (" + e.message + "); gebruik Download en zet teksten.json in de repository", "fout");
+        }
+    }
+    function download() {
+        const blob = new Blob([JSON.stringify(T, null, 2) + "\n"], { type: "application/json" });
+        const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "teksten.json"; a.click();
+        setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    }
+
+    document.getElementById("ww-knop").onclick = () => {
+        if (document.getElementById("ww").value !== WACHTWOORD) { zeg("wachtwoord klopt niet", "fout"); return; }
+        document.getElementById("wachtwoord").classList.add("verborgen"); vorm.classList.remove("verborgen"); laad();
+    };
+    document.getElementById("ww").addEventListener("keydown", e => { if (e.key === "Enter") document.getElementById("ww-knop").click(); });
+    knopOpslaan.onclick = opslaan;
+    document.getElementById("download").onclick = () => { if (T) download(); };
+    window.addEventListener("beforeunload", e => { if (gewijzigd) { e.preventDefault(); e.returnValue = ""; } });
+})();
+</script>
+</body>
+</html>
