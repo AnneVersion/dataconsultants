@@ -332,3 +332,18 @@ IntersectionObserver-based animaties op index.html:
 - **Inline CSS/JS**: Alle styling en scripts staan inline in de HTML bestanden, geen externe bestanden
 - **Material Icons Round**: Gebruikt voor alle iconen (geladen via Google Fonts CDN)
 - **serve.py**: Simpele Python HTTP server met CORS headers en no-cache, ThreadingHTTPServer
+
+---
+
+## 9. Nieuwe beginpagina (24 november 2026)
+
+Anne: "haal weg alle icoontjes die rondvliegen, en de menu-items, ik wil alleen producten en prototypes" en "wat leuker, origineler, typewriter, handschrift, niet schreeuwerig maar wel mooi". De hoofdstukken 5.1, 5.3, 5.4 en 5.5 hierboven beschrijven de oude `index.html` (laatste versie in commit 9d1b7db); `showcase.html` en de `project-*.html` zijn ongewijzigd en houden het donkere thema.
+
+- **Stijl**: papier en inkt. Letters: Special Elite (koppen, typemachine), Courier Prime (lopende tekst), Caveat (handgeschreven kanttekeningen), via Google Fonts. Kleuren als tokens op `:root` (papier `#f3eee4`, inkt `#26231f`, stempelrood `#9b2f24`, groen `#3f6b3a`), met een donkere variant onder `prefers-color-scheme: dark`. Geen Material Icons, geen logo in de kop, geen animaties behalve de getypte kopregel (uit bij `prefers-reduced-motion`).
+- **Menu**: alleen Producten en Prototypes (ankers). Woordmerk "Data Consultants" met "Arnhem" in handschrift.
+- **Secties**: begin (getypte regel plus kanttekening), Producten, Prototypes, Contact, voettekst. Elke kaart is een "fiche" (systeemkaartje, licht gedraaid via `--hoek`) met nummer, titel, stempel (live, product, in aanbouw, binnenkort, methode), beschrijving, kanttekening en links.
+- **Producten**: 01 GeoInzicht (live: wildplukken.geoinzicht.eu, herkennen.geoinzicht.eu), 02 SWT (Sisters with Transistors, in aanbouw), 03 worknomads (project-vastgoed.html, in aanbouw), 04 Conversietheorie (methode "Conversiestrategie met het informatiemodel als kern"), 05 Emailvalidator (product).
+- **Prototypes**: 06 Astronomy (live), 07 Cataract (live), 08 EDAK (binnenkort), 09 Juridisch Assistent (in aanbouw), 10 Meldpunt Ambtenaren (live).
+- **Niet meer op de beginpagina**: DAW, Darosa Fietsverhuur, Datakwaliteit, de aparte kaarten GeoInzicht DWH en App, Technologie, Visie, Showcase. De pagina's bestaan nog en zijn rechtstreeks bereikbaar.
+- **Hosting**: GitHub Pages (`main`) en sinds 24-11-2026 ook https://dataconsultants.eu (server worknomads, `/srv/apps/dataconsultants`, kloon van `main`; bijwerken met `bash /root/server/app_statisch_toevoegen.sh dataconsultants dataconsultants.eu https://github.com/AnneVersion/dataconsultants.git`).
+- **Lokaal**: `.claude/launch.json` start `serve.py` op 8087 voor de voorvertoning.
