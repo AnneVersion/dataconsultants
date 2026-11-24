@@ -176,20 +176,7 @@
           "stempel": "live",
           "tekst": "Interactieve sterrenhemel: zoombaar zonnestelsel, N-body-simulatie, equinox- en meteorenkalender, gevoed door de API's van NASA.",
           "hand": "de Eta Aquariden vallen rond 5 mei",
-          "links": [
-            {
-              "tekst": "Meer info",
-              "href": "project-astronomy.html"
-            },
-            {
-              "tekst": "Bekijk live",
-              "href": "https://anneversion.github.io/astronomy/"
-            },
-            {
-              "tekst": "GitHub",
-              "href": "https://github.com/AnneVersion/astronomy"
-            }
-          ]
+          "links": []
         },
         {
           "id": "cataract",
@@ -197,20 +184,7 @@
           "stempel": "live",
           "tekst": "Informatieplatform over aangeboren staar: wat de aandoening is, welke lenzen er zijn, wat het onderzoek zegt. Met illustraties en een persoonlijk dashboard.",
           "hand": "geschreven vanuit eigen ervaring",
-          "links": [
-            {
-              "tekst": "Meer info",
-              "href": "project-cataract.html"
-            },
-            {
-              "tekst": "Bekijk live",
-              "href": "https://anneversion.github.io/cataract/"
-            },
-            {
-              "tekst": "GitHub",
-              "href": "https://github.com/AnneVersion/cataract"
-            }
-          ]
+          "links": []
         },
         {
           "id": "edak",
@@ -226,12 +200,7 @@
           "stempel": "in aanbouw",
           "tekst": "Dossierbeheer voor wie zelf procedeert: stukken ordenen, anonimiseren, termijnen bewaken en uitspraken van rechtspraak.nl erbij halen.",
           "hand": "voor wie de weg naar het recht zelf moet vinden",
-          "links": [
-            {
-              "tekst": "Meer info",
-              "href": "project-juridisch.html"
-            }
-          ]
+          "links": []
         },
         {
           "id": "meldpunt-ambtenaren",
@@ -239,20 +208,7 @@
           "stempel": "live",
           "tekst": "Webapp voor het melden van misstanden door ambtenaren: dossiers aanleggen, documenten uploaden en anonimiseren, met een wegwijzer naar het EHRM.",
           "hand": "werkt ook als app op de telefoon",
-          "links": [
-            {
-              "tekst": "Meer info",
-              "href": "project-meldpunt.html"
-            },
-            {
-              "tekst": "Bekijk live",
-              "href": "https://anneversion.github.io/meldpunt-ambtenaren/"
-            },
-            {
-              "tekst": "GitHub",
-              "href": "https://github.com/AnneVersion/meldpunt-ambtenaren"
-            }
-          ]
+          "links": []
         }
       ],
       "nummeren": true,
