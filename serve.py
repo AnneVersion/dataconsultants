@@ -38,6 +38,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         try:
             lengte = int(self.headers.get("Content-Length", "0"))
             data = json.loads(self.rfile.read(lengte).decode("utf-8"))
+            data.pop("sleutel", None)          # het beheerwachtwoord is voor de live site (contactdienst); lokaal niet bewaren
             for sleutel in ("site", "menu", "begin", "secties", "contact", "voet"):
                 if sleutel not in data:
                     raise ValueError(f"veld ontbreekt: {sleutel}")

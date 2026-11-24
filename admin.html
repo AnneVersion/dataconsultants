@@ -64,7 +64,7 @@ input:focus, textarea:focus, select:focus { outline: 1.5px solid var(--groen); b
 <main>
     <div id="wachtwoord" class="blok">
         <h2 class="tw">Wachtwoord</h2>
-        <p class="uitleg">Alleen een drempel tegen vergissingen; echte beveiliging is dat opslaan uitsluitend op deze computer werkt.</p>
+        <p class="uitleg">Op de live site: het beheerwachtwoord van de instellingenpagina van de contactdienst; het wordt bij elke opslag gecontroleerd. Op de laptop (localhost) volstaat elk woord: daar schrijft de lokale server teksten.json.</p>
         <input type="password" id="ww" placeholder="wachtwoord" autocomplete="current-password">
         <button type="button" id="ww-knop" class="primair">Verder</button>
     </div>
@@ -73,7 +73,9 @@ input:focus, textarea:focus, select:focus { outline: 1.5px solid var(--groen); b
 
 <script>
 (function () {
-    const WACHTWOORD = "admin";
+    // Lokaal (localhost:8087) bewaart serve.py zonder controle; op de live site controleert de contactdienst het beheerwachtwoord
+    // dat op de instellingenpagina is gezet. Het ingetypte wachtwoord gaat mee met elke opslag.
+    let wachtwoord = "";
     const status = document.getElementById("status");
     const vorm = document.getElementById("formulier");
     const knopOpslaan = document.getElementById("opslaan");
@@ -195,21 +197,25 @@ input:focus, textarea:focus, select:focus { outline: 1.5px solid var(--groen); b
 
     async function laad() {
         try {
-            const r = await fetch("teksten.json", { cache: "no-store" });
+            // eerst de teksten die op de live site zijn bewaard (/api/teksten), anders teksten.json uit git (lokaal altijd)
+            let r = await fetch("/api/teksten", { cache: "no-store" }).catch(() => null);
+            const bron = r && r.ok ? "server" : "teksten.json";
+            if (!r || !r.ok) r = await fetch("teksten.json", { cache: "no-store" });
             if (!r.ok) throw new Error(r.status);
-            T = await r.json(); bouw(); zeg("geladen");
-        } catch (e) { zeg("teksten.json niet te laden: " + e.message, "fout"); }
+            T = await r.json(); bouw(); zeg("geladen uit " + bron);
+        } catch (e) { zeg("teksten niet te laden: " + e.message, "fout"); }
     }
     async function opslaan() {
         knopOpslaan.disabled = true; zeg("bezig met opslaan");
         try {
-            const r = await fetch("/api/teksten", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(T) });
+            // lokaal (serve.py) schrijft dit teksten.json; op de live site bewaart de contactdienst het op de server en controleert het wachtwoord
+            const r = await fetch("/api/teksten", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...T, sleutel: wachtwoord }) });
             const a = await r.json().catch(() => ({}));
             if (!r.ok || !a.ok) throw new Error(a.fout || ("fout " + r.status));
             gewijzigd = false; zeg(`opgeslagen (${a.bytes} bytes)`, "goed");
         } catch (e) {
             knopOpslaan.disabled = false;
-            zeg("opslaan kan hier niet (" + e.message + "); gebruik Download en zet teksten.json in de repository", "fout");
+            zeg("opslaan mislukt: " + e.message, "fout");
         }
     }
     function download() {
@@ -219,7 +225,8 @@ input:focus, textarea:focus, select:focus { outline: 1.5px solid var(--groen); b
     }
 
     document.getElementById("ww-knop").onclick = () => {
-        if (document.getElementById("ww").value !== WACHTWOORD) { zeg("wachtwoord klopt niet", "fout"); return; }
+        wachtwoord = document.getElementById("ww").value;
+        if (!wachtwoord) { zeg("vul het beheerwachtwoord in", "fout"); return; }
         document.getElementById("wachtwoord").classList.add("verborgen"); vorm.classList.remove("verborgen"); laad();
     };
     document.getElementById("ww").addEventListener("keydown", e => { if (e.key === "Enter") document.getElementById("ww-knop").click(); });
