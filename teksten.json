@@ -2,7 +2,7 @@
   "site": {
     "naam": "Data Consultants",
     "plaats": "Arnhem",
-    "beschrijving": "Data Consultants, Arnhem. Dataverzamelaars en modelleurs met een passie voor open data. Diensten: datamigraties begeleiden, dataprincipes realiseren via de conversietheorie, analyseomgeving inrichten, governance en wetgeving, detachering. Producten: GeoInzicht, SWT, Worknomads, Conversietheorie, Emailvalidator."
+    "beschrijving": "Data Consultants, Arnhem. Dataverzamelaars en modelleurs met een passie voor open data. Diensten: datamigraties begeleiden, dataprincipes realiseren via de conversietheorie, analyseomgeving inrichten, governance en wetgeving, detachering. Producten: GeoInzicht, SWT, Werknomaden, Conversietheorie, Emailvalidator."
   },
   "menu": [
     {
@@ -110,11 +110,16 @@
         },
         {
           "id": "worknomads",
-          "titel": "Worknomads",
+          "titel": "Werknomaden",
           "stempel": "in aanbouw",
           "tekst": "Gemeubileerd wonen voor expats en zakelijke reizigers, van een week tot twee jaar. Boeken, huurovereenkomst, factuur en betaling in een wizard; beheer van panden en kalender erachter.",
           "hand": "Arnhem, Zandvoort, Amsterdam",
-          "links": []
+          "links": [
+            {
+              "tekst": "werknomaden.eu",
+              "href": "https://werknomaden.eu"
+            }
+          ]
         },
         {
           "id": "conversietheorie",
