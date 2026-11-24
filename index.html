@@ -134,6 +134,7 @@ main { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; paddin
 .brief input, .brief textarea { width: 100%; font: inherit; font-size: .95rem; color: var(--inkt); background: transparent; border: 0; border-bottom: 1px dashed var(--potlood); padding: 6px 2px; border-radius: 0; }
 .brief textarea { min-height: 110px; resize: vertical; }
 .brief input:focus, .brief textarea:focus { outline: 0; border-bottom: 1px solid var(--inkt); }
+.brief input:-webkit-autofill, .brief input:-webkit-autofill:focus { -webkit-box-shadow: 0 0 0 1000px var(--papier-diep) inset; -webkit-text-fill-color: var(--inkt); caret-color: var(--inkt); }
 .brief .honing { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .brief .onder { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 16px; }
 .brief button { font-family: "Special Elite", monospace; font-size: .9rem; letter-spacing: .06em; padding: 8px 18px; border: 1.5px solid var(--inkt); background: transparent; color: var(--inkt); cursor: pointer; border-radius: 3px; }
