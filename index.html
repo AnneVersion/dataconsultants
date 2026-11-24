@@ -79,6 +79,11 @@ main { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; paddin
 #begin h1 .cursor { display: inline-block; width: .55em; height: 1em; vertical-align: -.12em; margin-left: 2px; background: var(--inkt); animation: knipper 1s steps(1) infinite; }
 @keyframes knipper { 50% { opacity: 0; } }
 #begin .regel { margin-top: 22px; font-size: 1.05rem; color: var(--inkt-licht); max-width: 620px; }
+#begin .regel p + p, .sectie-intro p + p { margin-top: 12px; }
+.sectie-intro { max-width: 760px; margin: -10px 0 30px; font-size: 1rem; color: var(--inkt-licht); }
+.sectie-intro strong { color: var(--inkt); }
+.sectie-intro a { border-bottom: 1px dashed var(--potlood); }
+.sectie-intro a:hover { color: var(--groen); border-bottom-color: var(--groen); }
 #begin .regel strong { color: var(--inkt); font-weight: 700; }
 #begin .regel a { border-bottom: 1px dashed var(--potlood); }
 #begin .regel a:hover { color: var(--groen); border-bottom-color: var(--groen); }
@@ -194,7 +199,7 @@ footer .hand { font-size: 1.1rem; margin-left: 8px; }
     const h1 = el("h1", "tw"); const getypt = el("span"); getypt.id = "getypt"; getypt.textContent = T.begin.kopregel; h1.appendChild(getypt);
     const cursor = el("span", "cursor"); cursor.setAttribute("aria-hidden", "true"); h1.appendChild(cursor);
     kolom.appendChild(h1);
-    const regel = el("p", "regel"); regel.innerHTML = T.begin.intro_html || ""; kolom.appendChild(regel);
+    const regel = el("div", "regel"); regel.innerHTML = T.begin.intro_html || ""; kolom.appendChild(regel);
     begin.appendChild(kolom);
     const kant = el("aside", "kantlijn hand", T.begin.kantlijn || ""); kant.setAttribute("aria-label", "Kanttekening");
     if (T.begin.kantlijn_sub) kant.appendChild(el("span", null, T.begin.kantlijn_sub));
@@ -206,12 +211,14 @@ footer .hand { font-size: 1.1rem; margin-left: 8px; }
     (T.secties || []).forEach(sec => {
         const s = el("section", "vel"); s.id = sec.id;
         const kop = el("div", "kop"); kop.appendChild(el("h2", "tw", sec.titel)); if (sec.hand) kop.appendChild(el("span", "hand", sec.hand)); s.appendChild(kop);
+        if (sec.intro_html) { const intro = el("div", "sectie-intro"); intro.innerHTML = sec.intro_html; s.appendChild(intro); }
+        const nummeren = sec.nummeren !== false;
         const grid = el("div", "fiches");
-        (sec.kaarten || []).forEach(k => {
-            nr += 1;
-            const f = el("article", "fiche"); if (k.id) f.id = k.id; f.style.setProperty("--hoek", HOEKEN[(nr - 1) % HOEKEN.length] + "deg");
+        (sec.kaarten || []).forEach((k, ki) => {
+            if (nummeren) nr += 1;
+            const f = el("article", "fiche"); if (k.id) f.id = k.id; f.style.setProperty("--hoek", HOEKEN[(nummeren ? nr - 1 : ki) % HOEKEN.length] + "deg");
             const fk = el("div", "fiche-kop");
-            fk.appendChild(el("span", "nr", String(nr).padStart(2, "0")));
+            if (nummeren) fk.appendChild(el("span", "nr", String(nr).padStart(2, "0")));
             fk.appendChild(el("h3", "tw", k.titel));
             if (k.stempel) fk.appendChild(el("span", "stempel" + (GROEN.has(k.stempel.toLowerCase()) ? " groen" : ""), k.stempel));
             f.appendChild(fk);

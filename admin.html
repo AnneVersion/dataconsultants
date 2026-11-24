@@ -131,10 +131,16 @@ input:focus, textarea:focus, select:focus { outline: 1.5px solid var(--groen); b
             s.appendChild(el("h2", "tw", sec.titel || `Sectie ${si + 1}`));
             s.appendChild(el("p", "uitleg", `Anker #${sec.id}. Kaarten worden doorgenummerd over alle secties. Stempel groen bij "live" of "product", anders rood.`));
             g = el("div", "twee"); veld(g, "Titel van de sectie", sec, "titel"); veld(g, "Handschrift naast de titel", sec, "hand"); s.appendChild(g);
+            veld(s, "Inleiding van de sectie (HTML toegestaan, alinea's met <p>)", sec, "intro_html", "tekst");
+            const nummerLabel = el("label", null, "Kaarten nummeren"); s.appendChild(nummerLabel);
+            const nummerKeuze = el("select"); ["ja", "nee"].forEach(v => { const o = el("option", null, v); o.value = v; nummerKeuze.appendChild(o); });
+            nummerKeuze.value = sec.nummeren === false ? "nee" : "ja";
+            nummerKeuze.addEventListener("change", () => { sec.nummeren = nummerKeuze.value === "ja"; markeer(); bouw(); });
+            s.appendChild(nummerKeuze);
             sec.kaarten.forEach((k, ki) => {
                 const kd = el("div", "kaart");
                 const kop = el("div", "kaart-kop");
-                kop.appendChild(el("span", "nr", String(nummer(si, ki)).padStart(2, "0")));
+                kop.appendChild(el("span", "nr", sec.nummeren === false ? "-" : String(nummer(si, ki)).padStart(2, "0")));
                 kop.appendChild(el("strong", null, k.titel || "(zonder titel)"));
                 const omhoog = el("button", "klein", "omhoog"); omhoog.type = "button"; omhoog.disabled = ki === 0;
                 omhoog.onclick = () => { sec.kaarten.splice(ki - 1, 0, sec.kaarten.splice(ki, 1)[0]); markeer(); bouw(); };
@@ -173,7 +179,7 @@ input:focus, textarea:focus, select:focus { outline: 1.5px solid var(--groen); b
             document.body.appendChild(dl);
         }
     }
-    function nummer(si, ki) { let n = 0; for (let i = 0; i < si; i++) n += T.secties[i].kaarten.length; return n + ki + 1; }
+    function nummer(si, ki) { let n = 0; for (let i = 0; i < si; i++) if (T.secties[i].nummeren !== false) n += T.secties[i].kaarten.length; return n + ki + 1; }
 
     async function laad() {
         try {

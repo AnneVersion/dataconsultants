@@ -2,9 +2,13 @@
   "site": {
     "naam": "Data Consultants",
     "plaats": "Arnhem",
-    "beschrijving": "Data Consultants, Arnhem. Wij helpen organisaties datagedreven te werken: analyseomgeving, single source of truth, dataminimalisatie, via onze conversietheorie. Producten: GeoInzicht, SWT, worknomads, Conversietheorie, Emailvalidator. Prototypes: Astronomy, Cataract, EDAK, Juridisch Assistent, Meldpunt Ambtenaren."
+    "beschrijving": "Data Consultants, Arnhem. Dataverzamelaars en modelleurs met een passie voor open data. Diensten: datamigraties begeleiden, dataprincipes realiseren via de conversietheorie, analyseomgeving inrichten, governance en wetgeving, detachering. Producten: GeoInzicht, SWT, worknomads, Conversietheorie, Emailvalidator."
   },
   "menu": [
+    {
+      "tekst": "Diensten",
+      "href": "#diensten"
+    },
     {
       "tekst": "Producten",
       "href": "#producten"
@@ -16,11 +20,75 @@
   ],
   "begin": {
     "kopregel": "Wij helpen organisaties datagedreven te werken.",
-    "intro_html": "Met een analyseomgeving die er gewoon is, en met data die klopt. <strong>Single source of truth</strong>, dataminimalisatie, eenmalig vastleggen en meervoudig gebruiken, kwaliteit aan de bron, herleidbaarheid: die beginselen bereiken wij met onze <a href=\"#conversietheorie\"><strong>conversietheorie</strong></a>. Hieronder vijf producten en vijf prototypes waarin dat zichtbaar is.",
+    "intro_html": "<p><strong>Dataverzamelaars en modelleurs met een passie voor open data.</strong> Gespecialiseerd in het vinden, koppelen en modelleren van open databronnen. Van CBS-statistieken tot BAG-adressen, van politiedata tot zorgkosten: wij verbinden wat los beschikbaar is tot bruikbare datasets.</p><p>Wij detacheren dataspecialisten voor analyses, dashboards en data-engineering. Daarnaast is er altijd ruimte voor leuke en interessante projecten, van interactieve sterrenhemelkaarten tot wetenschappelijke informatieplatformen.</p><p>Onze focus: inzicht en innovatie. Dankzij AI kunnen wij ideeën die voorheen onhaalbaar waren zelf uitvoeren, van concept tot werkend prototype.</p>",
     "kantlijn": "eerst het informatiemodel,\ndan pas de data",
     "kantlijn_sub": "kanttekening bij alles hieronder"
   },
   "secties": [
+    {
+      "id": "diensten",
+      "titel": "Diensten",
+      "hand": "wat wij voor organisaties doen",
+      "nummeren": false,
+      "intro_html": "<p>Bijna elke organisatie die bij ons aanklopt, heeft hetzelfde verhaal. Er zijn systemen bijgekomen en nooit opgeruimd, er zijn mensen vertrokken die wisten hoe het zat, en niemand durft meer te zeggen welk getal het juiste is. Dat is geen falen, dat is wat er gebeurt als jaren werk zich opstapelen zonder dat iemand de tijd kreeg om het geheel te overzien. Wij beginnen daarom niet bij de techniek, maar bij de mensen die met de gegevens werken en bij de vraag wat die gegevens eigenlijk betekenen.</p><p>Ons vertrekpunt is altijd de <a href=\"#conversietheorie\"><strong>conversietheorie</strong></a>: eerst het informatiemodel, dan pas de data. Daarmee maken wij de databeginselen waar die iedereen onderschrijft en bijna niemand haalt: <strong>single source of truth</strong>, dataminimalisatie, eenmalig vastleggen en meervoudig gebruiken, kwaliteit aan de bron, herleidbaarheid, doelbinding, open standaarden en privacy by design. Niet als beleidstekst, maar als werkende omgeving waar de organisatie zelf mee verder kan.</p>",
+      "kaarten": [
+        {
+          "id": "datamigraties",
+          "titel": "Datamigraties begeleiden",
+          "stempel": "",
+          "tekst": "Van een oud naar een nieuw systeem zonder dat betekenis verloren gaat. Wij inventariseren wat er is, bouwen het informatiemodel, leggen per bron de mapping vast, draaien proefconversies en zetten poorten die een fout tegenhouden voordat hij in productie komt. De mensen die het oude systeem kennen, zitten aan tafel: zij weten wat de uitzonderingen betekenen.",
+          "hand": "niemand hoeft bang te zijn voor de dag van de overgang",
+          "links": []
+        },
+        {
+          "id": "dataprincipes",
+          "titel": "Dataprincipes realiseren",
+          "stempel": "",
+          "tekst": "Single source of truth, dataminimalisatie, eenmalig vastleggen en meervoudig gebruiken, kwaliteit aan de bron, herleidbaarheid, doelbinding, open standaarden, privacy by design. Met de conversietheorie worden het geen voornemens maar eigenschappen van de omgeving: elk gegeven heeft een eigenaar, een definitie, een bron en een reden om er te zijn. Wat die reden mist, bewaren wij niet.",
+          "hand": "beginselen die je kunt aanwijzen in plaats van beloven",
+          "links": [
+            {
+              "tekst": "Over de conversietheorie",
+              "href": "#conversietheorie"
+            }
+          ]
+        },
+        {
+          "id": "analyseomgeving",
+          "titel": "Analyseomgeving inrichten",
+          "stempel": "",
+          "tekst": "Een datawarehouse dat klopt en van de organisatie zelf is: een integratielaag per datadomein, stermodellen per vraag, dashboards die uit dezelfde bron putten. Open componenten, geen afhankelijkheid van een leverancier, en documentatie waarmee een nieuwe collega het over een jaar nog begrijpt.",
+          "hand": "zoals GeoInzicht, maar dan met uw eigen gegevens",
+          "links": [
+            {
+              "tekst": "GeoInzicht als voorbeeld",
+              "href": "#geoinzicht"
+            }
+          ]
+        },
+        {
+          "id": "governance",
+          "titel": "Governance en wetgeving",
+          "stempel": "",
+          "tekst": "Eigenaarschap, definities, bewaartermijnen en toegang op orde, zodat de organisatie kan laten zien wat zij met gegevens doet en waarom. AVG, Woo en archiefwetgeving worden dan geen aparte projecten, maar volgen uit hetzelfde informatiemodel. Wij schrijven het op in gewone taal, voor de mensen die er dagelijks mee werken.",
+          "hand": "verantwoording die je kunt uitleggen aan een burger",
+          "links": []
+        },
+        {
+          "id": "detachering",
+          "titel": "Dataspecialisten detacheren",
+          "stempel": "",
+          "tekst": "Analisten, modelleurs en data-engineers die meewerken in het team, voor een analyse, een dashboard of een langer traject. Zij brengen de werkwijze mee en laten haar achter, zodat de kennis in de organisatie blijft als wij weer weg zijn.",
+          "hand": "meewerken, niet overnemen",
+          "links": [
+            {
+              "tekst": "Neem contact op",
+              "href": "#contact"
+            }
+          ]
+        }
+      ]
+    },
     {
       "id": "producten",
       "titel": "Producten",
@@ -93,7 +161,9 @@
             }
           ]
         }
-      ]
+      ],
+      "nummeren": true,
+      "intro_html": ""
     },
     {
       "id": "prototypes",
@@ -184,7 +254,9 @@
             }
           ]
         }
-      ]
+      ],
+      "nummeren": true,
+      "intro_html": ""
     }
   ],
   "contact": {
