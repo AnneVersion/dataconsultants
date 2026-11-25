@@ -250,7 +250,7 @@ IntersectionObserver-based animaties op index.html:
 - [ ] "Meer info" links openen juiste project-*.html pagina's
 - [ ] "Showcase" nav link opent showcase.html
 - [ ] Artikel callout link naar De Correspondent werkt
-- [ ] Email link opent mailto:info@dataconsultants.nl
+- [ ] Geen e-mailadres op de site: info@dataconsultants.nl is op 25-11-2026 overal verwijderd (Anne: "haal weg info@dataconsultants.nl"); contact loopt via het formulier
 
 ### showcase.html
 - [ ] Fullscreen weergave, geen scrollbar

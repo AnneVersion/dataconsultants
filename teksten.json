@@ -197,10 +197,6 @@
     "tekst_html": "Data Consultants helpt organisaties datagedreven te werken: een analyseomgeving inrichten, bronnen samenbrengen tot een bron van waarheid, en dataspecialisten detacheren voor analyses, dashboards en data-engineering. Een bericht is genoeg.",
     "links": [
       {
-        "tekst": "info@dataconsultants.nl",
-        "href": "mailto:info@dataconsultants.nl"
-      },
-      {
         "tekst": "github.com/AnneVersion",
         "href": "https://github.com/AnneVersion"
       }
