@@ -3,14 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Beheer teksten</title>
+<title>Beheer dataconsultants.eu</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="favicon.ico">
 <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@400;700&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
 <style>
 /* Beheer van de teksten op de beginpagina (24-11-2026, Anne: "maak een admingedeelte waar ik de teksten kan aanpassen").
    Leest teksten.json, toont elk veld als invoerveld, bewaart via POST /api/teksten op de lokale server (serve.py).
-   Op GitHub Pages of de server is bewaren niet mogelijk: dan "Download" en het bestand in de repository zetten. */
+   Op GitHub Pages is bewaren niet mogelijk: dan "Download" en het bestand in de repository zetten.
+   Tab Koppelingen (25-11-2026, Anne: "brevo ideal api data zien vanuit de admin tool"): POST /api/beheer bij de contactdienst op de server,
+   die met de sleutels van zijn instellingenpagina bij Brevo en Mollie leest; hier komt alleen het resultaat, nooit een sleutel. */
 :root { --papier:#f3eee4; --papier-diep:#eae3d5; --lijn:#d8cfbd; --inkt:#26231f; --inkt-licht:#5f5a51; --potlood:#8a8378; --stempel:#9b2f24; --groen:#3f6b3a; --veld:#fbf8f2; }
 @media (prefers-color-scheme: dark) { :root { --papier:#1c1b18; --papier-diep:#22201c; --lijn:#3a362f; --inkt:#e9e3d6; --inkt-licht:#b5ad9e; --potlood:#8c8578; --stempel:#d26a5c; --groen:#8fbf86; --veld:#16150f; } }
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -47,13 +49,28 @@ input:focus, textarea:focus, select:focus { outline: 1.5px solid var(--groen); b
 #wachtwoord { max-width: 420px; margin: 80px auto; text-align: center; }
 #wachtwoord input { max-width: 260px; margin: 10px auto; display: block; text-align: center; }
 .verborgen { display: none !important; }
+.tabs { display: flex; gap: 2px; }
+.tabs button { border-color: var(--lijn); color: var(--inkt-licht); }
+.tabs button.actief { border-color: var(--inkt); color: var(--inkt); background: var(--papier-diep); }
+table.k { width: 100%; border-collapse: collapse; font-size: .85rem; margin-top: 4px; }
+.k th, .k td { text-align: left; padding: 4px 6px; border-bottom: 1px dashed var(--lijn); vertical-align: top; }
+.k th { font-weight: 400; color: var(--potlood); text-transform: uppercase; font-size: .72rem; letter-spacing: .06em; }
+.k .cijfer { text-align: right; white-space: nowrap; }
+.stat { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 6px; }
+.stat div { background: var(--papier); border: 1px dashed var(--potlood); padding: 8px 10px; min-width: 0; }
+.stat b { display: block; font-family: "Special Elite", monospace; font-size: 1.25rem; font-weight: 400; overflow-wrap: anywhere; }
+.stat span { font-size: .72rem; color: var(--potlood); text-transform: uppercase; letter-spacing: .06em; }
 </style>
 </head>
 <body>
 
 <header>
     <div class="balk">
-        <h1 class="tw">Beheer teksten <small>beginpagina dataconsultants.eu</small></h1>
+        <h1 class="tw">Beheer <small>dataconsultants.eu</small></h1>
+        <nav class="tabs" id="tabs" aria-label="Onderdelen">
+            <button type="button" class="actief" data-tab="teksten">Teksten</button>
+            <button type="button" data-tab="koppelingen">Koppelingen</button>
+        </nav>
         <span id="status"></span>
         <a class="knop" href="index.html" target="_blank" rel="noopener">Bekijk pagina</a>
         <button id="download" type="button">Download</button>
@@ -69,6 +86,7 @@ input:focus, textarea:focus, select:focus { outline: 1.5px solid var(--groen); b
         <button type="button" id="ww-knop" class="primair">Verder</button>
     </div>
     <div id="formulier" class="verborgen"></div>
+    <div id="koppelingen" class="verborgen"></div>
 </main>
 
 <script>
@@ -78,6 +96,7 @@ input:focus, textarea:focus, select:focus { outline: 1.5px solid var(--groen); b
     let wachtwoord = "";
     const status = document.getElementById("status");
     const vorm = document.getElementById("formulier");
+    const kop = document.getElementById("koppelingen");
     const knopOpslaan = document.getElementById("opslaan");
     let T = null, gewijzigd = false;
 
@@ -222,6 +241,92 @@ input:focus, textarea:focus, select:focus { outline: 1.5px solid var(--groen); b
         const blob = new Blob([JSON.stringify(T, null, 2) + "\n"], { type: "application/json" });
         const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "teksten.json"; a.click();
         setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    }
+
+    // Koppelingen: wat Brevo (mail) en Mollie (iDEAL) via de contactdienst op de server melden, plus de berichten uit het formulier.
+    // Elk getal draagt zijn bron in het label; lokaal (serve.py) bestaat /api/beheer niet en zegt de tab dat.
+    let koppelingenGeladen = false;
+    const tabs = document.getElementById("tabs");
+    tabs.addEventListener("click", e => {
+        const b = e.target.closest("button[data-tab]"); if (!b || !wachtwoord) return;
+        tabs.querySelectorAll("button").forEach(x => x.classList.toggle("actief", x === b));
+        const teksten = b.dataset.tab === "teksten";
+        vorm.classList.toggle("verborgen", !teksten); kop.classList.toggle("verborgen", teksten);
+        document.getElementById("download").classList.toggle("verborgen", !teksten); knopOpslaan.classList.toggle("verborgen", !teksten);
+        if (!teksten && !koppelingenGeladen) laadKoppelingen();
+    });
+    const nl = n => (n == null || n === "") ? "-" : Number(n).toLocaleString("nl-NL");
+    const euro = (v, c) => (v == null || v === "") ? "-" : Number(v).toLocaleString("nl-NL", { style: "currency", currency: c || "EUR" });
+    const tijd = t => t ? new Date(t).toLocaleString("nl-NL", { dateStyle: "short", timeStyle: "short" }) : "-";
+    function tabel(ouder, kolommen, rijen, leeg) {
+        if (!Array.isArray(rijen) || !rijen.length) { ouder.appendChild(el("p", "uitleg", leeg || "geen gegevens")); return; }
+        const t = el("table", "k"); const hr = el("tr");
+        kolommen.forEach(k => hr.appendChild(el("th", k.cijfer ? "cijfer" : null, k.kop))); t.appendChild(hr);
+        rijen.forEach(r => { const tr = el("tr"); kolommen.forEach(k => tr.appendChild(el("td", k.cijfer ? "cijfer" : null, String(k.waarde(r) ?? "-")))); t.appendChild(tr); });
+        ouder.appendChild(t);
+    }
+    function tegels(ouder, items) {
+        const g = el("div", "stat");
+        items.forEach(([label, waarde]) => { const d = el("div"); d.appendChild(el("b", null, String(waarde ?? "-"))); d.appendChild(el("span", null, label)); g.appendChild(d); });
+        ouder.appendChild(g);
+    }
+    function blok(titel, uitleg) { const b = el("div", "blok"); b.appendChild(el("h2", "tw", titel)); if (uitleg) b.appendChild(el("p", "uitleg", uitleg)); kop.appendChild(b); return b; }
+    const foutVan = x => (x && !Array.isArray(x) && x.fout) ? x.fout : "";
+    async function laadKoppelingen() {
+        kop.innerHTML = ""; blok("Koppelingen", "bezig met ophalen bij de contactdienst, Brevo en Mollie");
+        let d;
+        try {
+            const r = await fetch("/api/beheer", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ sleutel: wachtwoord }) });
+            d = await r.json().catch(() => ({}));
+            if (!r.ok || !d.ok) throw new Error(d.fout || ("fout " + r.status));
+        } catch (e) {
+            kop.innerHTML = "";
+            blok("Koppelingen", "Niet beschikbaar: " + e.message + ". Dit overzicht werkt op de live site (de contactdienst op de server haalt de gegevens op); op de laptop bestaat /api/beheer niet.");
+            return;
+        }
+        koppelingenGeladen = true; kop.innerHTML = "";
+        const o = d.overzicht || {};
+        let b = blok("Stand", "Bron: de contactdienst op de server (instellingenpagina en berichten.jsonl), opgehaald " + tijd(d.tijd) + ".");
+        tegels(b, [["doormailen (SMTP)", o.mail_ingesteld ? "ingesteld" : "nog niet"], ["naar", o.mail_naar || "-"], ["Brevo-sleutel", o.brevo_ingesteld ? "ingesteld" : "nog niet"],
+                   ["Mollie-sleutel", o.mollie_ingesteld ? "ingesteld" : "nog niet"], ["berichten via het formulier", nl(o.berichten_aantal)], ["waarvan gemaild", nl(o.berichten_gemaild)]]);
+        b.appendChild(el("p", "uitleg", "Sleutels invoeren of wijzigen: op de instellingenpagina van de contactdienst (het adres met de contactsleutel staat in uw prive-notities). De sleutels komen nooit naar deze pagina."));
+        const ververs = el("button", "klein", "opnieuw ophalen"); ververs.type = "button"; ververs.onclick = laadKoppelingen; b.appendChild(ververs);
+
+        const br = d.brevo || {};
+        b = blok("Brevo (mail)", br.ok ? "Bron: Brevo API v3, account en smtp/statistics, " + br.periode + "." : "Niet opgehaald: " + (br.fout || "onbekend"));
+        if (br.ok) {
+            const a = br.account || {}; const st = Array.isArray(br.statistiek) ? {} : (br.statistiek || {});
+            tegels(b, [["account", a.email || "-"], ["bedrijf", a.bedrijf || "-"], ...(a.plan || []).map(x => ["plan " + x.soort, x.credits == null ? "-" : nl(x.credits) + " " + (x.credits_soort || "")])]);
+            b.appendChild(el("label", null, "Transactionele mail, laatste 30 dagen (aggregatedReport)" + (st.fout ? ", niet opgehaald: " + st.fout : "")));
+            tegels(b, [["aangeboden", nl(st.requests)], ["afgeleverd", nl(st.delivered)], ["geopend", nl(st.opens)], ["geklikt", nl(st.clicks)],
+                       ["hard bounce", nl(st.hardBounces)], ["soft bounce", nl(st.softBounces)], ["geblokkeerd", nl(st.blocked)], ["spamklacht", nl(st.spamReports)]]);
+            b.appendChild(el("label", null, "Laatste gebeurtenissen (smtp/statistics/events, nieuwste eerst)"));
+            tabel(b, [{ kop: "tijd", waarde: r => tijd(r.tijd) }, { kop: "gebeurtenis", waarde: r => r.gebeurtenis }, { kop: "aan", waarde: r => r.aan },
+                      { kop: "onderwerp", waarde: r => r.onderwerp }, { kop: "reden", waarde: r => r.reden || "" }], br.gebeurtenissen, foutVan(br.gebeurtenissen) || "nog geen mail in de laatste 30 dagen");
+            b.appendChild(el("label", null, "Afzenders (senders)"));
+            tabel(b, [{ kop: "naam", waarde: r => r.naam }, { kop: "e-mail", waarde: r => r.email }, { kop: "actief", waarde: r => r.actief ? "ja" : "nee" }], br.afzenders, foutVan(br.afzenders) || "geen afzenders");
+        }
+
+        const mo = d.mollie || {};
+        b = blok("iDEAL via Mollie", mo.ok ? "Bron: Mollie API v2 (payments, balances, methods, organizations/me), modus " + mo.modus + "."
+                                            : "Niet opgehaald: " + (mo.fout || "onbekend") + (mo.modus ? " (modus " + mo.modus + ")" : ""));
+        if (mo.ok) {
+            const org = Array.isArray(mo.organisatie) ? {} : (mo.organisatie || {});
+            tegels(b, [["organisatie", org.naam || (org.fout ? "niet op te vragen" : "-")], ["KvK", org.kvk || "-"], ["btw", org.btw || "-"], ["iDEAL", mo.ideal_actief ? "actief" : "niet actief"],
+                       ["betalingen (laatste 25 opgehaald)", nl(Array.isArray(mo.betalingen) ? mo.betalingen.length : null)]]);
+            b.appendChild(el("label", null, "Saldi (balances)"));
+            tabel(b, [{ kop: "valuta", waarde: r => r.valuta }, { kop: "beschikbaar", cijfer: true, waarde: r => euro(r.beschikbaar, r.valuta) },
+                      { kop: "onderweg", cijfer: true, waarde: r => euro(r.onderweg, r.valuta) }, { kop: "status", waarde: r => r.status }], mo.saldi, foutVan(mo.saldi) ? "balances: " + foutVan(mo.saldi) : "geen saldo");
+            b.appendChild(el("label", null, "Betaalmethoden (methods, ingeschakeld op het profiel)"));
+            b.appendChild(el("p", "uitleg", Array.isArray(mo.methoden) && mo.methoden.length ? mo.methoden.map(m => m.naam || m.id).join(", ") : "geen, of niet op te vragen: " + (foutVan(mo.methoden) || "-")));
+            b.appendChild(el("label", null, "Laatste betalingen (payments, nieuwste eerst)"));
+            tabel(b, [{ kop: "aangemaakt", waarde: r => tijd(r.aangemaakt) }, { kop: "status", waarde: r => r.status }, { kop: "bedrag", cijfer: true, waarde: r => euro(r.bedrag, r.valuta) },
+                      { kop: "methode", waarde: r => r.methode || "-" }, { kop: "omschrijving", waarde: r => r.omschrijving }, { kop: "modus", waarde: r => r.modus }], mo.betalingen, "nog geen betalingen");
+        }
+
+        b = blok("Berichten uit het contactformulier", "Bron: berichten.jsonl van de contactdienst, nieuwste eerst, hoogstens 100.");
+        tabel(b, [{ kop: "tijd", waarde: r => tijd(r.tijd) }, { kop: "naam", waarde: r => r.naam }, { kop: "e-mail", waarde: r => r.email },
+                  { kop: "bericht", waarde: r => r.bericht }, { kop: "gemaild", waarde: r => r.gemaild ? "ja" : "nee" }], d.berichten, "nog geen berichten");
     }
 
     document.getElementById("ww-knop").onclick = () => {
